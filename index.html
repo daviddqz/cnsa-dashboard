@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empty Forecast Dashboard - Multi Port</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; background: #f0f2f5; color: #333; }
+.header { background: linear-gradient(135deg, #1a3a5c 0%, #2e75b6 100%); color: white; padding: 18px 30px; }
+.header h1 { font-size: 22px; font-weight: 600; }
+.header .meta { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+.port-nav { background: #1a3a5c; padding: 0 30px; display: flex; gap: 4px; align-items: center; overflow-x: auto; }
+.port-tab { padding: 10px 22px; cursor: pointer; border-bottom: 3px solid transparent; font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,0.65); white-space: nowrap; transition: all 0.2s; letter-spacing: 0.5px; }
+.port-tab:hover { color: rgba(255,255,255,0.9); }
+.port-tab.active { color: #fff; border-bottom-color: #4fc3f7; }
+.port-tab .port-label { font-size: 10px; display: block; opacity: 0.7; margin-top: 1px; text-align: center; }
+.port-status { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 5px; }
+.port-status.live { background: #66bb6a; }
+.port-status.pending { background: #ffb74d; }
+.container { max-width: 1440px; margin: 0 auto; padding: 20px; }
+.summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.card-title { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.card-value { font-size: 28px; font-weight: 700; }
+.card-sub { font-size: 12px; color: #999; margin-top: 4px; }
+.card.positive .card-value { color: #2e7d32; }
+.card.negative .card-value { color: #c62828; }
+.card.warning .card-value { color: #e65100; }
+.card.info .card-value { color: #1565c0; }
+.card.pending { opacity: 0.6; }
+.card.pending .card-value { color: #888; font-size: 18px; }
+.controls-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.week-tabs { display: flex; gap: 8px; }
+.week-tab { padding: 8px 20px; border-radius: 6px; cursor: pointer; border: 1px solid #ddd; background: white; font-size: 13px; transition: all 0.2s; }
+.week-tab.active { background: #2e75b6; color: white; border-color: #2e75b6; }
+.week-tab:hover:not(.active) { background: #f0f5ff; border-color: #2e75b6; }
+.charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 24px; }
+.chart-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.chart-card h3 { font-size: 14px; color: #555; margin-bottom: 16px; font-weight: 600; }
+.table-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 24px; }
+.table-card h3 { font-size: 14px; color: #555; margin-bottom: 12px; font-weight: 600; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.data-table th { background: #f5f7fa; padding: 8px 10px; text-align: center; font-weight: 600; color: #555; border-bottom: 2px solid #e0e0e0; }
+.data-table td { padding: 7px 10px; text-align: center; border-bottom: 1px solid #f0f0f0; }
+.data-table tr:hover td { background: #f8fafd; }
+.data-table .supply td:first-child { color: #2e7d32; font-weight: 600; }
+.data-table .demand td:first-child { color: #c62828; font-weight: 600; }
+.data-table .balance td { background: #e8f0fe; font-weight: 700; }
+.data-table .ibob td { background: #bdd7ee; font-weight: 700; color: #1a3a5c; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.tag-supply { background: #e8f5e9; color: #2e7d32; }
+.tag-demand { background: #ffebee; color: #c62828; }
+.tag-cdl { background: #e8f5e9; color: #1b5e20; }
+.tag-forecast { background: #e3f2fd; color: #1565c0; }
+.tag-booking { background: #fce4d6; color: #e65100; }
+.tag-ibo { background: #bdd7ee; color: #1a3a5c; }
+.tag-pending { background: #fff3e0; color: #e65100; }
+.vessel-section { margin-bottom: 24px; }
+.vessel-section h3 { font-size: 14px; color: #555; margin-bottom: 12px; font-weight: 600; }
+.vessel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.vessel-chip { background: white; border-radius: 8px; padding: 10px 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); font-size: 12px; }
+.vessel-chip .voyage { font-weight: 700; color: #1a3a5c; }
+.vessel-chip .detail { color: #888; font-size: 11px; margin-top: 3px; }
+.vessel-chip.has-discharge { border-left: 3px solid #2e75b6; }
+.vessel-chip.has-booking { border-left: 3px solid #e65100; }
+.pending-overlay { text-align: center; padding: 60px 20px; color: #aaa; }
+.pending-overlay .icon { font-size: 48px; margin-bottom: 12px; }
+.pending-overlay h3 { font-size: 18px; color: #bbb; margin-bottom: 8px; }
+.pending-overlay p { font-size: 13px; color: #ccc; }
+.footer { text-align: center; padding: 16px; color: #999; font-size: 11px; }
+@media (max-width: 768px) {
+  .charts-row { grid-template-columns: 1fr; }
+  .header h1 { font-size: 17px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1 id="dashTitle">Empty Forecast &amp; Vessel Schedule Dashboard</h1>
+  <div class="meta" id="dashMeta">Location: SMD | Type: Dry | Refreshed: 2026-06-01 | Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking</div>
+</div>
+
+<!-- Port Navigation -->
+<div class="port-nav" id="portNav"></div>
+
+<div class="container">
+  <!-- Summary Cards -->
+  <div class="summary-cards" id="summaryCards"></div>
+
+  <!-- Controls -->
+  <div class="controls-row">
+    <div class="week-tabs" id="weekTabs">
+      <div class="week-tab active" onclick="switchWeek(0)">WK0 (06/01-06/06)</div>
+      <div class="week-tab" onclick="switchWeek(1)">WK1 (06/07-06/13)</div>
+      <div class="week-tab" onclick="switchWeek(2)">WK2 (06/14-06/20)</div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="charts-row">
+    <div class="chart-card">
+      <h3>20GP vs 40HC 棰勬祴瓒嬪娍</h3>
+      <canvas id="trendChart" height="280"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3 id="weekPieTitle">WK0 Flow Breakdown</h3>
+      <canvas id="pieChart" height="280"></canvas>
+    </div>
+  </div>
+
+  <!-- Main Forecast Table -->
+  <div class="table-card" id="forecastCard">
+    <h3 id="tableTitle">WK0 绌虹棰勬祴鏄庣粏</h3>
+    <div style="overflow-x:auto;">
+      <table class="data-table" id="forecastTable">
+        <thead>
+          <tr>
+            <th>No.</th><th>Division</th><th>Sign</th><th>Total</th>
+            <th>20GP</th><th>20HC</th><th>40GP</th><th>53HC</th><th>45HW</th><th>40HC</th><th>45HC</th>
+            <th>Vessel Count</th><th>Detail</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Booking Table -->
+  <div class="table-card" id="bookingCard">
+    <h3 id="bookingTitle">WK0 Booking Details</h3>
+    <div style="overflow-x:auto;">
+      <table class="data-table" id="bookingTable">
+        <thead>
+          <tr>
+            <th>VVD</th><th>ETA</th><th>Service</th><th>Alloc (TEU)</th><th>Booked (TEU)</th>
+            <th>20GP</th><th>40HC</th><th>Gap</th><th>Completion</th><th>Terminal</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Vessel Schedule -->
+  <div class="vessel-section" id="vesselSection"></div>
+
+  <!-- Cargo Split Detail -->
+  <div class="table-card" id="cargoSplitCard">
+    <h3 id="cargoSplitTitle">WK0 Cargo Split Detail (CDL Actual)</h3>
+    <div style="overflow-x:auto;">
+      <table class="data-table" id="cargoSplitTable">
+        <thead>
+          <tr><th>Vessel</th><th>Inbound(F) 20GP</th><th>Inbound(F) 40HC</th><th>Repo(P) 20GP</th><th>Repo(P) 40HC</th><th>outVvdCd</th><th>Match</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer" id="footerText">
+    Empty Forecast Dashboard v11 | Multi-Port | Auto-generated 2026-06-01 | Data from ops.culines.com NAW System &amp; Live Dashboard
+  </div>
+</div>
+
+<script>
+// ============================================================
+// ===== MULTI-PORT DATA STORE =====
+// ============================================================
+const PORT_CONFIG = {
+  CNSHA: { label: 'SHA', name: '涓婃捣', live: true, color: '#2e75b6', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 9 },
+  CNNGB: { label: 'NGB', name: '瀹佹尝', live: true, color: '#388e3c', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 9 },
+  CNSHK: { label: 'SHK', name: '铔囧彛/娣卞湷', live: false, color: '#7b1fa2', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 },
+  CNNAS: { label: 'NAS', name: '鍗楁矙/骞垮窞', live: false, color: '#e65100', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 },
+  CNTAO: { label: 'TAO', name: '闈掑矝', live: false, color: '#00695c', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 }
+};
+
+const portData = {
+  // ============================================================
+  // ===== CNSHA - 涓婃捣 (LIVE) =====
+  // ============================================================
+  CNSHA: {
+    forecastData: {
+      "Start Empty": {"0":[1763, 530, 0, 0, 0, 0, 1233, 0],"1":[785, 259, 0, 0, 0, 0, 526, 0],"2":[-132, -115, 0, 0, 0, 0, -17, 0]},
+      "Inbound Generation": {"0":[141, 34, 0, 0, 0, 0, 107, 0],"1":[30, 15, 0, 0, 0, 0, 15, 0],"2":[30, 15, 0, 0, 0, 0, 15, 0]},
+      "Reposition In": {"0":[248, 92, 0, 0, 0, 0, 156, 0],"1":[453, 111, 0, 0, 0, 0, 342, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "OW & On-hire": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "+ Other": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "Outbound Pick-up": {"0":[1496, 526, 0, 0, 0, 0, 970, 0],"1":[1400, 500, 0, 0, 0, 0, 900, 0],"2":[1400, 500, 0, 0, 0, 0, 900, 0]},
+      "Reposition out": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "OneWay & Off Hire": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "- Other": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "Balance(Forecast)": {"0":[656, 130, 0, 0, 0, 0, 526, 0],"1":[-132, -115, 0, 0, 0, 0, -17, 0],"2":[-1502, -600, 0, 0, 0, 0, -902, 0]}
+    },
+    bookingByVessel: {
+      "FUYU2622W": {
+            "alloc": 800,
+            "current": 1389,
+            "ft20": 137,
+            "ft40": 626
+      },
+      "CUSK2623W": {
+            "alloc": 383,
+            "current": 641,
+            "ft20": 43,
+            "ft40": 299
+      },
+      "CUKL2625W": {
+            "alloc": 383,
+            "current": 62,
+            "ft20": 2,
+            "ft40": 30
+      },
+      "RACE2623W": {
+            "alloc": 0,
+            "current": 145,
+            "ft20": 9,
+            "ft40": 68
+      }
+},
+    vesselsByWeek: {
+      0: [
+      {
+            "voyage": "CTVA2621S",
+            "eta": "06/01 00:00",
+            "service": "SHT",
+            "terminal": "CNSHAT01",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "MDTN2622S",
+            "eta": "06/02 00:00",
+            "service": "SHT",
+            "terminal": "CNSHAT04",
+            "dis20": 0,
+            "dis40": 7
+      },
+      {
+            "voyage": "CAOK2621S",
+            "eta": "06/02 04:00",
+            "service": "CH1",
+            "terminal": "CNSHAT02",
+            "dis20": 18,
+            "dis40": 20
+      },
+      {
+            "voyage": "TSMM2615E",
+            "eta": "06/02 10:00",
+            "service": "CWS",
+            "terminal": "CNSHAT02",
+            "dis20": 5,
+            "dis40": 5
+      },
+      {
+            "voyage": "CLMB2614S",
+            "eta": "06/02 20:00",
+            "service": "CP8",
+            "terminal": "CNSHAT02",
+            "dis20": 34,
+            "dis40": 58
+      },
+      {
+            "voyage": "NHZY2602W",
+            "eta": "06/03 00:00",
+            "service": "CGS",
+            "terminal": "CNSHAT01",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "ZG162623W",
+            "eta": "06/03 03:00",
+            "service": "RES",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "MMRN2620S",
+            "eta": "06/03 11:30",
+            "service": "SL1",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "FUYU2622W",
+            "eta": "06/03 12:00",
+            "service": "SGX",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "PTST2622W",
+            "eta": "06/03 12:00",
+            "service": "MFX",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 21
+      },
+      {
+            "voyage": "HRRR2621S",
+            "eta": "06/04 00:00",
+            "service": "SHT",
+            "terminal": "CNSHAT03",
+            "dis20": 9,
+            "dis40": 29
+      },
+      {
+            "voyage": "GLGD2622S",
+            "eta": "06/04 04:00",
+            "service": "SHT",
+            "terminal": "CNSHAT01",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CUSK2623W",
+            "eta": "06/04 19:00",
+            "service": "AM1",
+            "terminal": "CNSHAT02",
+            "dis20": 50,
+            "dis40": 98
+      },
+      {
+            "voyage": "KPBG2621W",
+            "eta": "06/04 22:00",
+            "service": "CI3",
+            "terminal": "CNSHAT03",
+            "dis20": 0,
+            "dis40": 6
+      },
+      {
+            "voyage": "XIHG2620S",
+            "eta": "06/05 02:00",
+            "service": "SHT",
+            "terminal": "CNSHAT01",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "JHT92627W",
+            "eta": "06/05 22:00",
+            "service": "YRD",
+            "terminal": "CNSHAT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "LTWR2621S",
+            "eta": "06/06 06:00",
+            "service": "CCT",
+            "terminal": "CNSHAT04",
+            "dis20": 10,
+            "dis40": 19
+      }
+],
+      1: [
+      {
+            "voyage": "CSCC2623S",
+            "eta": "06/07 00:00",
+            "service": "SHT",
+            "terminal": "CNSHAT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "JJTY2621S",
+            "eta": "06/07 00:00",
+            "service": "SHT",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "XFJH2620S",
+            "eta": "06/07 10:00",
+            "service": "NP2",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "BTBH2614E",
+            "eta": "06/07 14:00",
+            "service": "CI3",
+            "terminal": "CNSHAT03",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "JJSN2623S",
+            "eta": "06/08 00:00",
+            "service": "SHT",
+            "terminal": "CNSHAT03",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "HYBM2624W",
+            "eta": "06/08 01:00",
+            "service": "LHT",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "XIHG2621S",
+            "eta": "06/08 02:00",
+            "service": "SHT",
+            "terminal": "CNSHAT01",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "XIHG2622S",
+            "eta": "06/08 02:00",
+            "service": "SHT",
+            "terminal": "CNSHAT01",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CSJ82624W",
+            "eta": "06/08 08:00",
+            "service": "REX",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "H9362615S",
+            "eta": "06/08 10:00",
+            "service": "CP8",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CUXM2618E",
+            "eta": "06/08 11:30",
+            "service": "HDT",
+            "terminal": "CNSHAT01",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "ONMT2616E",
+            "eta": "06/09 06:00",
+            "service": "CWS",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CAKB2624S",
+            "eta": "06/09 08:00",
+            "service": "CH1",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "JJTY2623S",
+            "eta": "06/10 00:00",
+            "service": "SHT",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "ZG182624W",
+            "eta": "06/10 03:00",
+            "service": "RES",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "AROA2624W",
+            "eta": "06/10 21:00",
+            "service": "MFX",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "GLZD2623S",
+            "eta": "06/11 04:00",
+            "service": "SHT",
+            "terminal": "CNSHAT01",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CUKL2625W",
+            "eta": "06/11 06:00",
+            "service": "AM1",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CLMB2616S",
+            "eta": "06/11 14:00",
+            "service": "CP8",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "JHT92628W",
+            "eta": "06/11 21:00",
+            "service": "YRD",
+            "terminal": "CNSHAT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "EVLF2617E",
+            "eta": "06/12 08:00",
+            "service": "LHT",
+            "terminal": "CNSHAT06",
+            "dis20": 0,
+            "dis40": 0
+      }
+],
+      2: [
+      {
+            "voyage": "CSRO2624S",
+            "eta": "06/14 00:00",
+            "service": "SHT",
+            "terminal": "CNSHAT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CAOK2623S",
+            "eta": "06/14 01:00",
+            "service": "CH1",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "VRYB2623W",
+            "eta": "06/14 09:00",
+            "service": "CI3",
+            "terminal": "CNSHAT07",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "KNBM2622S",
+            "eta": "06/14 23:00",
+            "service": "CCT",
+            "terminal": "CNSHAT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "GLSH2624S",
+            "eta": "06/15 00:00",
+            "service": "SHT",
+            "terminal": "CNSHAT03",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "XIHG2623S",
+            "eta": "06/15 02:00",
+            "service": "SHT",
+            "terminal": "CNSHAT01",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "RACE2623W",
+            "eta": "06/15 06:00",
+            "service": "SGX",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CUXM2619E",
+            "eta": "06/15 11:30",
+            "service": "HDT",
+            "terminal": "CNSHAT01",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "JJTY2624S",
+            "eta": "06/17 00:00",
+            "service": "SHT",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CSJ72623S",
+            "eta": "06/17 09:30",
+            "service": "NP2",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "ERVW2625W",
+            "eta": "06/17 14:00",
+            "service": "MFX",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "JHT92629W",
+            "eta": "06/17 20:00",
+            "service": "YRD",
+            "terminal": "CNSHAT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "GLGD2624S",
+            "eta": "06/18 04:00",
+            "service": "SHT",
+            "terminal": "CNSHAT01",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "KCMA2618E",
+            "eta": "06/18 14:00",
+            "service": "CWS",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "XPCA2617E",
+            "eta": "06/18 21:00",
+            "service": "CWS",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "H9362617S",
+            "eta": "06/19 07:00",
+            "service": "CP8",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "XFJH2624S",
+            "eta": "06/19 19:00",
+            "service": "NP2",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "JJTY2625S",
+            "eta": "06/20 00:00",
+            "service": "SHT",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CUNS2623S",
+            "eta": "06/20 15:00",
+            "service": "CCT",
+            "terminal": "CNSHAT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "KTPU2621E",
+            "eta": "06/20 19:00",
+            "service": "LHT",
+            "terminal": "CNSHAT02",
+            "dis20": 0,
+            "dis40": 0
+      }
+]
+    },
+    cargoSplitData: [
+      {
+            "vessel": "CTVA2621S",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "MDTN2622S",
+            "f20": 0,
+            "f40": 7,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "MDTN2622S",
+            "match": true
+      },
+      {
+            "vessel": "CAOK2621S",
+            "f20": 10,
+            "f40": 20,
+            "p20": 8,
+            "p40": 0,
+            "vvd": "CAOK2619N",
+            "match": true
+      },
+      {
+            "vessel": "TSMM2615E",
+            "f20": 5,
+            "f40": 5,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "TSMM2615E",
+            "match": true
+      },
+      {
+            "vessel": "CLMB2614S",
+            "f20": 0,
+            "f40": 3,
+            "p20": 34,
+            "p40": 55,
+            "vvd": "CLMB2612N",
+            "match": true
+      },
+      {
+            "vessel": "NHZY2602W",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "ZG162623W",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "MMRN2620S",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "FUYU2622W",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "PTST2622W",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 21,
+            "vvd": "PTST2615E",
+            "match": true
+      },
+      {
+            "vessel": "HRRR2621S",
+            "f20": 9,
+            "f40": 29,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "HRRR2621S",
+            "match": true
+      },
+      {
+            "vessel": "GLGD2622S",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "CUSK2623W",
+            "f20": 0,
+            "f40": 23,
+            "p20": 50,
+            "p40": 75,
+            "vvd": "CUSK2612E",
+            "match": true
+      },
+      {
+            "vessel": "KPBG2621W",
+            "f20": 0,
+            "f40": 1,
+            "p20": 0,
+            "p40": 5,
+            "vvd": "KPBG2613E",
+            "match": true
+      },
+      {
+            "vessel": "XIHG2620S",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "JHT92627W",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "LTWR2621S",
+            "f20": 10,
+            "f40": 19,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "LTWR2621N",
+            "match": true
+      }
+]
+  },
+
+  // ============================================================
+  // ===== CNNGB - 瀹佹尝 (LIVE) =====
+  // ============================================================
+  CNNGB: {
+    forecastData: {
+      "Start Empty": {"0":[2279, 767, 0, 0, 0, 0, 1512, 0],"1":[970, 457, 0, 0, 0, 0, 513, 0],"2":[850, 331, 0, 0, 0, 0, 519, 0]},
+      "Inbound Generation": {"0":[453, 265, 0, 0, 0, 0, 188, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "Reposition In": {"0":[18, 0, 0, 0, 0, 0, 18, 0],"1":[942, 164, 0, 0, 0, 0, 778, 0],"2":[150, 50, 0, 0, 0, 0, 100, 0]},
+      "OW & On-hire": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "+ Other": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "Outbound Pick-up": {"0":[1362, 330, 0, 0, 0, 0, 1032, 0],"1":[1062, 290, 0, 0, 0, 0, 772, 0],"2":[942, 250, 0, 0, 0, 0, 692, 0]},
+      "Reposition out": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "OneWay & Off Hire": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "- Other": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
+      "Balance(Forecast)": {"0":[1388, 702, 0, 0, 0, 0, 686, 0],"1":[850, 331, 0, 0, 0, 0, 519, 0],"2":[58, 131, 0, 0, 0, 0, -73, 0]}
+    },
+    bookingByVessel: {
+      "CUHM2623W": {
+            "alloc": 420,
+            "current": 24,
+            "ft20": 0,
+            "ft40": 12
+      },
+      "CUKL2625W": {
+            "alloc": 155,
+            "current": 0,
+            "ft20": 0,
+            "ft40": 0
+      },
+      "CUSK2623W": {
+            "alloc": 155,
+            "current": 388,
+            "ft20": 20,
+            "ft40": 184
+      },
+      "H7282620W": {
+            "alloc": 1193,
+            "current": 1272,
+            "ft20": 68,
+            "ft40": 602
+      },
+      "H8112622W": {
+            "alloc": 410,
+            "current": 935,
+            "ft20": 189,
+            "ft40": 373
+      },
+      "RACE2623W": {
+            "alloc": 0,
+            "current": 63,
+            "ft20": 21,
+            "ft40": 21
+      }
+},
+    vesselsByWeek: {
+      0: [
+      {
+            "voyage": "H7282620W",
+            "eta": "06/01 12:30",
+            "service": "REX",
+            "terminal": "CNNGBT04",
+            "dis20": 0,
+            "dis40": 7
+      },
+      {
+            "voyage": "DOL22622W",
+            "eta": "06/01 14:30",
+            "service": "MFX",
+            "terminal": "CNNGBT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "NM662621S",
+            "eta": "06/01 20:00",
+            "service": "SHT",
+            "terminal": "CNNGBT02",
+            "dis20": 1,
+            "dis40": 4
+      },
+      {
+            "voyage": "MST22627S",
+            "eta": "06/02 00:00",
+            "service": "SHT",
+            "terminal": "CNNGBT05",
+            "dis20": 0,
+            "dis40": 1
+      },
+      {
+            "voyage": "XM182621S",
+            "eta": "06/02 14:00",
+            "service": "SHT",
+            "terminal": "CNNGBT05",
+            "dis20": 10,
+            "dis40": 17
+      },
+      {
+            "voyage": "LTWR2621S",
+            "eta": "06/04 05:00",
+            "service": "CCT",
+            "terminal": "CNNGBT05",
+            "dis20": 66,
+            "dis40": 116
+      },
+      {
+            "voyage": "CLMB2614S",
+            "eta": "06/04 07:00",
+            "service": "CP8",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 18
+      },
+      {
+            "voyage": "PEFC2624W",
+            "eta": "06/04 14:28",
+            "service": "LHT",
+            "terminal": "CNNGBT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "ZG162623W",
+            "eta": "06/04 19:00",
+            "service": "RES",
+            "terminal": "CNNGBT06",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "H9682621E",
+            "eta": "06/05 00:00",
+            "service": "YRD",
+            "terminal": "CNNGBT04",
+            "dis20": 132,
+            "dis40": 24
+      },
+      {
+            "voyage": "PTST2622W",
+            "eta": "06/05 11:00",
+            "service": "MFX",
+            "terminal": "CNNGBT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "BTBH2614E",
+            "eta": "06/06 04:00",
+            "service": "CI3",
+            "terminal": "CNNGBT05",
+            "dis20": 1,
+            "dis40": 0
+      },
+      {
+            "voyage": "CH272622E",
+            "eta": "06/06 08:00",
+            "service": "YRD",
+            "terminal": "CNNGBT04",
+            "dis20": 55,
+            "dis40": 19
+      },
+      {
+            "voyage": "CUXM2618E",
+            "eta": "06/06 21:30",
+            "service": "HDT",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 0
+      }
+],
+      1: [
+      {
+            "voyage": "CUSK2623W",
+            "eta": "06/07 00:00",
+            "service": "AM1",
+            "terminal": "CNNGBT06",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "NM682622S",
+            "eta": "06/08 01:00",
+            "service": "SHT",
+            "terminal": "CNNGBT07",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CAKB2624S",
+            "eta": "06/08 08:00",
+            "service": "CH1",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "XM262623S",
+            "eta": "06/09 00:00",
+            "service": "SHT",
+            "terminal": "CNNGBT05",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CUHM2623W",
+            "eta": "06/09 01:00",
+            "service": "REX",
+            "terminal": "CNNGBT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "KPBG2621W",
+            "eta": "06/09 05:00",
+            "service": "CI3",
+            "terminal": "CNNGBT05",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "H8112622W",
+            "eta": "06/09 14:00",
+            "service": "SGX",
+            "terminal": "CNNGBT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "H9362615S",
+            "eta": "06/09 17:30",
+            "service": "CP8",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "HYBM2624W",
+            "eta": "06/09 21:00",
+            "service": "LHT",
+            "terminal": "CNNGBT05",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CH262622E",
+            "eta": "06/10 08:00",
+            "service": "YRD",
+            "terminal": "CNNGBT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "ZG182624W",
+            "eta": "06/11 19:00",
+            "service": "RES",
+            "terminal": "CNNGBT05",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CAOK2623S",
+            "eta": "06/12 14:00",
+            "service": "CH1",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "ZG182616E",
+            "eta": "06/12 17:00",
+            "service": "LHT",
+            "terminal": "CNNGBT05",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CUKL2625W",
+            "eta": "06/13 00:00",
+            "service": "AM1",
+            "terminal": "CNNGBT06",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CLMB2616S",
+            "eta": "06/13 01:00",
+            "service": "CP8",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "KNBM2622S",
+            "eta": "06/13 21:00",
+            "service": "CCT",
+            "terminal": "CNNGBT05",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CUXM2619E",
+            "eta": "06/13 21:30",
+            "service": "HDT",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 0
+      }
+],
+      2: [
+      {
+            "voyage": "ZGJN2622N",
+            "eta": "06/15 00:00",
+            "service": "SHT",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "NM602622S",
+            "eta": "06/15 01:00",
+            "service": "SHT",
+            "terminal": "CNNGBT07",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CH272623E",
+            "eta": "06/15 08:00",
+            "service": "YRD",
+            "terminal": "CNNGBT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "XM222623S",
+            "eta": "06/16 00:00",
+            "service": "SHT",
+            "terminal": "CNNGBT05",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "ZGJN2623N",
+            "eta": "06/16 00:00",
+            "service": "SHT",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CAKB2626S",
+            "eta": "06/17 20:00",
+            "service": "CH1",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "RACE2623W",
+            "eta": "06/18 03:00",
+            "service": "SGX",
+            "terminal": "CNNGBT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "AROA2624W",
+            "eta": "06/18 06:00",
+            "service": "MFX",
+            "terminal": "CNNGBT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "ERVW2625W",
+            "eta": "06/19 07:00",
+            "service": "MFX",
+            "terminal": "CNNGBT04",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CUNS2623S",
+            "eta": "06/19 09:00",
+            "service": "CCT",
+            "terminal": "CNNGBT05",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "VRYB2623W",
+            "eta": "06/19 11:00",
+            "service": "CI3",
+            "terminal": "CNNGBT05",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "H9362617S",
+            "eta": "06/20 13:00",
+            "service": "CP8",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 0
+      },
+      {
+            "voyage": "CUXM2620E",
+            "eta": "06/20 21:30",
+            "service": "HDT",
+            "terminal": "CNNGBT02",
+            "dis20": 0,
+            "dis40": 0
+      }
+]
+    },
+    cargoSplitData: [
+      {
+            "vessel": "H7282620W",
+            "f20": 0,
+            "f40": 7,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": true
+      },
+      {
+            "vessel": "DOL22622W",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "NM662621S",
+            "f20": 1,
+            "f40": 4,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": true
+      },
+      {
+            "vessel": "MST22627S",
+            "f20": 0,
+            "f40": 1,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": true
+      },
+      {
+            "vessel": "XM182621S",
+            "f20": 10,
+            "f40": 17,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": true
+      },
+      {
+            "vessel": "LTWR2621S",
+            "f20": 66,
+            "f40": 116,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": true
+      },
+      {
+            "vessel": "CLMB2614S",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 18,
+            "vvd": "",
+            "match": true
+      },
+      {
+            "vessel": "PEFC2624W",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "ZG162623W",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "H9682621E",
+            "f20": 132,
+            "f40": 24,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": true
+      },
+      {
+            "vessel": "PTST2622W",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      },
+      {
+            "vessel": "BTBH2614E",
+            "f20": 1,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": true
+      },
+      {
+            "vessel": "CH272622E",
+            "f20": 55,
+            "f40": 19,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": true
+      },
+      {
+            "vessel": "CUXM2618E",
+            "f20": 0,
+            "f40": 0,
+            "p20": 0,
+            "p40": 0,
+            "vvd": "",
+            "match": false
+      }
+]
+  },
+
+  // ============================================================
+  // ===== CNSHK - 铔囧彛/娣卞湷 (寰呭埛鏂? =====
+  // ============================================================
+  CNSHK: {
+    forecastData: {
+      "Start Empty":          {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Inbound Generation":   {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Reposition In":        {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "OW & On-hire":         {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "+ Other":              {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Outbound Pick-up":     {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Reposition out":       {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "OneWay & Off Hire":    {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "- Other":              {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Balance(Forecast)":    {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]}
+    },
+    bookingByVessel: {},
+    vesselsByWeek: { 0: [], 1: [], 2: [] },
+    cargoSplitData: []
+  },
+
+  // ============================================================
+  // ===== CNNAS - 鍗楁矙/骞垮窞 (寰呭埛鏂? =====
+  // ============================================================
+  CNNAS: {
+    forecastData: {
+      "Start Empty":          {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Inbound Generation":   {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Reposition In":        {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "OW & On-hire":         {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "+ Other":              {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Outbound Pick-up":     {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Reposition out":       {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "OneWay & Off Hire":    {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "- Other":              {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Balance(Forecast)":    {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]}
+    },
+    bookingByVessel: {},
+    vesselsByWeek: { 0: [], 1: [], 2: [] },
+    cargoSplitData: []
+  },
+
+  // ============================================================
+  // ===== CNTAO - 闈掑矝 (寰呭埛鏂? =====
+  // ============================================================
+  CNTAO: {
+    forecastData: {
+      "Start Empty":          {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Inbound Generation":   {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Reposition In":        {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "OW & On-hire":         {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "+ Other":              {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Outbound Pick-up":     {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Reposition out":       {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "OneWay & Off Hire":    {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "- Other":              {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]},
+      "Balance(Forecast)":    {"0":[0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0,0,0],"2":[0,0,0,0,0,0,0,0]}
+    },
+    bookingByVessel: {},
+    vesselsByWeek: { 0: [], 1: [], 2: [] },
+    cargoSplitData: []
+  }
+};
+
+// ============================================================
+// ===== GLOBAL STATE =====
+// ============================================================
+let currentPort = 'CNSHA';
+let currentWeek = 0;
+let trendChart, pieChart;
+
+const indicators = ["Start Empty","Inbound Generation","Reposition In","OW & On-hire","+ Other","Outbound Pick-up","Reposition out","OneWay & Off Hire","- Other","Balance(Forecast)"];
+const signs = ["+","+","+","+","+","-","-","-","-","="];
+
+// ============================================================
+// ===== HELPERS =====
+// ============================================================
+function pd() { return portData[currentPort]; }
+function pc() { return PORT_CONFIG[currentPort]; }
+
+// ============================================================
+// ===== PORT NAV =====
+// ============================================================
+function renderPortNav() {
+  const nav = document.getElementById('portNav');
+  nav.innerHTML = Object.entries(PORT_CONFIG).map(([code, cfg]) => `
+    <div class="port-tab ${code === currentPort ? 'active' : ''}" onclick="switchPort('${code}')">
+      <span class="port-status ${cfg.live ? 'live' : 'pending'}"></span>${code}
+      <span class="port-label">${cfg.name}</span>
+    </div>
+  `).join('');
+}
+
+function switchPort(portCode) {
+  currentPort = portCode;
+  currentWeek = 0;
+  renderPortNav();
+  renderWeekTabs();
+  updateHeaderMeta();
+  renderAll();
+  if (trendChart) trendChart.destroy();
+  if (pieChart) pieChart.destroy();
+  initCharts();
+}
+
+function renderWeekTabs() {
+  const cfg = pc();
+  const tabs = document.getElementById('weekTabs');
+  tabs.innerHTML = cfg.wkLabels.map((lbl, i) =>
+    `<div class="week-tab ${i === currentWeek ? 'active' : ''}" onclick="switchWeek(${i})">${lbl}</div>`
+  ).join('');
+}
+
+function updateHeaderMeta() {
+  const cfg = pc();
+  const d = pd();
+  document.getElementById('dashTitle').textContent = `${currentPort} (${cfg.name}) Empty Forecast & Vessel Schedule Dashboard`;
+  const status = cfg.live ? 'LIVE' : '寰呭埛鏂?Pending';
+  document.getElementById('dashMeta').textContent =
+    `Location: SMD | Port: ${currentPort} | Type: Dry | Status: ${status} | Refreshed: 2026-06-01 | Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking`;
+}
+
+// ============================================================
+// ===== PENDING OVERLAY =====
+// ============================================================
+function isPending() {
+  return !pc().live;
+}
+
+function showPendingOverlay(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = `
+    <div class="pending-overlay">
+      <div class="icon">馃搵</div>
+      <h3>${currentPort} (${pc().name}) - 鏁版嵁寰呭埛鏂?/h3>
+      <p>璇ユ腐鍙ｅ皻鏈畬鎴愭暟鎹姄鍙栥€傝杩愯瀵瑰簲鐨勫埛鏂拌剼鏈悗鏇存柊姝ら〉闈€?/p>
+      <p style="margin-top:8px;font-size:12px;">Port: ${currentPort} | Location Code: ${currentPort}</p>
+    </div>
+  `;
+}
+
+// ============================================================
+// ===== SUMMARY CARDS =====
+// ============================================================
+function renderSummaryCards() {
+  const el = document.getElementById('summaryCards');
+  if (isPending()) {
+    el.innerHTML = ['WK0 Balance(Forecast)','WK0 Start Empty','WK0 Outbound Pick-up','WK0 Inbound (CDL Actual)','WK1 Balance','WK2 Balance'].map(t => `
+      <div class="card pending">
+        <div class="card-title">${t}</div>
+        <div class="card-value">鈥?/div>
+        <div class="card-sub"><span class="tag tag-pending">Pending</span></div>
+      </div>`).join('');
+    return;
+  }
+  const data = pd();
+  const d0 = data.forecastData["Balance(Forecast)"]["0"];
+  const d1 = data.forecastData["Balance(Forecast)"]["1"];
+  const d2 = data.forecastData["Balance(Forecast)"]["2"];
+  const start0 = data.forecastData["Start Empty"]["0"];
+  const out0 = data.forecastData["Outbound Pick-up"]["0"];
+  const inbound0 = data.forecastData["Inbound Generation"]["0"];
+  const repo0 = data.forecastData["Reposition In"]["0"];
+  const wk0Vessels = data.vesselsByWeek[0] || [];
+  const ibTotal20 = wk0Vessels.reduce((s,v) => s + (v.dis20||0), 0);
+  const ibTotal40 = wk0Vessels.reduce((s,v) => s + (v.dis40||0), 0);
+
+  el.innerHTML = `
+    <div class="card ${d0[0] >= 0 ? 'positive' : 'negative'}">
+      <div class="card-title">WK0 Balance(Forecast)</div>
+      <div class="card-value">${d0[0].toLocaleString()}</div>
+      <div class="card-sub">20GP: ${d0[1]} | 40HC: ${d0[6]}</div>
+    </div>
+    <div class="card info">
+      <div class="card-title">WK0 Start Empty</div>
+      <div class="card-value">${start0[0].toLocaleString()}</div>
+      <div class="card-sub">20GP: ${start0[1]} | 40HC: ${start0[6]}</div>
+    </div>
+    <div class="card warning">
+      <div class="card-title">WK0 Outbound Pick-up</div>
+      <div class="card-value">${out0[0].toLocaleString()}</div>
+      <div class="card-sub">20GP: ${out0[1]} | 40HC: ${out0[6]}</div>
+    </div>
+    <div class="card positive">
+      <div class="card-title">WK0 Inbound (CDL Actual)</div>
+      <div class="card-value">${(inbound0[0] + repo0[0]).toLocaleString()}</div>
+      <div class="card-sub"><span class="tag tag-cdl">CDL</span> Dis: ${ibTotal20+ibTotal40} (20GP:${ibTotal20} / 40HC:${ibTotal40})</div>
+    </div>
+    <div class="card ${d1[0] >= 0 ? 'positive' : 'negative'}">
+      <div class="card-title">WK1 Balance</div>
+      <div class="card-value">${d1[0].toLocaleString()}</div>
+      <div class="card-sub">20GP: ${d1[1]} | 40HC: ${d1[6]}</div>
+    </div>
+    <div class="card ${d2[0] >= 0 ? 'positive' : 'negative'}">
+      <div class="card-title">WK2 Balance</div>
+      <div class="card-value">${d2[0].toLocaleString()}</div>
+      <div class="card-sub">20GP: ${d2[1]} | 40HC: ${d2[6]}</div>
+    </div>
+  `;
+}
+
+// ============================================================
+// ===== FORECAST TABLE =====
+// ============================================================
+function renderForecastTable(wk) {
+  const card = document.getElementById('forecastCard');
+  if (isPending()) { showPendingOverlay('forecastCard'); return; }
+
+  card.innerHTML = `<h3 id="tableTitle">WK${wk} 绌虹棰勬祴鏄庣粏</h3><div style="overflow-x:auto;"><table class="data-table" id="forecastTable">
+    <thead><tr><th>No.</th><th>Division</th><th>Sign</th><th>Total</th><th>20GP</th><th>20HC</th><th>40GP</th><th>53HC</th><th>45HW</th><th>40HC</th><th>45HC</th><th>Vessel Count</th><th>Detail</th></tr></thead>
+    <tbody></tbody></table></div>`;
+
+  const data = pd();
+  const vessels = data.vesselsByWeek[wk] || [];
+  const ibTotal20 = vessels.reduce((s,v) => s + (v.dis20||0), 0);
+  const ibTotal40 = vessels.reduce((s,v) => s + (v.dis40||0), 0);
+  const bookingVessels = vessels.filter(v => data.bookingByVessel[v.voyage]);
+  const obAlloc = bookingVessels.reduce((s,v) => s + (data.bookingByVessel[v.voyage].alloc||0), 0);
+  const obCurrent = bookingVessels.reduce((s,v) => s + (data.bookingByVessel[v.voyage].current||0), 0);
+  const obFt20 = bookingVessels.reduce((s,v) => s + (data.bookingByVessel[v.voyage].ft20||0), 0);
+  const obFt40 = bookingVessels.reduce((s,v) => s + (data.bookingByVessel[v.voyage].ft40||0), 0);
+
+  let rowNum = 0, html = '';
+  indicators.forEach((ind, i) => {
+    rowNum++;
+    const row = data.forecastData[ind][String(wk)];
+    const isSupply = signs[i] === '+', isBalance = signs[i] === '=';
+    const cls = isBalance ? 'balance' : (isSupply ? 'supply' : 'demand');
+    const tag = isBalance ? '' : `<span class="tag ${isSupply ? 'tag-supply' : 'tag-demand'}">${signs[i]}</span>`;
+    let detail = '';
+    if ((ind === 'Inbound Generation' || ind === 'Reposition In') && wk === 0) {
+      detail = `<span class="tag tag-cdl">CDL Actual (${pc().cdlVessels} vessels)</span>`;
+    } else if (ind !== '+ Other' && ind !== '- Other') {
+      detail = '<span class="tag tag-forecast">Forecast</span>';
+    }
+    let vesselCount = '', vesselDetail = '';
+    if (ind === '+ Other') { vesselCount = vessels.length; vesselDetail = vessels.map(v => v.voyage).join(' | '); }
+
+    html += `<tr class="${cls}">
+      <td>${rowNum}</td><td>${ind}</td><td>${tag || signs[i]}</td>
+      <td><strong>${row[0].toLocaleString()}</strong></td>
+      <td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td><td>${row[4]}</td><td>${row[5]}</td><td>${row[6]}</td><td>${row[7]}</td>
+      <td>${vesselCount}</td>
+      <td style="text-align:left;font-size:11px;">${vesselDetail}${detail}</td>
+    </tr>`;
+
+    if (ind === '+ Other') {
+      rowNum++;
+      html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">I/B Total</span></td><td></td>
+        <td><strong>${(ibTotal20 + ibTotal40).toLocaleString()}</strong></td>
+        <td>${ibTotal20||''}</td><td></td><td></td><td></td><td></td><td>${ibTotal40||''}</td><td></td><td></td>
+        <td style="text-align:left;font-size:11px;"><span class="tag tag-cdl">Discharge (CDL Total)</span></td></tr>`;
+    }
+    if (ind === '- Other') {
+      rowNum++;
+      html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">O/B Total</span></td><td></td>
+        <td><strong>${obCurrent.toLocaleString()}</strong></td>
+        <td>${obFt20||''}</td><td></td><td></td><td></td><td></td><td>${obFt40||''}</td><td></td><td></td>
+        <td style="text-align:left;font-size:11px;">
+          <span class="tag tag-booking">Booking ${currentPort}</span>
+          Alloc: ${obAlloc.toLocaleString()} | Booked: ${obCurrent.toLocaleString()}
+        </td></tr>`;
+    }
+  });
+  document.querySelector('#forecastTable tbody').innerHTML = html;
+}
+
+// ============================================================
+// ===== BOOKING TABLE =====
+// ============================================================
+function renderBookingTable(wk) {
+  const card = document.getElementById('bookingCard');
+  if (isPending()) { showPendingOverlay('bookingCard'); return; }
+
+  card.innerHTML = `<h3 id="bookingTitle">WK${wk} Booking Details (${currentPort})</h3>
+    <div style="overflow-x:auto;"><table class="data-table" id="bookingTable">
+    <thead><tr><th>VVD</th><th>ETA</th><th>Service</th><th>Alloc (TEU)</th><th>Booked (TEU)</th><th>20GP</th><th>40HC</th><th>Gap</th><th>Completion</th><th>Terminal</th></tr></thead>
+    <tbody></tbody></table></div>`;
+
+  const data = pd();
+  const vessels = data.vesselsByWeek[wk] || [];
+  const bookingVessels = vessels.filter(v => data.bookingByVessel[v.voyage]);
+  let html = '', totalAlloc = 0, totalCurrent = 0, totalFt20 = 0, totalFt40 = 0;
+
+  bookingVessels.forEach(v => {
+    const bk = data.bookingByVessel[v.voyage];
+    const gap = bk.current - bk.alloc;
+    const pct = bk.alloc > 0 ? (bk.current / bk.alloc * 100).toFixed(1) : 'N/A';
+    totalAlloc += bk.alloc; totalCurrent += bk.current;
+    totalFt20 += bk.ft20; totalFt40 += bk.ft40;
+    html += `<tr>
+      <td><strong>${v.voyage}</strong></td><td>${v.eta}</td><td>${v.service}</td>
+      <td>${bk.alloc.toLocaleString()}</td><td>${bk.current.toLocaleString()}</td>
+      <td>${bk.ft20.toLocaleString()}</td><td>${bk.ft40.toLocaleString()}</td>
+      <td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${gap >= 0 ? '+' : ''}${gap.toLocaleString()}</td>
+      <td>${pct}%</td><td>${v.terminal}</td>
+    </tr>`;
+  });
+
+  if (bookingVessels.length > 0) {
+    const totalGap = totalCurrent - totalAlloc;
+    html += `<tr style="font-weight:700;background:#fce4d6;">
+      <td><strong>TOTAL</strong></td><td>-</td><td>${bookingVessels.length} vessels</td>
+      <td>${totalAlloc.toLocaleString()}</td><td>${totalCurrent.toLocaleString()}</td>
+      <td>${totalFt20.toLocaleString()}</td><td>${totalFt40.toLocaleString()}</td>
+      <td style="color:${totalGap >= 0 ? '#c62828' : '#2e7d32'}">${totalGap >= 0 ? '+' : ''}${totalGap.toLocaleString()}</td>
+      <td>${totalAlloc > 0 ? (totalCurrent/totalAlloc*100).toFixed(1) : 'N/A'}%</td><td>-</td>
+    </tr>`;
+  } else {
+    html = `<tr><td colspan="10" style="color:#999;padding:20px;">No ${currentPort} booking data for this week</td></tr>`;
+  }
+  document.querySelector('#bookingTable tbody').innerHTML = html;
+}
+
+// ============================================================
+// ===== VESSEL SECTION =====
+// ============================================================
+function renderVesselSection(wk) {
+  const section = document.getElementById('vesselSection');
+  if (isPending()) {
+    section.innerHTML = `<div class="pending-overlay">
+      <div class="icon">馃殺</div>
+      <h3>WK${wk} Vessel Schedule - 寰呭埛鏂?/h3>
+      <p>杩愯 scrape_vessels_v21.py 骞舵寚瀹?Port=${currentPort} 鍚庤幏鍙栨暟鎹?/p>
+    </div>`;
+    return;
+  }
+  const data = pd();
+  const vessels = data.vesselsByWeek[wk] || [];
+  let html = `<div class="table-card"><h3>WK${wk} Vessel Schedule - ${currentPort} (${vessels.length} vessels)</h3><div class="vessel-grid">`;
+  if (vessels.length === 0) {
+    html += `<div style="color:#bbb;padding:20px;grid-column:1/-1;">No vessels scheduled for this week.</div>`;
+  }
+  vessels.forEach(v => {
+    let cls = '';
+    if (v.dis20 > 0 || v.dis40 > 0) cls = 'has-discharge';
+    if (data.bookingByVessel[v.voyage]) cls = 'has-booking';
+    let extra = '';
+    if (v.dis20 > 0 || v.dis40 > 0) extra = `<div class="detail"><span class="tag tag-cdl">Dis: ${v.dis20||0}/${v.dis40||0}</span></div>`;
+    if (data.bookingByVessel[v.voyage]) {
+      const bk = data.bookingByVessel[v.voyage];
+      extra += `<div class="detail"><span class="tag tag-booking">Book: ${bk.alloc}/${bk.current} (${bk.ft20}/${bk.ft40})</span></div>`;
+    }
+    html += `<div class="vessel-chip ${cls}">
+      <div class="voyage">${v.voyage}</div>
+      <div class="detail">${v.eta} | ${v.service} | ${v.terminal}</div>
+      ${extra}
+    </div>`;
+  });
+  html += '</div></div>';
+  section.innerHTML = html;
+}
+
+// ============================================================
+// ===== CARGO SPLIT TABLE =====
+// ============================================================
+function renderCargoSplitTable() {
+  const card = document.getElementById('cargoSplitCard');
+  card.style.display = currentWeek === 0 ? 'block' : 'none';
+  if (currentWeek !== 0) return;
+
+  if (isPending()) { showPendingOverlay('cargoSplitCard'); return; }
+
+  card.innerHTML = `<h3 id="cargoSplitTitle">WK0 Cargo Split Detail - ${currentPort} (CDL Actual)</h3>
+    <div style="overflow-x:auto;"><table class="data-table" id="cargoSplitTable">
+    <thead><tr><th>Vessel</th><th>Inbound(F) 20GP</th><th>Inbound(F) 40HC</th><th>Repo(P) 20GP</th><th>Repo(P) 40HC</th><th>outVvdCd</th><th>Match</th></tr></thead>
+    <tbody></tbody></table></div>`;
+
+  const csd = pd().cargoSplitData;
+  if (csd.length === 0) {
+    document.querySelector('#cargoSplitTable tbody').innerHTML = `<tr><td colspan="7" style="color:#999;padding:20px;">No cargo split data. Run _refresh_all.py for ${currentPort}.</td></tr>`;
+    return;
+  }
+  let totalF20=0,totalF40=0,totalP20=0,totalP40=0, html='';
+  csd.forEach(d => {
+    totalF20+=d.f20; totalF40+=d.f40; totalP20+=d.p20; totalP40+=d.p40;
+    html += `<tr>
+      <td><strong>${d.vessel}</strong></td>
+      <td>${d.f20}</td><td>${d.f40}</td><td>${d.p20}</td><td>${d.p40}</td>
+      <td style="font-size:11px;color:#888;">${d.vvd}</td>
+      <td>${d.match ? '<span class="tag tag-supply">OK</span>' : '<span class="tag tag-demand">MISMATCH</span>'}</td>
+    </tr>`;
+  });
+  html += `<tr style="font-weight:700;background:#f0f5ff;">
+    <td>TOTAL</td><td>${totalF20}</td><td>${totalF40}</td><td>${totalP20}</td><td>${totalP40}</td>
+    <td>-</td><td>${totalF20+totalF40+totalP20+totalP40} boxes</td>
+  </tr>`;
+  document.querySelector('#cargoSplitTable tbody').innerHTML = html;
+}
+
+// ============================================================
+// ===== CHARTS =====
+// ============================================================
+function initCharts() {
+  if (!isPending()) {
+    const ctx1 = document.getElementById('trendChart').getContext('2d');
+    const data = pd();
+    trendChart = new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: ['WK0', 'WK1', 'WK2'],
+        datasets: [
+          { label: '20GP Balance',
+            data: [data.forecastData["Balance(Forecast)"]["0"][1], data.forecastData["Balance(Forecast)"]["1"][1], data.forecastData["Balance(Forecast)"]["2"][1]],
+            borderColor: pc().color, backgroundColor: pc().color + '22', tension: 0.3, fill: true },
+          { label: '40HC Balance',
+            data: [data.forecastData["Balance(Forecast)"]["0"][6], data.forecastData["Balance(Forecast)"]["1"][6], data.forecastData["Balance(Forecast)"]["2"][6]],
+            borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,0.1)', tension: 0.3, fill: true }
+        ]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { title: { display: true, text: 'Units' } } } }
+    });
+    updatePieChart(0);
+  } else {
+    document.getElementById('trendChart').style.display = 'none';
+    document.getElementById('pieChart').style.display = 'none';
+    document.querySelector('.charts-row').innerHTML = `<div class="chart-card" style="grid-column:1/-1;">
+      <div class="pending-overlay">
+        <div class="icon">馃搳</div>
+        <h3>鍥捐〃鏁版嵁寰呭埛鏂?/h3>
+        <p>璇峰厛瀹屾垚 ${currentPort} 鏁版嵁鎶撳彇</p>
+      </div></div>`;
+  }
+}
+
+function updatePieChart(wk) {
+  if (isPending()) return;
+  const data = pd();
+  const dStart = data.forecastData["Start Empty"][String(wk)];
+  const dIn = data.forecastData["Inbound Generation"][String(wk)];
+  const dRepo = data.forecastData["Reposition In"][String(wk)];
+  const dOut = data.forecastData["Outbound Pick-up"][String(wk)];
+  if (pieChart) pieChart.destroy();
+  const ctx = document.getElementById('pieChart').getContext('2d');
+  pieChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Start Empty', 'Inbound Gen', 'Repo In', 'Outbound'],
+      datasets: [{ data: [Math.abs(dStart[0]), dIn[0], dRepo[0], dOut[0]],
+        backgroundColor: [pc().color, '#4caf50', '#81c784', '#ff7043'], borderWidth: 2, borderColor: '#fff' }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' }, title: { display: true, text: `WK${wk} Flow Breakdown` } } }
+  });
+  document.getElementById('weekPieTitle').textContent = `WK${wk} Flow Breakdown`;
+}
+
+// ============================================================
+// ===== WEEK SWITCH =====
+// ============================================================
+function switchWeek(wk) {
+  currentWeek = wk;
+  document.querySelectorAll('.week-tab').forEach((t, i) => t.classList.toggle('active', i === wk));
+  renderAll();
+  if (!isPending()) updatePieChart(wk);
+}
+
+// ============================================================
+// ===== RENDER ALL =====
+// ============================================================
+function renderAll() {
+  renderSummaryCards();
+  renderForecastTable(currentWeek);
+  renderBookingTable(currentWeek);
+  renderVesselSection(currentWeek);
+  renderCargoSplitTable();
+}
+
+// ============================================================
+// ===== INIT =====
+// ============================================================
+function init() {
+  renderPortNav();
+  renderWeekTabs();
+  updateHeaderMeta();
+  renderAll();
+  initCharts();
+}
+
+init();
+</script>
+</body>
+</html>
