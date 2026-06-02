@@ -4,10 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Empty Forecast Dashboard - Multi Port</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; background: #f0f2f5; color: #333; }
+body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; background: #f0f2f5; color: #333; }
 .header { background: linear-gradient(135deg, #1a3a5c 0%, #2e75b6 100%); color: white; padding: 18px 30px; }
 .header h1 { font-size: 22px; font-weight: 600; }
 .header .meta { font-size: 12px; opacity: 0.8; margin-top: 4px; }
@@ -81,7 +84,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft Ya
 
 <div class="header">
   <h1 id="dashTitle">Empty Forecast &amp; Vessel Schedule Dashboard</h1>
-  <div class="meta" id="dashMeta">Location: SMD | Type: Dry | Refreshed: 2026-06-01 | Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking</div>
+  <div class="meta" id="dashMeta">Location: SMD | Type: Dry | Refreshed: 2026-06-02 09:57| Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking</div>
 </div>
 
 <!-- Port Navigation -->
@@ -162,7 +165,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft Ya
   </div>
 
   <div class="footer" id="footerText">
-    Empty Forecast Dashboard v11 | Multi-Port | Auto-generated 2026-06-01 | Data from ops.culines.com NAW System &amp; Live Dashboard
+    Empty Forecast Dashboard v11 | Multi-Port | Auto-generated 2026-06-02 09:57 | Data from ops.culines.com NAW System &amp; Live Dashboard
   </div>
 </div>
 
@@ -171,7 +174,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft Ya
 // ===== MULTI-PORT DATA STORE =====
 // ============================================================
 const PORT_CONFIG = {
-  CNSHA: { label: 'SHA', name: '涓婃捣', live: true, color: '#2e75b6', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 9 },
+  CNSHA: { label: 'SHA', name: '涓婃捣', live: true, color: '#2e75b6', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: cdlVessels: 11 },
   CNNGB: { label: 'NGB', name: '瀹佹尝', live: true, color: '#388e3c', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 9 },
   CNSHK: { label: 'SHK', name: '铔囧彛/娣卞湷', live: false, color: '#7b1fa2', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 },
   CNNAS: { label: 'NAS', name: '鍗楁矙/骞垮窞', live: false, color: '#e65100', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 },
@@ -184,515 +187,855 @@ const portData = {
   // ============================================================
   CNSHA: {
     forecastData: {
-      "Start Empty": {"0":[1763, 530, 0, 0, 0, 0, 1233, 0],"1":[785, 259, 0, 0, 0, 0, 526, 0],"2":[-132, -115, 0, 0, 0, 0, -17, 0]},
-      "Inbound Generation": {"0":[141, 34, 0, 0, 0, 0, 107, 0],"1":[30, 15, 0, 0, 0, 0, 15, 0],"2":[30, 15, 0, 0, 0, 0, 15, 0]},
-      "Reposition In": {"0":[248, 92, 0, 0, 0, 0, 156, 0],"1":[453, 111, 0, 0, 0, 0, 342, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
-      "OW & On-hire": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
-      "+ Other": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
-      "Outbound Pick-up": {"0":[1496, 526, 0, 0, 0, 0, 970, 0],"1":[1400, 500, 0, 0, 0, 0, 900, 0],"2":[1400, 500, 0, 0, 0, 0, 900, 0]},
-      "Reposition out": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
-      "OneWay & Off Hire": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
-      "- Other": {"0":[0, 0, 0, 0, 0, 0, 0, 0],"1":[0, 0, 0, 0, 0, 0, 0, 0],"2":[0, 0, 0, 0, 0, 0, 0, 0]},
-      "Balance(Forecast)": {"0":[656, 130, 0, 0, 0, 0, 526, 0],"1":[-132, -115, 0, 0, 0, 0, -17, 0],"2":[-1502, -600, 0, 0, 0, 0, -902, 0]}
-    },
+  "Start Empty": {
+    "0": [
+      1763,
+      530,
+      0,
+      0,
+      0,
+      0,
+      1233,
+      0
+    ],
+    "1": [
+      785,
+      259,
+      0,
+      0,
+      0,
+      0,
+      526,
+      0
+    ],
+    "2": [
+      652,
+      205,
+      0,
+      0,
+      0,
+      0,
+      447,
+      0
+    ]
+  },
+  "Inbound Generation": {
+    "0": [
+      183,
+      36,
+      0,
+      0,
+      0,
+      0,
+      147,
+      0
+    ],
+    "1": [
+      30,
+      15,
+      0,
+      0,
+      0,
+      0,
+      15,
+      0
+    ],
+    "2": [
+      30,
+      15,
+      0,
+      0,
+      0,
+      0,
+      15,
+      0
+    ]
+  },
+  "Reposition In": {
+    "0": [
+      290,
+      125,
+      0,
+      0,
+      0,
+      0,
+      165,
+      0
+    ],
+    "1": [
+      593,
+      191,
+      0,
+      0,
+      0,
+      0,
+      402,
+      0
+    ],
+    "2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "OW & On-hire": {
+    "0": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "+ Other": {
+    "0": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "Outbound Pick-up": {
+    "0": [
+      1496,
+      526,
+      0,
+      0,
+      0,
+      0,
+      970,
+      0
+    ],
+    "1": [
+      756,
+      260,
+      0,
+      0,
+      0,
+      0,
+      496,
+      0
+    ],
+    "2": [
+      1400,
+      500,
+      0,
+      0,
+      0,
+      0,
+      900,
+      0
+    ]
+  },
+  "Reposition out": {
+    "0": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "OneWay & Off Hire": {
+    "0": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "- Other": {
+    "0": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "Balance(Forecast)": {
+    "0": [
+      740,
+      165,
+      0,
+      0,
+      0,
+      0,
+      575,
+      0
+    ],
+    "1": [
+      652,
+      205,
+      0,
+      0,
+      0,
+      0,
+      447,
+      0
+    ],
+    "2": [
+      -718,
+      -280,
+      0,
+      0,
+      0,
+      0,
+      -438,
+      0
+    ]
+  }
+},
     bookingByVessel: {
-      "FUYU2622W": {
-            "alloc": 800,
-            "current": 1389,
-            "ft20": 137,
-            "ft40": 626
-      },
-      "CUSK2623W": {
-            "alloc": 383,
-            "current": 641,
-            "ft20": 43,
-            "ft40": 299
-      },
-      "CUKL2625W": {
-            "alloc": 383,
-            "current": 62,
-            "ft20": 2,
-            "ft40": 30
-      },
-      "RACE2623W": {
-            "alloc": 0,
-            "current": 145,
-            "ft20": 9,
-            "ft40": 68
-      }
+  "BZCF2621W": {
+    "alloc": 995,
+    "current": 1227,
+    "ft20": 189,
+    "ft40": 519
+  },
+  "FUYU2622W": {
+    "alloc": 800,
+    "current": 1345,
+    "ft20": 141,
+    "ft40": 602
+  },
+  "CUSK2623W": {
+    "alloc": 383,
+    "current": 551,
+    "ft20": 35,
+    "ft40": 258
+  },
+  "CUKL2625W": {
+    "alloc": 383,
+    "current": 74,
+    "ft20": 2,
+    "ft40": 36
+  },
+  "RACE2623W": {
+    "alloc": 0,
+    "current": 145,
+    "ft20": 9,
+    "ft40": 68
+  }
 },
     vesselsByWeek: {
-      0: [
-      {
-            "voyage": "CTVA2621S",
-            "eta": "06/01 00:00",
-            "service": "SHT",
-            "terminal": "CNSHAT01",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "MDTN2622S",
-            "eta": "06/02 00:00",
-            "service": "SHT",
-            "terminal": "CNSHAT04",
-            "dis20": 0,
-            "dis40": 7
-      },
-      {
-            "voyage": "CAOK2621S",
-            "eta": "06/02 04:00",
-            "service": "CH1",
-            "terminal": "CNSHAT02",
-            "dis20": 18,
-            "dis40": 20
-      },
-      {
-            "voyage": "TSMM2615E",
-            "eta": "06/02 10:00",
-            "service": "CWS",
-            "terminal": "CNSHAT02",
-            "dis20": 5,
-            "dis40": 5
-      },
-      {
-            "voyage": "CLMB2614S",
-            "eta": "06/02 20:00",
-            "service": "CP8",
-            "terminal": "CNSHAT02",
-            "dis20": 34,
-            "dis40": 58
-      },
-      {
-            "voyage": "NHZY2602W",
-            "eta": "06/03 00:00",
-            "service": "CGS",
-            "terminal": "CNSHAT01",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "ZG162623W",
-            "eta": "06/03 03:00",
-            "service": "RES",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "MMRN2620S",
-            "eta": "06/03 11:30",
-            "service": "SL1",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "FUYU2622W",
-            "eta": "06/03 12:00",
-            "service": "SGX",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "PTST2622W",
-            "eta": "06/03 12:00",
-            "service": "MFX",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 21
-      },
-      {
-            "voyage": "HRRR2621S",
-            "eta": "06/04 00:00",
-            "service": "SHT",
-            "terminal": "CNSHAT03",
-            "dis20": 9,
-            "dis40": 29
-      },
-      {
-            "voyage": "GLGD2622S",
-            "eta": "06/04 04:00",
-            "service": "SHT",
-            "terminal": "CNSHAT01",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "CUSK2623W",
-            "eta": "06/04 19:00",
-            "service": "AM1",
-            "terminal": "CNSHAT02",
-            "dis20": 50,
-            "dis40": 98
-      },
-      {
-            "voyage": "KPBG2621W",
-            "eta": "06/04 22:00",
-            "service": "CI3",
-            "terminal": "CNSHAT03",
-            "dis20": 0,
-            "dis40": 6
-      },
-      {
-            "voyage": "XIHG2620S",
-            "eta": "06/05 02:00",
-            "service": "SHT",
-            "terminal": "CNSHAT01",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "JHT92627W",
-            "eta": "06/05 22:00",
-            "service": "YRD",
-            "terminal": "CNSHAT04",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "LTWR2621S",
-            "eta": "06/06 06:00",
-            "service": "CCT",
-            "terminal": "CNSHAT04",
-            "dis20": 10,
-            "dis40": 19
-      }
-],
-      1: [
-      {
-            "voyage": "CSCC2623S",
-            "eta": "06/07 00:00",
-            "service": "SHT",
-            "terminal": "CNSHAT04",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "JJTY2621S",
-            "eta": "06/07 00:00",
-            "service": "SHT",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "XFJH2620S",
-            "eta": "06/07 10:00",
-            "service": "NP2",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "BTBH2614E",
-            "eta": "06/07 14:00",
-            "service": "CI3",
-            "terminal": "CNSHAT03",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "JJSN2623S",
-            "eta": "06/08 00:00",
-            "service": "SHT",
-            "terminal": "CNSHAT03",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "HYBM2624W",
-            "eta": "06/08 01:00",
-            "service": "LHT",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "XIHG2621S",
-            "eta": "06/08 02:00",
-            "service": "SHT",
-            "terminal": "CNSHAT01",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "XIHG2622S",
-            "eta": "06/08 02:00",
-            "service": "SHT",
-            "terminal": "CNSHAT01",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "CSJ82624W",
-            "eta": "06/08 08:00",
-            "service": "REX",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "H9362615S",
-            "eta": "06/08 10:00",
-            "service": "CP8",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "CUXM2618E",
-            "eta": "06/08 11:30",
-            "service": "HDT",
-            "terminal": "CNSHAT01",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "ONMT2616E",
-            "eta": "06/09 06:00",
-            "service": "CWS",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "CAKB2624S",
-            "eta": "06/09 08:00",
-            "service": "CH1",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "JJTY2623S",
-            "eta": "06/10 00:00",
-            "service": "SHT",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "ZG182624W",
-            "eta": "06/10 03:00",
-            "service": "RES",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "AROA2624W",
-            "eta": "06/10 21:00",
-            "service": "MFX",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "GLZD2623S",
-            "eta": "06/11 04:00",
-            "service": "SHT",
-            "terminal": "CNSHAT01",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "CUKL2625W",
-            "eta": "06/11 06:00",
-            "service": "AM1",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "CLMB2616S",
-            "eta": "06/11 14:00",
-            "service": "CP8",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "JHT92628W",
-            "eta": "06/11 21:00",
-            "service": "YRD",
-            "terminal": "CNSHAT04",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "EVLF2617E",
-            "eta": "06/12 08:00",
-            "service": "LHT",
-            "terminal": "CNSHAT06",
-            "dis20": 0,
-            "dis40": 0
-      }
-],
-      2: [
-      {
-            "voyage": "CSRO2624S",
-            "eta": "06/14 00:00",
-            "service": "SHT",
-            "terminal": "CNSHAT04",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "CAOK2623S",
-            "eta": "06/14 01:00",
-            "service": "CH1",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "VRYB2623W",
-            "eta": "06/14 09:00",
-            "service": "CI3",
-            "terminal": "CNSHAT07",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "KNBM2622S",
-            "eta": "06/14 23:00",
-            "service": "CCT",
-            "terminal": "CNSHAT04",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "GLSH2624S",
-            "eta": "06/15 00:00",
-            "service": "SHT",
-            "terminal": "CNSHAT03",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "XIHG2623S",
-            "eta": "06/15 02:00",
-            "service": "SHT",
-            "terminal": "CNSHAT01",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "RACE2623W",
-            "eta": "06/15 06:00",
-            "service": "SGX",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "CUXM2619E",
-            "eta": "06/15 11:30",
-            "service": "HDT",
-            "terminal": "CNSHAT01",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "JJTY2624S",
-            "eta": "06/17 00:00",
-            "service": "SHT",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "CSJ72623S",
-            "eta": "06/17 09:30",
-            "service": "NP2",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "ERVW2625W",
-            "eta": "06/17 14:00",
-            "service": "MFX",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "JHT92629W",
-            "eta": "06/17 20:00",
-            "service": "YRD",
-            "terminal": "CNSHAT04",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "GLGD2624S",
-            "eta": "06/18 04:00",
-            "service": "SHT",
-            "terminal": "CNSHAT01",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "KCMA2618E",
-            "eta": "06/18 14:00",
-            "service": "CWS",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "XPCA2617E",
-            "eta": "06/18 21:00",
-            "service": "CWS",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "H9362617S",
-            "eta": "06/19 07:00",
-            "service": "CP8",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "XFJH2624S",
-            "eta": "06/19 19:00",
-            "service": "NP2",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "JJTY2625S",
-            "eta": "06/20 00:00",
-            "service": "SHT",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "CUNS2623S",
-            "eta": "06/20 15:00",
-            "service": "CCT",
-            "terminal": "CNSHAT04",
-            "dis20": 0,
-            "dis40": 0
-      },
-      {
-            "voyage": "KTPU2621E",
-            "eta": "06/20 19:00",
-            "service": "LHT",
-            "terminal": "CNSHAT02",
-            "dis20": 0,
-            "dis40": 0
-      }
-]
+  "0": [
+    {
+      "voyage": "BZCF2621W",
+      "eta": "06/01 08:12",
+      "service": "REX",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
     },
+    {
+      "voyage": "CSJ72619S",
+      "eta": "06/01 12:18",
+      "service": "NP2",
+      "terminal": "CNSHAT02",
+      "dis20": 33,
+      "dis40": 9
+    },
+    {
+      "voyage": "CTVA2621S",
+      "eta": "06/02 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CAOK2621S",
+      "eta": "06/02 01:00",
+      "service": "CH1",
+      "terminal": "CNSHAT02",
+      "dis20": 18,
+      "dis40": 20
+    },
+    {
+      "voyage": "TSMM2615E",
+      "eta": "06/02 10:00",
+      "service": "CWS",
+      "terminal": "CNSHAT02",
+      "dis20": 5,
+      "dis40": 5
+    },
+    {
+      "voyage": "EVOA2625N",
+      "eta": "06/02 12:00",
+      "service": "SHT",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CLMB2614S",
+      "eta": "06/02 20:00",
+      "service": "CP8",
+      "terminal": "CNSHAT02",
+      "dis20": 34,
+      "dis40": 58
+    },
+    {
+      "voyage": "NHZY2602W",
+      "eta": "06/03 00:00",
+      "service": "CGS",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "ZG162623W",
+      "eta": "06/03 03:00",
+      "service": "RES",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "MDTN2622S",
+      "eta": "06/03 11:00",
+      "service": "SHT",
+      "terminal": "CNSHAT04",
+      "dis20": 2,
+      "dis40": 46
+    },
+    {
+      "voyage": "MMRN2620S",
+      "eta": "06/03 11:30",
+      "service": "SL1",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "PTST2622W",
+      "eta": "06/03 12:00",
+      "service": "MFX",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "HRRR2621S",
+      "eta": "06/04 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT03",
+      "dis20": 9,
+      "dis40": 29
+    },
+    {
+      "voyage": "GLGD2622S",
+      "eta": "06/04 04:00",
+      "service": "SHT",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "FUYU2622W",
+      "eta": "06/04 12:00",
+      "service": "SGX",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CUSK2623W",
+      "eta": "06/04 19:00",
+      "service": "AM1",
+      "terminal": "CNSHAT02",
+      "dis20": 50,
+      "dis40": 98
+    },
+    {
+      "voyage": "KPBG2621W",
+      "eta": "06/04 22:00",
+      "service": "CI3",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "XIHG2620S",
+      "eta": "06/05 02:00",
+      "service": "SHT",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92627W",
+      "eta": "06/05 22:00",
+      "service": "YRD",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "LTWR2621S",
+      "eta": "06/06 06:00",
+      "service": "CCT",
+      "terminal": "CNSHAT04",
+      "dis20": 10,
+      "dis40": 19
+    }
+  ],
+  "1": [
+    {
+      "voyage": "CSCC2623S",
+      "eta": "06/07 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT04",
+      "dis20": 3,
+      "dis40": 9
+    },
+    {
+      "voyage": "JJTY2621S",
+      "eta": "06/07 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT02",
+      "dis20": 1,
+      "dis40": 4
+    },
+    {
+      "voyage": "XFJH2620S",
+      "eta": "06/07 10:00",
+      "service": "NP2",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "BTBH2614E",
+      "eta": "06/07 14:00",
+      "service": "CI3",
+      "terminal": "CNSHAT03",
+      "dis20": 9,
+      "dis40": 16
+    },
+    {
+      "voyage": "JJSN2623S",
+      "eta": "06/08 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "HYBM2624W",
+      "eta": "06/08 01:00",
+      "service": "LHT",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "XIHG2621S",
+      "eta": "06/08 02:00",
+      "service": "SHT",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "XIHG2622S",
+      "eta": "06/08 02:00",
+      "service": "SHT",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CSJ82624W",
+      "eta": "06/08 08:00",
+      "service": "REX",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "H9362615S",
+      "eta": "06/08 10:00",
+      "service": "CP8",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CUXM2618E",
+      "eta": "06/08 22:00",
+      "service": "HDT",
+      "terminal": "CNSHAT01",
+      "dis20": 1,
+      "dis40": 1
+    },
+    {
+      "voyage": "ONMT2616E",
+      "eta": "06/09 06:00",
+      "service": "CWS",
+      "terminal": "CNSHAT02",
+      "dis20": 7,
+      "dis40": 16
+    },
+    {
+      "voyage": "CAKB2624S",
+      "eta": "06/09 08:00",
+      "service": "CH1",
+      "terminal": "CNSHAT02",
+      "dis20": 15,
+      "dis40": 12
+    },
+    {
+      "voyage": "JJTY2623S",
+      "eta": "06/10 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "ZG182624W",
+      "eta": "06/10 03:00",
+      "service": "RES",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "AROA2624W",
+      "eta": "06/10 21:00",
+      "service": "MFX",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "GLZD2623S",
+      "eta": "06/11 04:00",
+      "service": "SHT",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CUKL2625W",
+      "eta": "06/11 06:00",
+      "service": "AM1",
+      "terminal": "CNSHAT02",
+      "dis20": 3,
+      "dis40": 38
+    },
+    {
+      "voyage": "CLMB2616S",
+      "eta": "06/11 14:00",
+      "service": "CP8",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92628W",
+      "eta": "06/11 21:00",
+      "service": "YRD",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "EVLF2617E",
+      "eta": "06/12 08:00",
+      "service": "LHT",
+      "terminal": "CNSHAT06",
+      "dis20": 11,
+      "dis40": 25
+    }
+  ],
+  "2": [
+    {
+      "voyage": "CSRO2624S",
+      "eta": "06/14 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CAOK2623S",
+      "eta": "06/14 01:00",
+      "service": "CH1",
+      "terminal": "CNSHAT02",
+      "dis20": 1,
+      "dis40": 1
+    },
+    {
+      "voyage": "VRYB2623W",
+      "eta": "06/14 09:00",
+      "service": "CI3",
+      "terminal": "CNSHAT07",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "KNBM2622S",
+      "eta": "06/14 23:00",
+      "service": "CCT",
+      "terminal": "CNSHAT04",
+      "dis20": 10,
+      "dis40": 7
+    },
+    {
+      "voyage": "GLSH2624S",
+      "eta": "06/15 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "XIHG2623S",
+      "eta": "06/15 02:00",
+      "service": "SHT",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "RACE2623W",
+      "eta": "06/15 06:00",
+      "service": "SGX",
+      "terminal": "CNSHAT02",
+      "dis20": 1,
+      "dis40": 8
+    },
+    {
+      "voyage": "CUXM2619E",
+      "eta": "06/15 11:30",
+      "service": "HDT",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JJTY2624S",
+      "eta": "06/17 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CSJ72623S",
+      "eta": "06/17 09:30",
+      "service": "NP2",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "ERVW2625W",
+      "eta": "06/17 14:00",
+      "service": "MFX",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92629W",
+      "eta": "06/17 20:00",
+      "service": "YRD",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "GLGD2624S",
+      "eta": "06/18 04:00",
+      "service": "SHT",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "XPCA2617E",
+      "eta": "06/18 06:00",
+      "service": "CWS",
+      "terminal": "CNSHAT02",
+      "dis20": 15,
+      "dis40": 5
+    },
+    {
+      "voyage": "KCMA2618E",
+      "eta": "06/18 14:00",
+      "service": "CWS",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "H9362617S",
+      "eta": "06/19 07:00",
+      "service": "CP8",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "XFJH2624S",
+      "eta": "06/19 19:00",
+      "service": "NP2",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JJTY2625S",
+      "eta": "06/20 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CUNS2623S",
+      "eta": "06/20 15:00",
+      "service": "CCT",
+      "terminal": "CNSHAT04",
+      "dis20": 2,
+      "dis40": 27
+    },
+    {
+      "voyage": "KTPU2621E",
+      "eta": "06/20 19:00",
+      "service": "LHT",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    }
+  ]
+},
     cargoSplitData: [
       {
             "vessel": "CTVA2621S",
@@ -1513,7 +1856,7 @@ function updateHeaderMeta() {
   document.getElementById('dashTitle').textContent = `${currentPort} (${cfg.name}) Empty Forecast & Vessel Schedule Dashboard`;
   const status = cfg.live ? 'LIVE' : '寰呭埛鏂?Pending';
   document.getElementById('dashMeta').textContent =
-    `Location: SMD | Port: ${currentPort} | Type: Dry | Status: ${status} | Refreshed: 2026-06-01 | Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking`;
+    `Location: SMD | Port: ${currentPort} | Type: Dry | Status: ${status} | Refreshed: 2026-06-02 09:57| Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking`;
 }
 
 // ============================================================
@@ -1642,13 +1985,25 @@ function renderForecastTable(wk) {
     </tr>`;
 
     if (ind === '+ Other') {
+      // I/B Total row (CDL Discharge actual data)
       rowNum++;
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">I/B Total</span></td><td></td>
         <td><strong>${(ibTotal20 + ibTotal40).toLocaleString()}</strong></td>
         <td>${ibTotal20||''}</td><td></td><td></td><td></td><td></td><td>${ibTotal40||''}</td><td></td><td></td>
         <td style="text-align:left;font-size:11px;"><span class="tag tag-cdl">Discharge (CDL Total)</span></td></tr>`;
+      // Supply Subtotal row (sum of all + rows)
+      const supplyTotal = indicators.filter((ind2,j) => signs[j]==='+').reduce((sum,ind2,j) => {
+        const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
+      }, [0,0,0,0,0,0,0,0]);
+      rowNum++;
+      html += `<tr class="supply" style="background:#e8f5e9;font-weight:700;border-top:2px solid #4caf50;">
+        <td>${rowNum}</td><td>Supply Subtotal</td><td><span class="tag tag-supply">+</span></td>
+        <td><strong>${supplyTotal[0].toLocaleString()}</strong></td>
+        <td>${supplyTotal[1]}</td><td>${supplyTotal[2]}</td><td>${supplyTotal[3]}</td><td>${supplyTotal[4]}</td><td>${supplyTotal[5]}</td><td>${supplyTotal[6]}</td><td>${supplyTotal[7]}</td>
+        <td></td><td style="text-align:left;font-size:11px;color:#2e7d32;">Total Supply (Start+Inbound+Repo+OW+Other)</td></tr>`;
     }
     if (ind === '- Other') {
+      // O/B Total row (Booking actual data)
       rowNum++;
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">O/B Total</span></td><td></td>
         <td><strong>${obCurrent.toLocaleString()}</strong></td>
@@ -1657,6 +2012,16 @@ function renderForecastTable(wk) {
           <span class="tag tag-booking">Booking ${currentPort}</span>
           Alloc: ${obAlloc.toLocaleString()} | Booked: ${obCurrent.toLocaleString()}
         </td></tr>`;
+      // Demand Subtotal row (sum of all - rows)
+      const demandTotal = indicators.filter((ind2,j) => signs[j]==='-').reduce((sum,ind2,j) => {
+        const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
+      }, [0,0,0,0,0,0,0,0]);
+      rowNum++;
+      html += `<tr class="demand" style="background:#ffebee;font-weight:700;border-top:2px solid #ef5350;">
+        <td>${rowNum}</td><td>Demand Subtotal</td><td><span class="tag tag-demand">-</span></td>
+        <td><strong>${demandTotal[0].toLocaleString()}</strong></td>
+        <td>${demandTotal[1]}</td><td>${demandTotal[2]}</td><td>${demandTotal[3]}</td><td>${demandTotal[4]}</td><td>${demandTotal[5]}</td><td>${demandTotal[6]}</td><td>${demandTotal[7]}</td>
+        <td></td><td style="text-align:left;font-size:11px;color:#c62828;">Total Demand (Outbound+RepoOut+OWOff+Other)</td></tr>`;
     }
   });
   document.querySelector('#forecastTable tbody').innerHTML = html;
@@ -1788,6 +2153,8 @@ function renderCargoSplitTable() {
 // ============================================================
 // ===== CHARTS =====
 // ============================================================
+// Register Chinese font for Chart.js (required for non-Windows environments like GitHub Pages)
+Chart.defaults.font.family = "'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', sans-serif";
 function initCharts() {
   if (!isPending()) {
     const ctx1 = document.getElementById('trendChart').getContext('2d');
