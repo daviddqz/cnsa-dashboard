@@ -84,7 +84,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 
 <div class="header">
   <h1 id="dashTitle">Empty Forecast &amp; Vessel Schedule Dashboard</h1>
-  <div class="meta" id="dashMeta">Location: SMD | Type: Dry | Refreshed: 2026-06-02 09:57| Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking</div>
+  <div class="meta" id="dashMeta">Location: SMD | Type: Dry | Refreshed: 2026-06-03 09:41:57| Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking</div>
 </div>
 
 <!-- Port Navigation -->
@@ -106,7 +106,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
   <!-- Charts Row -->
   <div class="charts-row">
     <div class="chart-card">
-      <h3>20GP vs 40HC 棰勬祴瓒嬪娍</h3>
+      <h3>20GP vs 40HC 预测趋势</h3>
       <canvas id="trendChart" height="280"></canvas>
     </div>
     <div class="chart-card">
@@ -117,7 +117,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 
   <!-- Main Forecast Table -->
   <div class="table-card" id="forecastCard">
-    <h3 id="tableTitle">WK0 绌虹棰勬祴鏄庣粏</h3>
+    <h3 id="tableTitle">WK0 空箱预测明细</h3>
     <div style="overflow-x:auto;">
       <table class="data-table" id="forecastTable">
         <thead>
@@ -165,7 +165,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
   </div>
 
   <div class="footer" id="footerText">
-    Empty Forecast Dashboard v11 | Multi-Port | Auto-generated 2026-06-02 09:57 | Data from ops.culines.com NAW System &amp; Live Dashboard
+    Empty Forecast Dashboard v11 | Multi-Port | Auto-generated 2026-06-03 09:41 09:57 | Data from ops.culines.com NAW System &amp; Live Dashboard
   </div>
 </div>
 
@@ -174,16 +174,16 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 // ===== MULTI-PORT DATA STORE =====
 // ============================================================
 const PORT_CONFIG = {
-  CNSHA: { label: 'SHA', name: '涓婃捣', live: true, color: '#2e75b6', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: cdlVessels: 11 },
-  CNNGB: { label: 'NGB', name: '瀹佹尝', live: true, color: '#388e3c', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 9 },
-  CNSHK: { label: 'SHK', name: '铔囧彛/娣卞湷', live: false, color: '#7b1fa2', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 },
-  CNNAS: { label: 'NAS', name: '鍗楁矙/骞垮窞', live: false, color: '#e65100', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 },
-  CNTAO: { label: 'TAO', name: '闈掑矝', live: false, color: '#00695c', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 }
+  CNSHA: { label: 'SHA', name: '上海', live: true, color: '#2e75b6', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: cdlVessels: cdlVessels: 12 },
+  CNNGB: { label: 'NGB', name: '宁波', live: true, color: '#388e3c', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 9 },
+  CNSHK: { label: 'SHK', name: '蛇口/深圳', live: false, color: '#7b1fa2', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 },
+  CNNAS: { label: 'NAS', name: '南沙/广州', live: false, color: '#e65100', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 },
+  CNTAO: { label: 'TAO', name: '青岛', live: false, color: '#00695c', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 }
 };
 
 const portData = {
   // ============================================================
-  // ===== CNSHA - 涓婃捣 (LIVE) =====
+  // ===== CNSHA - 上海 (LIVE) =====
   // ============================================================
   CNSHA: {
     forecastData: {
@@ -209,8 +209,8 @@ const portData = {
       0
     ],
     "2": [
-      652,
-      205,
+      656,
+      209,
       0,
       0,
       0,
@@ -253,18 +253,18 @@ const portData = {
   },
   "Reposition In": {
     "0": [
-      290,
-      125,
+      493,
+      240,
       0,
       0,
       0,
       0,
-      165,
+      253,
       0
     ],
     "1": [
-      593,
-      191,
+      597,
+      195,
       0,
       0,
       0,
@@ -477,18 +477,18 @@ const portData = {
   },
   "Balance(Forecast)": {
     "0": [
-      740,
-      165,
+      943,
+      280,
       0,
       0,
       0,
       0,
-      575,
+      663,
       0
     ],
     "1": [
-      652,
-      205,
+      656,
+      209,
       0,
       0,
       0,
@@ -497,8 +497,8 @@ const portData = {
       0
     ],
     "2": [
-      -718,
-      -280,
+      -714,
+      -276,
       0,
       0,
       0,
@@ -511,32 +511,32 @@ const portData = {
     bookingByVessel: {
   "BZCF2621W": {
     "alloc": 995,
-    "current": 1227,
-    "ft20": 189,
-    "ft40": 519
+    "current": 1144,
+    "ft20": 184,
+    "ft40": 480
   },
   "FUYU2622W": {
     "alloc": 800,
-    "current": 1345,
-    "ft20": 141,
-    "ft40": 602
+    "current": 1333,
+    "ft20": 155,
+    "ft40": 589
   },
   "CUSK2623W": {
     "alloc": 383,
-    "current": 551,
-    "ft20": 35,
-    "ft40": 258
+    "current": 526,
+    "ft20": 34,
+    "ft40": 246
   },
   "CUKL2625W": {
     "alloc": 383,
-    "current": 74,
-    "ft20": 2,
-    "ft40": 36
+    "current": 214,
+    "ft20": 10,
+    "ft40": 102
   },
   "RACE2623W": {
-    "alloc": 0,
-    "current": 145,
-    "ft20": 9,
+    "alloc": 1160,
+    "current": 144,
+    "ft20": 8,
     "ft40": 68
   }
 },
@@ -557,6 +557,14 @@ const portData = {
       "terminal": "CNSHAT02",
       "dis20": 33,
       "dis40": 9
+    },
+    {
+      "voyage": "CUXM2617E",
+      "eta": "06/01 20:16",
+      "service": "HDT",
+      "terminal": "CNSHAT01",
+      "dis20": 115,
+      "dis40": 88
     },
     {
       "voyage": "CTVA2621S",
@@ -624,7 +632,7 @@ const portData = {
     },
     {
       "voyage": "MMRN2620S",
-      "eta": "06/03 11:30",
+      "eta": "06/03 11:00",
       "service": "SL1",
       "terminal": "CNSHAT02",
       "dis20": 0,
@@ -664,7 +672,7 @@ const portData = {
     },
     {
       "voyage": "CUSK2623W",
-      "eta": "06/04 19:00",
+      "eta": "06/04 13:00",
       "service": "AM1",
       "terminal": "CNSHAT02",
       "dis20": 50,
@@ -802,7 +810,7 @@ const portData = {
     },
     {
       "voyage": "CAKB2624S",
-      "eta": "06/09 08:00",
+      "eta": "06/10 00:00",
       "service": "CH1",
       "terminal": "CNSHAT02",
       "dis20": 15,
@@ -892,7 +900,7 @@ const portData = {
     },
     {
       "voyage": "VRYB2623W",
-      "eta": "06/14 09:00",
+      "eta": "06/14 22:00",
       "service": "CI3",
       "terminal": "CNSHAT07",
       "dis20": 0,
@@ -932,7 +940,7 @@ const portData = {
     },
     {
       "voyage": "CUXM2619E",
-      "eta": "06/15 11:30",
+      "eta": "06/15 22:00",
       "service": "HDT",
       "terminal": "CNSHAT01",
       "dis20": 0,
@@ -1194,7 +1202,7 @@ const portData = {
   },
 
   // ============================================================
-  // ===== CNNGB - 瀹佹尝 (LIVE) =====
+  // ===== CNNGB - 宁波 (LIVE) =====
   // ============================================================
   CNNGB: {
     forecastData: {
@@ -1738,7 +1746,7 @@ const portData = {
   },
 
   // ============================================================
-  // ===== CNSHK - 铔囧彛/娣卞湷 (寰呭埛鏂? =====
+  // ===== CNSHK - 蛇口/深圳 (待刷新) =====
   // ============================================================
   CNSHK: {
     forecastData: {
@@ -1759,7 +1767,7 @@ const portData = {
   },
 
   // ============================================================
-  // ===== CNNAS - 鍗楁矙/骞垮窞 (寰呭埛鏂? =====
+  // ===== CNNAS - 南沙/广州 (待刷新) =====
   // ============================================================
   CNNAS: {
     forecastData: {
@@ -1780,7 +1788,7 @@ const portData = {
   },
 
   // ============================================================
-  // ===== CNTAO - 闈掑矝 (寰呭埛鏂? =====
+  // ===== CNTAO - 青岛 (待刷新) =====
   // ============================================================
   CNTAO: {
     forecastData: {
@@ -1854,9 +1862,9 @@ function updateHeaderMeta() {
   const cfg = pc();
   const d = pd();
   document.getElementById('dashTitle').textContent = `${currentPort} (${cfg.name}) Empty Forecast & Vessel Schedule Dashboard`;
-  const status = cfg.live ? 'LIVE' : '寰呭埛鏂?Pending';
+  const status = cfg.live ? 'LIVE' : '待刷新 Pending';
   document.getElementById('dashMeta').textContent =
-    `Location: SMD | Port: ${currentPort} | Type: Dry | Status: ${status} | Refreshed: 2026-06-02 09:57| Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking`;
+    `Location: SMD | Port: ${currentPort} | Type: Dry | Status: ${status} | Refreshed: 2026-06-03 09:41:57| Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking`;
 }
 
 // ============================================================
@@ -1871,9 +1879,9 @@ function showPendingOverlay(containerId) {
   if (!el) return;
   el.innerHTML = `
     <div class="pending-overlay">
-      <div class="icon">馃搵</div>
-      <h3>${currentPort} (${pc().name}) - 鏁版嵁寰呭埛鏂?/h3>
-      <p>璇ユ腐鍙ｅ皻鏈畬鎴愭暟鎹姄鍙栥€傝杩愯瀵瑰簲鐨勫埛鏂拌剼鏈悗鏇存柊姝ら〉闈€?/p>
+      <div class="icon">📋</div>
+      <h3>${currentPort} (${pc().name}) - 数据待刷新</h3>
+      <p>该港口尚未完成数据抓取。请运行对应的刷新脚本后更新此页面。</p>
       <p style="margin-top:8px;font-size:12px;">Port: ${currentPort} | Location Code: ${currentPort}</p>
     </div>
   `;
@@ -1888,7 +1896,7 @@ function renderSummaryCards() {
     el.innerHTML = ['WK0 Balance(Forecast)','WK0 Start Empty','WK0 Outbound Pick-up','WK0 Inbound (CDL Actual)','WK1 Balance','WK2 Balance'].map(t => `
       <div class="card pending">
         <div class="card-title">${t}</div>
-        <div class="card-value">鈥?/div>
+        <div class="card-value">—</div>
         <div class="card-sub"><span class="tag tag-pending">Pending</span></div>
       </div>`).join('');
     return;
@@ -1946,7 +1954,7 @@ function renderForecastTable(wk) {
   const card = document.getElementById('forecastCard');
   if (isPending()) { showPendingOverlay('forecastCard'); return; }
 
-  card.innerHTML = `<h3 id="tableTitle">WK${wk} 绌虹棰勬祴鏄庣粏</h3><div style="overflow-x:auto;"><table class="data-table" id="forecastTable">
+  card.innerHTML = `<h3 id="tableTitle">WK${wk} 空箱预测明细</h3><div style="overflow-x:auto;"><table class="data-table" id="forecastTable">
     <thead><tr><th>No.</th><th>Division</th><th>Sign</th><th>Total</th><th>20GP</th><th>20HC</th><th>40GP</th><th>53HC</th><th>45HW</th><th>40HC</th><th>45HC</th><th>Vessel Count</th><th>Detail</th></tr></thead>
     <tbody></tbody></table></div>`;
 
@@ -2081,9 +2089,9 @@ function renderVesselSection(wk) {
   const section = document.getElementById('vesselSection');
   if (isPending()) {
     section.innerHTML = `<div class="pending-overlay">
-      <div class="icon">馃殺</div>
-      <h3>WK${wk} Vessel Schedule - 寰呭埛鏂?/h3>
-      <p>杩愯 scrape_vessels_v21.py 骞舵寚瀹?Port=${currentPort} 鍚庤幏鍙栨暟鎹?/p>
+      <div class="icon">🚢</div>
+      <h3>WK${wk} Vessel Schedule - 待刷新</h3>
+      <p>运行 scrape_vessels_v21.py 并指定 Port=${currentPort} 后获取数据</p>
     </div>`;
     return;
   }
@@ -2180,9 +2188,9 @@ function initCharts() {
     document.getElementById('pieChart').style.display = 'none';
     document.querySelector('.charts-row').innerHTML = `<div class="chart-card" style="grid-column:1/-1;">
       <div class="pending-overlay">
-        <div class="icon">馃搳</div>
-        <h3>鍥捐〃鏁版嵁寰呭埛鏂?/h3>
-        <p>璇峰厛瀹屾垚 ${currentPort} 鏁版嵁鎶撳彇</p>
+        <div class="icon">📊</div>
+        <h3>图表数据待刷新</h3>
+        <p>请先完成 ${currentPort} 数据抓取</p>
       </div></div>`;
   }
 }
