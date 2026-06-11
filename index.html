@@ -1926,14 +1926,17 @@ function renderForecastTable(wk) {
         <td></td><td style="text-align:left;font-size:11px;color:#2e7d32;">Total Supply (Start+Inbound+Repo+OW+Other)</td></tr>`;
     }
     if (ind === '- Other') {
-      // O/B Total row (Booking actual data)
+      // O/B Total row (Booking + Allocation Target)
+      const allocTgt = (data.allocationTarget && data.allocationTarget['WK' + (wk + 1)]) ? data.allocationTarget['WK' + (wk + 1)] : null;
+      const allocTgtVal = allocTgt ? allocTgt.target : 0;
+      const combinedTotal = obCurrent + allocTgtVal;
       rowNum++;
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">O/B Total</span></td><td></td>
-        <td><strong>${obCurrent.toLocaleString()}</strong></td>
+        <td><strong>${combinedTotal.toLocaleString()}</strong></td>
         <td>${obFt20||''}</td><td></td><td></td><td></td><td></td><td>${obFt40||''}</td><td></td><td></td>
         <td style="text-align:left;font-size:11px;">
-          <span class="tag tag-booking">Booking ${currentPort}</span>
-          Alloc: ${obAlloc.toLocaleString()} | Booked: ${obCurrent.toLocaleString()}
+          <span class="tag tag-booking">Booking ${currentPort}</span> Alloc: ${obAlloc.toLocaleString()} | Booked: ${obCurrent.toLocaleString()}
+          ${allocTgt ? ' <span style="color:#1565c0;">+ AllocTgt: ' + allocTgtVal.toLocaleString() + '</span>' : ''}
         </td></tr>`;
       // Demand Subtotal row (sum of all - rows)
       const demandTotal = indicators.filter((ind2,j) => signs[j]==='-').reduce((sum,ind2,j) => {
