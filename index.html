@@ -2214,7 +2214,7 @@ function init() {
   initCharts();
 }
 
-init();
+try { init(); } catch(e) { console.error('Init error:', e); document.body.innerHTML += '<div style=\"background:red;color:white;padding:20px;position:fixed;top:0;left:0;right:0;z-index:9999;\">JS Error: ' + e.message + '</div>'; }
 </script>
 </body>
 </html>
