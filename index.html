@@ -164,6 +164,18 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
     </div>
   </div>
 
+  <div class="table-card" id="allocationCard">
+    <h3 id="allocationTitle">Allocation Target by Lane (CNSHA)</h3>
+    <div style="overflow-x:auto;">
+      <table class="data-table" id="allocationTable">
+        <thead>
+          <tr><th>Report WK</th><th>Cal Week</th><th>CCT</th><th>CH1</th><th>CP8</th><th>HDT</th><th>NP2</th><th style="background:#e3f2fd;">Total Target</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
   <div class="footer" id="footerText">
     Empty Forecast Dashboard v11 | Multi-Port | Auto-generated 2026-06-11 10:52 09:15 09:55 12:23 12:10 09:41 09:57 | Data from ops.culines.com NAW System &amp; Live Dashboard
   </div>
@@ -1092,7 +1104,16 @@ const portData = {
             "vvd": "LTWR2621N",
             "match": true
       }
-]
+],
+    allocationTarget: {
+      "WK1": { "cal_week": 24, "target": 280, "by_lane": {"CCT": 0, "CH1": 60, "CP8": 43, "HDT": 47, "NP2": 130} },
+      "WK2": { "cal_week": 25, "target": 596, "by_lane": {"CCT": 210, "CH1": 60, "CP8": 76, "HDT": 50, "NP2": 200} },
+      "WK3": { "cal_week": 26, "target": 320, "by_lane": {"CCT": 210, "CH1": 60, "CP8": 0, "HDT": 50, "NP2": 0} },
+      "WK4": { "cal_week": 27, "target": 0, "by_lane": {"CCT": 0, "CH1": 0, "CP8": 0, "HDT": 0, "NP2": 0} },
+      "WK5": { "cal_week": 28, "target": 281, "by_lane": {"CCT": 281, "CH1": 0, "CP8": 0, "HDT": 0, "NP2": 0} },
+      "WK6": { "cal_week": 29, "target": 281, "by_lane": {"CCT": 281, "CH1": 0, "CP8": 0, "HDT": 0, "NP2": 0} },
+      "WK7": { "cal_week": 30, "target": 0, "by_lane": {"CCT": 0, "CH1": 0, "CP8": 0, "HDT": 0, "NP2": 0} }
+    }
   },
 
   // ============================================================
@@ -2053,6 +2074,56 @@ function renderCargoSplitTable() {
 }
 
 // ============================================================
+// ===== ALLOCATION TARGET TABLE =====
+// ============================================================
+function renderAllocationTable() {
+  const card = document.getElementById('allocationCard');
+  const data = pd();
+
+  if (!data.allocationTarget || Object.keys(data.allocationTarget).length === 0) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = '';
+
+  const lanes = ['CCT', 'CH1', 'CP8', 'HDT', 'NP2'];
+  const allocData = data.allocationTarget;
+
+  // Sort by report WK
+  const sortedWks = Object.keys(allocData).sort((a, b) => parseInt(a.replace('WK', '')) - parseInt(b.replace('WK', '')));
+
+  let html = '';
+  let laneTotals = {};
+  lanes.forEach(l => laneTotals[l] = 0);
+  let grandTotal = 0;
+
+  sortedWks.forEach(wk => {
+    const d = allocData[wk];
+    const calWk = d.cal_week || '-';
+    const total = d.target || 0;
+    grandTotal += total;
+
+    const laneCells = lanes.map(l => {
+      const v = (d.by_lane && d.by_lane[l]) || 0;
+      laneTotals[l] += v;
+      const cls = v > 0 ? 'style="font-weight:600;"' : 'style="color:#bbb;"';
+      return `<td ${cls}>${v}</td>`;
+    }).join('');
+
+    const totalCls = total > 0 ? 'style="font-weight:700;background:#e3f2fd;"' : 'style="color:#bbb;background:#e3f2fd;"';
+    html += `<tr><td><strong>${wk}</strong></td><td>${calWk}</td>${laneCells}<td ${totalCls}>${total}</td></tr>`;
+  });
+
+  // Total row
+  const totalCells = lanes.map(l => `<td style="font-weight:700;">${laneTotals[l]}</td>`).join('');
+  html += `<tr style="font-weight:700;background:#f0f5ff;">
+    <td>TOTAL</td><td>-</td>${totalCells}<td style="background:#e3f2fd;">${grandTotal}</td></tr>`;
+
+  document.querySelector('#allocationTable tbody').innerHTML = html;
+  document.getElementById('allocationTitle').textContent = `Allocation Target by Lane (${currentPort}) — BI Report`;
+}
+
+// ============================================================
 // ===== CHARTS =====
 // ============================================================
 // Register Chinese font for Chart.js (required for non-Windows environments like GitHub Pages)
@@ -2129,6 +2200,7 @@ function renderAll() {
   renderBookingTable(currentWeek);
   renderVesselSection(currentWeek);
   renderCargoSplitTable();
+  renderAllocationTable();
 }
 
 // ============================================================
