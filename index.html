@@ -84,7 +84,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 
 <div class="header">
   <h1 id="dashTitle">Empty Forecast &amp; Vessel Schedule Dashboard</h1>
-  <div class="meta" id="dashMeta">Location: SMD | Type: Dry | Refreshed: 2026-06-09 09:15:55:23:10:41:57| Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking</div>
+  <div class="meta" id="dashMeta">Location: SMD | Type: Dry | Refreshed: 2026-06-11 10:52:15:55:23:10:41:57| Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking</div>
 </div>
 
 <!-- Port Navigation -->
@@ -165,7 +165,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
   </div>
 
   <div class="footer" id="footerText">
-    Empty Forecast Dashboard v11 | Multi-Port | Auto-generated 2026-06-09 09:15 09:55 12:23 12:10 09:41 09:57 | Data from ops.culines.com NAW System &amp; Live Dashboard
+    Empty Forecast Dashboard v11 | Multi-Port | Auto-generated 2026-06-11 10:52 09:15 09:55 12:23 12:10 09:41 09:57 | Data from ops.culines.com NAW System &amp; Live Dashboard
   </div>
 </div>
 
@@ -174,7 +174,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 // ===== MULTI-PORT DATA STORE =====
 // ============================================================
 const PORT_CONFIG = {
-  CNSHA: { label: 'SHA', name: '上海', live: true, color: '#2e75b6', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: cdlVessels: cdlVessels: cdlVessels: cdlVessels: 8 },
+  CNSHA: { label: 'SHA', name: '上海', live: true, color: '#2e75b6', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: cdlVessels: cdlVessels: cdlVessels: cdlVessels: cdlVessels: 8 },
   CNNGB: { label: 'NGB', name: '宁波', live: true, color: '#388e3c', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 9 },
   CNSHK: { label: 'SHK', name: '蛇口/深圳', live: false, color: '#7b1fa2', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 },
   CNNAS: { label: 'NAS', name: '南沙/广州', live: false, color: '#e65100', wkLabels: ['WK0 (06/01-06/06)', 'WK1 (06/07-06/13)', 'WK2 (06/14-06/20)'], cdlVessels: 0 },
@@ -209,13 +209,13 @@ const portData = {
       0
     ],
     "2": [
-      766,
-      226,
+      930,
+      250,
       0,
       0,
       0,
       0,
-      540,
+      680,
       0
     ]
   },
@@ -263,13 +263,13 @@ const portData = {
       0
     ],
     "1": [
-      231,
-      165,
+      395,
+      189,
       0,
       0,
       0,
       0,
-      66,
+      206,
       0
     ],
     "2": [
@@ -487,52 +487,58 @@ const portData = {
       0
     ],
     "1": [
-      766,
-      226,
+      930,
+      250,
       0,
       0,
       0,
       0,
-      540,
+      680,
       0
     ],
     "2": [
-      -594,
-      -259,
+      -430,
+      -235,
       0,
       0,
       0,
       0,
-      -335,
+      -195,
       0
     ]
   }
 },
     bookingByVessel: {
+  "CUKL2625W": {
+    "alloc": 383,
+    "current": 211,
+    "ft20": 19,
+    "ft40": 96
+  },
   "RACE2623W": {
     "alloc": 1160,
-    "current": 571,
-    "ft20": 61,
-    "ft40": 255
+    "current": 903,
+    "ft20": 237,
+    "ft40": 333
   }
 },
     vesselsByWeek: {
   "0": [
     {
-      "voyage": "GLGD2622S",
+      "voyage": "ZG182624W",
       "eta": "06/08 04:00",
-      "service": "SHT",
-      "terminal": "CNSHAT01",
+      "service": "RES",
+      "terminal": "CNSHAT02",
       "dis20": 0,
       "dis40": 0
     },
     {
-      "voyage": "ONMT2616E",
-      "eta": "06/09 06:00",
-      "service": "CWS",
-      "terminal": "CNSHAT02",
-      "dis20": 7,
-      "dis40": 16
+      "voyage": "GLGD2622S",
+      "eta": "06/08 23:00",
+      "service": "SHT",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
     },
     {
       "voyage": "CSJ82624W",
@@ -543,8 +549,16 @@ const portData = {
       "dis40": 0
     },
     {
-      "voyage": "XFJH2620S",
+      "voyage": "ONMT2616E",
       "eta": "06/09 10:00",
+      "service": "CWS",
+      "terminal": "CNSHAT02",
+      "dis20": 7,
+      "dis40": 16
+    },
+    {
+      "voyage": "XFJH2620S",
+      "eta": "06/09 12:00",
       "service": "NP2",
       "terminal": "CNSHAT02",
       "dis20": 30,
@@ -560,35 +574,27 @@ const portData = {
     },
     {
       "voyage": "JJSN2623S",
-      "eta": "06/09 21:00",
+      "eta": "06/09 19:00",
       "service": "SHT",
       "terminal": "CNSHAT03",
       "dis20": 0,
       "dis40": 0
     },
     {
-      "voyage": "JJTY2623S",
-      "eta": "06/10 00:00",
-      "service": "SHT",
+      "voyage": "CUKL2625W",
+      "eta": "06/10 02:30",
+      "service": "AM1",
       "terminal": "CNSHAT02",
-      "dis20": 0,
-      "dis40": 0
+      "dis20": 3,
+      "dis40": 38
     },
     {
       "voyage": "CUXM2618E",
-      "eta": "06/10 02:00",
+      "eta": "06/10 06:00",
       "service": "HDT",
       "terminal": "CNSHAT01",
       "dis20": 146,
       "dis40": 89
-    },
-    {
-      "voyage": "ZG182624W",
-      "eta": "06/10 03:00",
-      "service": "RES",
-      "terminal": "CNSHAT02",
-      "dis20": 0,
-      "dis40": 0
     },
     {
       "voyage": "GLZD2623S",
@@ -665,14 +671,6 @@ const portData = {
       "dis40": 0
     },
     {
-      "voyage": "RACE2623W",
-      "eta": "06/15 06:00",
-      "service": "SGX",
-      "terminal": "CNSHAT02",
-      "dis20": 1,
-      "dis40": 8
-    },
-    {
       "voyage": "VRYB2623W",
       "eta": "06/15 12:00",
       "service": "CI3",
@@ -681,26 +679,42 @@ const portData = {
       "dis40": 0
     },
     {
+      "voyage": "CSCC2623S",
+      "eta": "06/15 14:00",
+      "service": "SHT",
+      "terminal": "CNSHAT04",
+      "dis20": 3,
+      "dis40": 9
+    },
+    {
+      "voyage": "RACE2623W",
+      "eta": "06/16 05:00",
+      "service": "SGX",
+      "terminal": "CNSHAT02",
+      "dis20": 1,
+      "dis40": 8
+    },
+    {
       "voyage": "KNBM2622S",
-      "eta": "06/15 18:00",
+      "eta": "06/16 13:00",
       "service": "CCT",
       "terminal": "CNSHAT04",
       "dis20": 10,
       "dis40": 7
     },
     {
-      "voyage": "CUXM2619E",
-      "eta": "06/16 02:30",
-      "service": "HDT",
-      "terminal": "CNSHAT01",
+      "voyage": "JJTY2623S",
+      "eta": "06/17 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT02",
       "dis20": 0,
       "dis40": 0
     },
     {
-      "voyage": "JJTY2624S",
-      "eta": "06/17 00:00",
-      "service": "SHT",
-      "terminal": "CNSHAT02",
+      "voyage": "CUXM2619E",
+      "eta": "06/17 11:00",
+      "service": "HDT",
+      "terminal": "CNSHAT01",
       "dis20": 0,
       "dis40": 0
     },
@@ -777,14 +791,6 @@ const portData = {
       "dis40": 0
     },
     {
-      "voyage": "JJTY2625S",
-      "eta": "06/20 00:00",
-      "service": "SHT",
-      "terminal": "CNSHAT02",
-      "dis20": 0,
-      "dis40": 0
-    },
-    {
       "voyage": "CUNS2623S",
       "eta": "06/20 15:00",
       "service": "CCT",
@@ -835,12 +841,12 @@ const portData = {
       "dis40": 0
     },
     {
-      "voyage": "CUXM2620E",
-      "eta": "06/23 02:30",
-      "service": "HDT",
-      "terminal": "CNSHAT01",
-      "dis20": 0,
-      "dis40": 0
+      "voyage": "CAKB2626S",
+      "eta": "06/23 03:00",
+      "service": "CH1",
+      "terminal": "CNSHAT02",
+      "dis20": 1,
+      "dis40": 2
     },
     {
       "voyage": "JHT92630W",
@@ -851,10 +857,42 @@ const portData = {
       "dis40": 0
     },
     {
+      "voyage": "JJTY2624S",
+      "eta": "06/24 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JJTY2625S",
+      "eta": "06/24 00:00",
+      "service": "SHT",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
       "voyage": "ZGU82626W",
       "eta": "06/24 03:00",
       "service": "RES",
       "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CMSP2617S",
+      "eta": "06/24 08:00",
+      "service": "CP8",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CUXM2620E",
+      "eta": "06/24 11:00",
+      "service": "HDT",
+      "terminal": "CNSHAT01",
       "dis20": 0,
       "dis40": 0
     },
@@ -886,22 +924,6 @@ const portData = {
       "voyage": "H9362617S",
       "eta": "06/26 10:00",
       "service": "CP8",
-      "terminal": "CNSHAT02",
-      "dis20": 0,
-      "dis40": 0
-    },
-    {
-      "voyage": "CAOK2625S",
-      "eta": "06/26 21:00",
-      "service": "CH1",
-      "terminal": "CNSHAT02",
-      "dis20": 0,
-      "dis40": 0
-    },
-    {
-      "voyage": "JJTY2626S",
-      "eta": "06/27 00:00",
-      "service": "SHT",
       "terminal": "CNSHAT02",
       "dis20": 0,
       "dis40": 0
@@ -1736,7 +1758,7 @@ function updateHeaderMeta() {
   document.getElementById('dashTitle').textContent = `${currentPort} (${cfg.name}) Empty Forecast & Vessel Schedule Dashboard`;
   const status = cfg.live ? 'LIVE' : '待刷新 Pending';
   document.getElementById('dashMeta').textContent =
-    `Location: SMD | Port: ${currentPort} | Type: Dry | Status: ${status} | Refreshed: 2026-06-09 09:15:55:23:10:41:57| Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking`;
+    `Location: SMD | Port: ${currentPort} | Type: Dry | Status: ${status} | Refreshed: 2026-06-11 10:52:15:55:23:10:41:57| Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking`;
 }
 
 // ============================================================
