@@ -1263,37 +1263,44 @@ function renderSummaryCards() {
   const wk0Vessels = data.vesselsByWeek[0] || [];
   const ibTotal20 = wk0Vessels.reduce((s,v) => s + (v.dis20||0), 0);
   const ibTotal40 = wk0Vessels.reduce((s,v) => s + (v.dis40||0), 0);
+  // I/B Total fallback for summary cards
+  const ibFallback20 = inbound0[1] + repo0[1];
+  const ibFallback40 = inbound0[6] + repo0[6];
+  const ibSum20 = (ibTotal20 + ibTotal40 > 0) ? ibTotal20 : ibFallback20;
+  const ibSum40 = (ibTotal20 + ibTotal40 > 0) ? ibTotal40 : ibFallback40;
+  // Display helper: show '—' when breakdown is 0 but Total is non-zero
+  const fmt = (val, total) => (val === 0 && total !== 0) ? '—' : val;
 
   el.innerHTML = `
     <div class="card ${d0[0] >= 0 ? 'positive' : 'negative'}">
       <div class="card-title">WK0 Balance(Forecast)</div>
       <div class="card-value">${d0[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${d0[1]} | 40HC: ${d0[6]}</div>
+      <div class="card-sub">20GP: ${fmt(d0[1],d0[0])} | 40HC: ${fmt(d0[6],d0[0])}</div>
     </div>
     <div class="card info">
       <div class="card-title">WK0 Start Empty</div>
       <div class="card-value">${start0[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${start0[1]} | 40HC: ${start0[6]}</div>
+      <div class="card-sub">20GP: ${fmt(start0[1],start0[0])} | 40HC: ${fmt(start0[6],start0[0])}</div>
     </div>
     <div class="card warning">
       <div class="card-title">WK0 Outbound Pick-up</div>
       <div class="card-value">${out0[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${out0[1]} | 40HC: ${out0[6]}</div>
+      <div class="card-sub">20GP: ${fmt(out0[1],out0[0])} | 40HC: ${fmt(out0[6],out0[0])}</div>
     </div>
     <div class="card positive">
-      <div class="card-title">WK0 Inbound (CDL Actual)</div>
+      <div class="card-title">WK0 Inbound ${(ibTotal20+ibTotal40 > 0) ? '(CDL Actual)' : '(Forecast)'}</div>
       <div class="card-value">${(inbound0[0] + repo0[0]).toLocaleString()}</div>
-      <div class="card-sub"><span class="tag tag-cdl">CDL</span> Dis: ${ibTotal20+ibTotal40} (20GP:${ibTotal20} / 40HC:${ibTotal40})</div>
+      <div class="card-sub">${(ibTotal20+ibTotal40 > 0) ? '<span class="tag tag-cdl">CDL</span>' : '<span class="tag tag-forecast">Forecast</span>'} ${ibSum20+ibSum40} (20GP:${ibSum20} / 40HC:${ibSum40})</div>
     </div>
     <div class="card ${d1[0] >= 0 ? 'positive' : 'negative'}">
       <div class="card-title">WK1 Balance</div>
       <div class="card-value">${d1[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${d1[1]} | 40HC: ${d1[6]}</div>
+      <div class="card-sub">20GP: ${fmt(d1[1],d1[0])} | 40HC: ${fmt(d1[6],d1[0])}</div>
     </div>
     <div class="card ${d2[0] >= 0 ? 'positive' : 'negative'}">
       <div class="card-title">WK2 Balance</div>
       <div class="card-value">${d2[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${d2[1]} | 40HC: ${d2[6]}</div>
+      <div class="card-sub">20GP: ${fmt(d2[1],d2[0])} | 40HC: ${fmt(d2[6],d2[0])}</div>
     </div>
   `;
 }
@@ -1313,6 +1320,15 @@ function renderForecastTable(wk) {
   const vessels = data.vesselsByWeek[wk] || [];
   const ibTotal20 = vessels.reduce((s,v) => s + (v.dis20||0), 0);
   const ibTotal40 = vessels.reduce((s,v) => s + (v.dis40||0), 0);
+  // I/B Total fallback: if no discharge data, use Inbound Generation + Reposition In from forecast
+  const ibGenRow = data.forecastData['Inbound Generation'][String(wk)];
+  const repoInRow = data.forecastData['Reposition In'][String(wk)];
+  const ibFallback20 = ibGenRow[1] + repoInRow[1];
+  const ibFallback40 = ibGenRow[6] + repoInRow[6];
+  const ibDisplay20 = (ibTotal20 + ibTotal40 > 0) ? ibTotal20 : ibFallback20;
+  const ibDisplay40 = (ibTotal20 + ibTotal40 > 0) ? ibTotal40 : ibFallback40;
+  const ibDisplayTotal = ibDisplay20 + ibDisplay40;
+  const ibHasCDL = (ibTotal20 + ibTotal40 > 0);
   const bookingVessels = vessels.filter(v => data.bookingByVessel[v.voyage]);
   const obAlloc = bookingVessels.reduce((s,v) => s + (data.bookingByVessel[v.voyage].alloc||0), 0);
   const obCurrent = bookingVessels.reduce((s,v) => s + (data.bookingByVessel[v.voyage].current||0), 0);
@@ -1321,9 +1337,15 @@ function renderForecastTable(wk) {
   const nawBooking = data.nawBookingByWeek ? data.nawBookingByWeek['WK' + wk] : null;
   const nawFt20 = nawBooking ? (nawBooking['20GP'] || 0) : 0;
   const nawFt40 = nawBooking ? (nawBooking['40HC'] || 0) : 0;
-  const totalObFt20 = obFt20 + nawFt20;
-  const totalObFt40 = obFt40 + nawFt40;
   const nawTeu = nawFt20 * 1 + nawFt40 * 2;
+  // O/B Total fallback: if no booking data, use Outbound Pick-up from forecast
+  const obPickupRow = data.forecastData['Outbound Pick-up'][String(wk)];
+  const obFallback20 = obPickupRow[1];
+  const obFallback40 = obPickupRow[6];
+  const obHasBooking = (bookingVessels.length > 0 || nawBooking);
+  const totalObFt20 = obHasBooking ? (obFt20 + nawFt20) : obFallback20;
+  const totalObFt40 = obHasBooking ? (obFt40 + nawFt40) : obFallback40;
+  const combinedTotal = obHasBooking ? (obCurrent + nawTeu) : obPickupRow[0];
   const pickupVol = data.pickupVolumeByWeek ? data.pickupVolumeByWeek['WK' + wk] : null;
   const pickupFt20 = pickupVol ? (pickupVol['20GP'] || 0) : 0;
   const pickupFt40 = pickupVol ? (pickupVol['40HC'] || 0) : 0;
@@ -1347,21 +1369,24 @@ function renderForecastTable(wk) {
     let vesselCount = '', vesselDetail = '';
     if (ind === '+ Other') { vesselCount = vessels.length; vesselDetail = vessels.map(v => v.voyage).join(' | '); }
 
+    // Display cell: show '—' when breakdown is 0 but Total is non-zero (NAW WK1/WK2 limitation)
+    const cell = (val, total) => (val === 0 && total !== 0) ? '<span style="color:#999;">—</span>' : val;
     html += `<tr class="${cls}">
       <td>${rowNum}</td><td>${ind}</td><td>${tag || signs[i]}</td>
       <td><strong>${row[0].toLocaleString()}</strong></td>
-      <td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td><td>${row[4]}</td><td>${row[5]}</td><td>${row[6]}</td><td>${row[7]}</td>
+      <td>${cell(row[1],row[0])}</td><td>${cell(row[2],row[0])}</td><td>${cell(row[3],row[0])}</td><td>${cell(row[4],row[0])}</td><td>${cell(row[5],row[0])}</td><td>${cell(row[6],row[0])}</td><td>${cell(row[7],row[0])}</td>
       <td>${vesselCount}</td>
       <td style="text-align:left;font-size:11px;">${vesselDetail}${detail}</td>
     </tr>`;
 
     if (ind === '+ Other') {
-      // I/B Total row (CDL Discharge actual data)
+      // I/B Total row (CDL Discharge actual data, or fallback to forecast Inbound Gen + Repo In)
       rowNum++;
+      const ibLabel = ibHasCDL ? '<span class="tag tag-cdl">Discharge (CDL Total)</span>' : '<span class="tag tag-forecast">Inbound Gen + Repo In (Forecast)</span>';
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">I/B Total</span></td><td></td>
-        <td><strong>${(ibTotal20 + ibTotal40).toLocaleString()}</strong></td>
-        <td>${ibTotal20||''}</td><td></td><td></td><td></td><td></td><td>${ibTotal40||''}</td><td></td><td></td>
-        <td style="text-align:left;font-size:11px;"><span class="tag tag-cdl">Discharge (CDL Total)</span></td></tr>`;
+        <td><strong>${ibDisplayTotal.toLocaleString()}</strong></td>
+        <td>${ibDisplay20||''}</td><td></td><td></td><td></td><td></td><td>${ibDisplay40||''}</td><td></td><td></td>
+        <td style="text-align:left;font-size:11px;">${ibLabel}</td></tr>`;
       // Supply Subtotal row (sum of all + rows)
       const supplyTotal = indicators.filter((ind2,j) => signs[j]==='+').reduce((sum,ind2,j) => {
         const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
@@ -1369,24 +1394,22 @@ function renderForecastTable(wk) {
       rowNum++;
       html += `<tr class="supply" style="background:#e8f5e9;font-weight:700;border-top:2px solid #4caf50;">
         <td>${rowNum}</td><td>Supply Subtotal</td><td><span class="tag tag-supply">+</span></td>
-        <td><strong>${supplyTotal[0].toLocaleString()}</strong></td>
-        <td>${supplyTotal[1]}</td><td>${supplyTotal[2]}</td><td>${supplyTotal[3]}</td><td>${supplyTotal[4]}</td><td>${supplyTotal[5]}</td><td>${supplyTotal[6]}</td><td>${supplyTotal[7]}</td>
+      <td><strong>${supplyTotal[0].toLocaleString()}</strong></td>
+      <td>${cell(supplyTotal[1],supplyTotal[0])}</td><td>${cell(supplyTotal[2],supplyTotal[0])}</td><td>${cell(supplyTotal[3],supplyTotal[0])}</td><td>${cell(supplyTotal[4],supplyTotal[0])}</td><td>${cell(supplyTotal[5],supplyTotal[0])}</td><td>${cell(supplyTotal[6],supplyTotal[0])}</td><td>${cell(supplyTotal[7],supplyTotal[0])}</td>
         <td></td><td style="text-align:left;font-size:11px;color:#2e7d32;">Total Supply (Start+Inbound+Repo+OW+Other)</td></tr>`;
     }
     if (ind === '- Other') {
       // O/B Total row (Booking + NAW Work with Booking; AllocTgt displayed as reference only, not summed)
       const allocTgt = (data.allocationTarget && data.allocationTarget['WK' + (wk + 1)]) ? data.allocationTarget['WK' + (wk + 1)] : null;
       const allocTgtVal = allocTgt ? allocTgt.target : 0;
-      const combinedTotal = obCurrent + nawTeu;
       rowNum++;
+      const obDetailHtml = obHasBooking
+        ? `<span class="tag tag-booking">Booking ${currentPort}</span> Alloc: ${obAlloc.toLocaleString()} | Booked: ${obCurrent.toLocaleString()}${nawBooking ? ' <span style="color:#e65100;">+ NAW: ' + nawFt20 + '(20GP)/' + nawFt40 + '(40HC)</span>' : ''}${allocTgt ? ' <span style="color:#888;">(AllocTgt ref: ' + allocTgtVal.toLocaleString() + ')</span>' : ''}`
+        : `<span class="tag tag-forecast">Outbound Pick-up (Forecast)</span>`;
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">O/B Total</span></td><td></td>
         <td><strong>${combinedTotal.toLocaleString()}</strong></td>
         <td>${totalObFt20||''}</td><td></td><td></td><td></td><td></td><td>${totalObFt40||''}</td><td></td><td></td>
-        <td style="text-align:left;font-size:11px;">
-          <span class="tag tag-booking">Booking ${currentPort}</span> Alloc: ${obAlloc.toLocaleString()} | Booked: ${obCurrent.toLocaleString()}
-          ${nawBooking ? ' <span style="color:#e65100;">+ NAW: ' + nawFt20 + '(20GP)/' + nawFt40 + '(40HC)</span>' : ''}
-          ${allocTgt ? ' <span style="color:#888;">(AllocTgt ref: ' + allocTgtVal.toLocaleString() + ')</span>' : ''}
-        </td></tr>`;
+        <td style="text-align:left;font-size:11px;">${obDetailHtml}</td></tr>`;
       // PICK UP VOLUME row (CIN_M1051 Movement Performance OP data)
       rowNum++;
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">PICK UP VOLUME</span></td><td></td>
@@ -1402,8 +1425,8 @@ function renderForecastTable(wk) {
       rowNum++;
       html += `<tr class="demand" style="background:#ffebee;font-weight:700;border-top:2px solid #ef5350;">
         <td>${rowNum}</td><td>Demand Subtotal</td><td><span class="tag tag-demand">-</span></td>
-        <td><strong>${demandTotal[0].toLocaleString()}</strong></td>
-        <td>${demandTotal[1]}</td><td>${demandTotal[2]}</td><td>${demandTotal[3]}</td><td>${demandTotal[4]}</td><td>${demandTotal[5]}</td><td>${demandTotal[6]}</td><td>${demandTotal[7]}</td>
+      <td><strong>${demandTotal[0].toLocaleString()}</strong></td>
+      <td>${cell(demandTotal[1],demandTotal[0])}</td><td>${cell(demandTotal[2],demandTotal[0])}</td><td>${cell(demandTotal[3],demandTotal[0])}</td><td>${cell(demandTotal[4],demandTotal[0])}</td><td>${cell(demandTotal[5],demandTotal[0])}</td><td>${cell(demandTotal[6],demandTotal[0])}</td><td>${cell(demandTotal[7],demandTotal[0])}</td>
         <td></td><td style="text-align:left;font-size:11px;color:#c62828;">Total Demand (Outbound+RepoOut+OWOff+Other)</td></tr>`;
     }
   });
