@@ -1517,15 +1517,26 @@ function renderForecastTable(wk) {
   const nawFt40 = nawBooking ? (nawBooking['40HC'] || 0) : 0;
   const nawTeu = nawFt20 * 1 + nawFt40 * 2;
   // O/B Total: from Live Dashboard bookingByVessel + NAW Work with Booking
-  // If no booking data available, show "—" (no forecast fallback)
+  // If no booking data available, fallback to Outbound Pick-up forecast
+  const obOutRow = data.forecastData['Outbound Pick-up'][String(wk)];
   const obHasBooking = (bookingVessels.length > 0 || nawBooking);
-  const totalObFt20 = obHasBooking ? (obFt20 + nawFt20) : 0;
-  const totalObFt40 = obHasBooking ? (obFt40 + nawFt40) : 0;
-  const combinedTotal = obHasBooking ? (obCurrent + nawTeu) : 0;
+  const obHasFallback = !obHasBooking && obOutRow[0] > 0;
+  const totalObFt20 = obHasBooking ? (obFt20 + nawFt20) : (obHasFallback ? obOutRow[1] : 0);
+  const totalObFt40 = obHasBooking ? (obFt40 + nawFt40) : (obHasFallback ? obOutRow[6] : 0);
+  const combinedTotal = obHasBooking ? (obCurrent + nawTeu) : (obHasFallback ? obOutRow[0] : 0);
+  const obHasData = obHasBooking || obHasFallback;
   const pickupVol = data.pickupVolumeByWeek ? data.pickupVolumeByWeek['WK' + wk] : null;
   const pickupFt20 = pickupVol ? (pickupVol['20GP'] || 0) : 0;
   const pickupFt40 = pickupVol ? (pickupVol['40HC'] || 0) : 0;
   const pickupTeu = pickupFt20 * 1 + pickupFt40 * 2;
+
+  // Pre-compute supply/demand totals for Balance breakdown calculation
+  const supplyTotal = indicators.filter((ind2,j) => signs[j]==='+').reduce((sum,ind2,j) => {
+    const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
+  }, [0,0,0,0,0,0,0,0]);
+  const demandTotal = indicators.filter((ind2,j) => signs[j]==='-').reduce((sum,ind2,j) => {
+    const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
+  }, [0,0,0,0,0,0,0,0]);
 
   let rowNum = 0, html = '';
   indicators.forEach((ind, i) => {
@@ -1536,7 +1547,13 @@ function renderForecastTable(wk) {
     const tag = isBalance ? '' : `<span class="tag ${isSupply ? 'tag-supply' : 'tag-demand'}">${signs[i]}</span>`;
     let detail = '';
     if (ind === 'Inbound Generation' && wk === 0) {
-      detail = `<span class="tag tag-cdl">3-day emptying forecast (${pc().cdlVessels} vessels)</span>`;
+      if (ibHasCDL) {
+        detail = `<span class="tag tag-cdl">CDL Actual (${pc().cdlVessels} vessels)</span>`;
+      } else if (currentPort === 'CNSHA') {
+        detail = `<span class="tag tag-cdl">3-day emptying forecast (${pc().cdlVessels} vessels)</span>`;
+      } else {
+        detail = '<span class="tag tag-forecast">Forecast</span>';
+      }
     } else if (ind === 'Reposition In' && wk === 0) {
       detail = `<span class="tag tag-cdl">CDL Actual (${pc().cdlVessels} vessels)</span>`;
     } else if (ind !== '+ Other' && ind !== '- Other') {
@@ -1547,10 +1564,14 @@ function renderForecastTable(wk) {
 
     // Display cell: show '—' when breakdown is 0 but Total is non-zero (NAW WK1/WK2 limitation)
     const cell = (val, total) => (val === 0 && total !== 0) ? '<span style="color:#999;">—</span>' : val;
+    // For Balance row: if breakdown is missing but Total is present, compute from supply - demand
+    const displayRow = (isBalance && row[1] === 0 && row[6] === 0 && row[0] !== 0)
+      ? [row[0], supplyTotal[1] - demandTotal[1], row[2], row[3], row[4], row[5], supplyTotal[6] - demandTotal[6], row[7]]
+      : row;
     html += `<tr class="${cls}">
       <td>${rowNum}</td><td>${ind}</td><td>${tag || signs[i]}</td>
       <td><strong>${row[0].toLocaleString()}</strong></td>
-      <td>${cell(row[1],row[0])}</td><td>${cell(row[2],row[0])}</td><td>${cell(row[3],row[0])}</td><td>${cell(row[4],row[0])}</td><td>${cell(row[5],row[0])}</td><td>${cell(row[6],row[0])}</td><td>${cell(row[7],row[0])}</td>
+      <td>${cell(displayRow[1],displayRow[0])}</td><td>${cell(displayRow[2],displayRow[0])}</td><td>${cell(displayRow[3],displayRow[0])}</td><td>${cell(displayRow[4],displayRow[0])}</td><td>${cell(displayRow[5],displayRow[0])}</td><td>${cell(displayRow[6],displayRow[0])}</td><td>${cell(displayRow[7],displayRow[0])}</td>
       <td>${vesselCount}</td>
       <td style="text-align:left;font-size:11px;">${vesselDetail}${detail}</td>
     </tr>`;
@@ -1575,16 +1596,18 @@ function renderForecastTable(wk) {
         <td></td><td style="text-align:left;font-size:11px;color:#2e7d32;">Total Supply (Start+Inbound+Repo+OW+Other)</td></tr>`;
     }
     if (ind === '- Other') {
-      // O/B Total row (Booking + NAW Work with Booking; AllocTgt displayed as reference only, not summed)
+      // O/B Total row (Booking + NAW Work with Booking + Forecast fallback)
       const allocTgt = (data.allocationTarget && data.allocationTarget['WK' + (wk + 1)]) ? data.allocationTarget['WK' + (wk + 1)] : null;
       const allocTgtVal = allocTgt ? allocTgt.target : 0;
       rowNum++;
       const obDetailHtml = obHasBooking
         ? `<span class="tag tag-booking">Booking ${currentPort}</span> Alloc: ${obAlloc.toLocaleString()} | Booked: ${obCurrent.toLocaleString()}${nawBooking ? ' <span style="color:#e65100;">+ NAW: ' + nawFt20 + '(20GP)/' + nawFt40 + '(40HC)</span>' : ''}${allocTgt ? ' <span style="color:#888;">(AllocTgt ref: ' + allocTgtVal.toLocaleString() + ')</span>' : ''}`
-        : `<span class="tag tag-pending" style="color:#999;">No Live Booking Data</span>`;
+        : (obHasFallback
+          ? `<span class="tag tag-forecast">Forecast Fallback</span> ${allocTgt ? ' <span style="color:#888;">(AllocTgt ref: ' + allocTgtVal.toLocaleString() + ')</span>' : ''}`
+          : `<span class="tag tag-pending" style="color:#999;">No Live Booking Data</span>`);
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">O/B Total</span></td><td></td>
-        <td><strong>${obHasBooking ? combinedTotal.toLocaleString() : '<span style="color:#999;">—</span>'}</strong></td>
-        <td>${obHasBooking ? (totalObFt20||'') : '<span style="color:#999;">—</span>'}</td><td></td><td></td><td></td><td></td><td>${obHasBooking ? (totalObFt40||'') : '<span style="color:#999;">—</span>'}</td><td></td><td></td>
+        <td><strong>${obHasData ? combinedTotal.toLocaleString() : '<span style="color:#999;">—</span>'}</strong></td>
+        <td>${obHasData ? (totalObFt20||'') : '<span style="color:#999;">—</span>'}</td><td></td><td></td><td></td><td></td><td>${obHasData ? (totalObFt40||'') : '<span style="color:#999;">—</span>'}</td><td></td><td></td>
         <td style="text-align:left;font-size:11px;">${obDetailHtml}</td></tr>`;
       // PICK UP VOLUME row (CIN_M1051 Movement Performance OP data)
       rowNum++;
