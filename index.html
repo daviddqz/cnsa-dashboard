@@ -2191,15 +2191,24 @@ function renderBookingTable(wk) {
 
   let html = '', totalAlloc = 0, totalCurrent = 0, totalFt20 = 0, totalFt40 = 0;
 
+  // Build a lookup from vessel voyage to its BSA target (for current report week)
+  const bsaLookup = {};
+  allocVessels.forEach(av => {
+    if (av.report_wk === allocTgtKey && av.target > 0) {
+      bsaLookup[av.vessel] = av.target;
+    }
+  });
+
   bookingVessels.forEach(v => {
     const bk = data.bookingByVessel[v.voyage];
     const gap = bk.current - bk.alloc;
     const pct = bk.alloc > 0 ? (bk.current / bk.alloc * 100).toFixed(1) : 'N/A';
+    const vesselBsa = bsaLookup[v.voyage];
     totalAlloc += bk.alloc; totalCurrent += bk.current;
     totalFt20 += bk.ft20; totalFt40 += bk.ft40;
     html += `<tr>
       <td><strong>${v.voyage}</strong></td><td>${v.eta}</td><td>${v.service}</td>
-      <td>${bk.alloc.toLocaleString()}</td><td>${allocTgtTotal > 0 ? allocTgtTotal.toLocaleString() : '-'}</td><td>${bk.current.toLocaleString()}</td>
+      <td>${bk.alloc.toLocaleString()}</td><td>${vesselBsa ? vesselBsa.toLocaleString() : '-'}</td><td>${bk.current.toLocaleString()}</td>
       <td>${bk.ft20.toLocaleString()}</td><td>${bk.ft40.toLocaleString()}</td>
       <td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${gap >= 0 ? '+' : ''}${gap.toLocaleString()}</td>
       <td>${pct}%</td><td>${v.terminal}</td>
