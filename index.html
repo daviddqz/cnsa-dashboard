@@ -1571,8 +1571,6 @@ function renderForecastTable(wk) {
     if (ind === 'Inbound Generation' && wk === 0) {
       if (ibHasCDL) {
         detail = `<span class="tag tag-cdl">CDL Actual (${pc().cdlVessels} vessels)</span>`;
-      } else if (currentPort === 'CNSHA') {
-        detail = `<span class="tag tag-cdl">3-day emptying forecast (${pc().cdlVessels} vessels)</span>`;
       } else {
         detail = '<span class="tag tag-forecast">Forecast</span>';
       }
