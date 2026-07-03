@@ -186,7 +186,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 // ===== MULTI-PORT DATA STORE =====
 // ============================================================
 const PORT_CONFIG = {
-  CNSHA: { label: 'SHA', name: '上海', live: true, color: '#2e75b6', wkLabels: ['WK0 (06/28-07/04)', 'WK1 (07/05-07/11)', 'WK2 (07/12-07/18)'], cdlVessels: 13 },
+  CNSHA: { label: 'SHA', name: '上海', live: true, color: '#2e75b6', wkLabels: ['WK0 (06/28-07/04)', 'WK1 (07/05-07/11)', 'WK2 (07/12-07/18)'], cdlVessels: 13, turnTime: { days20gp: 4, days40hc: 3 } },
   CNNGB: { label: 'NGB', name: '宁波', live: true, color: '#388e3c', wkLabels: ['WK0 (06/28-07/04)', 'WK1 (07/05-07/11)', 'WK2 (07/12-07/18)'], cdlVessels: 18 },
   CNSHK: { label: 'SHK', name: '蛇口/深圳', live: true, color: '#7b1fa2', wkLabels: ['WK0 (06/28-07/04)', 'WK1 (07/05-07/11)', 'WK2 (07/12-07/18)'], cdlVessels: 21 },
   CNNAS: { label: 'NAS', name: '南沙/广州', live: true, color: '#e65100', wkLabels: ['WK0 (06/28-07/04)', 'WK1 (07/05-07/11)', 'WK2 (07/12-07/18)'], cdlVessels: 45 },
@@ -1572,7 +1572,12 @@ function renderForecastTable(wk) {
       if (ibHasCDL) {
         detail = `<span class="tag tag-cdl">CDL Actual (${pc().cdlVessels} vessels)</span>`;
       } else {
-        detail = '<span class="tag tag-forecast">Forecast</span>';
+        const tt = pc().turnTime;
+        if (tt) {
+          detail = `<span class="tag tag-forecast">Turn Time 20GP ${tt.days20gp}天 / 40HC ${tt.days40hc}天</span>`;
+        } else {
+          detail = '<span class="tag tag-forecast">Turn Time 拆空</span>';
+        }
       }
     } else if (ind === 'Reposition In' && wk === 0) {
       detail = `<span class="tag tag-cdl">CDL Actual (${pc().cdlVessels} vessels)</span>`;
@@ -1599,7 +1604,7 @@ function renderForecastTable(wk) {
     if (ind === '+ Other') {
       // I/B Total row (CDL Discharge actual data, or fallback to forecast Inbound Gen + Repo In)
       rowNum++;
-      const ibLabel = ibHasCDL ? '<span class="tag tag-cdl">Discharge (CDL Total)</span>' : '<span class="tag tag-forecast">Inbound Gen + Repo In (Forecast)</span>';
+      const ibLabel = ibHasCDL ? '<span class="tag tag-cdl">Discharge (CDL Total)</span>' : (pc().turnTime ? `<span class="tag tag-forecast">Inbound Gen (Turn Time 20GP ${pc().turnTime.days20gp}d / 40HC ${pc().turnTime.days40hc}d) + Repo In</span>` : '<span class="tag tag-forecast">Inbound Gen (Turn Time 拆空) + Repo In (Forecast)</span>');
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">I/B Total</span></td><td></td>
         <td><strong>${ibDisplayTotal.toLocaleString()}</strong></td>
         <td>${ibDisplay20||''}</td><td></td><td></td><td></td><td></td><td>${ibDisplay40||''}</td><td></td><td></td>
