@@ -1669,12 +1669,16 @@ function renderBookingTable(wk) {
 
   card.innerHTML = `<h3 id="bookingTitle">WK${wk} Booking Details (${currentPort})</h3>
     <div style="overflow-x:auto;"><table class="data-table" id="bookingTable">
-    <thead><tr><th>VVD</th><th>ETA</th><th>Service</th><th>Alloc (TEU)</th><th>Booked (TEU)</th><th>20GP</th><th>40HC</th><th>Gap</th><th>Completion</th><th>Terminal</th></tr></thead>
+    <thead><tr><th>VVD</th><th>ETA</th><th>Service</th><th>Alloc (TEU)</th><th>BSA (TEU)</th><th>Booked (TEU)</th><th>20GP</th><th>40HC</th><th>Gap</th><th>Completion</th><th>Terminal</th></tr></thead>
     <tbody></tbody></table></div>`;
 
   const data = pd();
   const vessels = data.vesselsByWeek[wk] || [];
   const bookingVessels = vessels.filter(v => data.bookingByVessel[v.voyage]);
+  const allocTgtKey = 'WK' + (wk + 1);
+  const allocTgt = (data.allocationTarget && data.allocationTarget[allocTgtKey]) ? data.allocationTarget[allocTgtKey] : null;
+  const allocTgtTotal = allocTgt ? (allocTgt.target || 0) : 0;
+  const allocTgtByLane = allocTgt ? (allocTgt.by_lane || {}) : {};
   let html = '', totalAlloc = 0, totalCurrent = 0, totalFt20 = 0, totalFt40 = 0;
 
   bookingVessels.forEach(v => {
@@ -1685,7 +1689,7 @@ function renderBookingTable(wk) {
     totalFt20 += bk.ft20; totalFt40 += bk.ft40;
     html += `<tr>
       <td><strong>${v.voyage}</strong></td><td>${v.eta}</td><td>${v.service}</td>
-      <td>${bk.alloc.toLocaleString()}</td><td>${bk.current.toLocaleString()}</td>
+      <td>${bk.alloc.toLocaleString()}</td><td>${allocTgtTotal > 0 ? allocTgtTotal.toLocaleString() : '-'}</td><td>${bk.current.toLocaleString()}</td>
       <td>${bk.ft20.toLocaleString()}</td><td>${bk.ft40.toLocaleString()}</td>
       <td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${gap >= 0 ? '+' : ''}${gap.toLocaleString()}</td>
       <td>${pct}%</td><td>${v.terminal}</td>
@@ -1696,13 +1700,30 @@ function renderBookingTable(wk) {
     const totalGap = totalCurrent - totalAlloc;
     html += `<tr style="font-weight:700;background:#fce4d6;">
       <td><strong>TOTAL</strong></td><td>-</td><td>${bookingVessels.length} vessels</td>
-      <td>${totalAlloc.toLocaleString()}</td><td>${totalCurrent.toLocaleString()}</td>
+      <td>${totalAlloc.toLocaleString()}</td><td>${allocTgtTotal > 0 ? allocTgtTotal.toLocaleString() : '-'}</td><td>${totalCurrent.toLocaleString()}</td>
       <td>${totalFt20.toLocaleString()}</td><td>${totalFt40.toLocaleString()}</td>
       <td style="color:${totalGap >= 0 ? '#c62828' : '#2e7d32'}">${totalGap >= 0 ? '+' : ''}${totalGap.toLocaleString()}</td>
       <td>${totalAlloc > 0 ? (totalCurrent/totalAlloc*100).toFixed(1) : 'N/A'}%</td><td>-</td>
     </tr>`;
+
+    // BSA by Lane breakdown (AllocTgt reference)
+    if (allocTgtTotal > 0) {
+      const laneEntries = Object.entries(allocTgtByLane).filter(([lane, val]) => val > 0);
+      if (laneEntries.length > 0) {
+        html += `<tr style="background:#e3f2fd;">
+          <td colspan="11" style="padding:0;">
+            <div style="padding:10px 16px;">
+              <div style="font-weight:700;margin-bottom:6px;color:#1565c0;">BSA Allocation by Lane (${allocTgtKey} · ${allocTgt.cal_week ? 'CW' + allocTgt.cal_week : 'current'} · total ${allocTgtTotal.toLocaleString()} TEU)</div>
+              <div style="display:flex;flex-wrap:wrap;gap:10px;">` +
+              laneEntries.map(([lane, val]) => `<span class="tag tag-booking" style="background:#bbdefb;color:#0d47a1;">${lane}: ${val.toLocaleString()}</span>`).join('') +
+              `</div>
+            </div>
+          </td>
+        </tr>`;
+      }
+    }
   } else {
-    html = `<tr><td colspan="10" style="color:#999;padding:20px;">No ${currentPort} booking data for this week</td></tr>`;
+    html = `<tr><td colspan="11" style="color:#999;padding:20px;">No ${currentPort} booking data for this week</td></tr>`;
   }
   document.querySelector('#bookingTable tbody').innerHTML = html;
 }
