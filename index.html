@@ -760,10 +760,10 @@ const portData = {
       "WK1": { "20GP": 121, "40HC": 75 },
       "WK2": { "20GP": 156, "40HC": 70 }
     },
-    allocationTarget: {
-      "WK1": { "cal_week": 24, "target": 280, "by_lane": { "CCT": 0, "CH1": 60, "CP8": 43, "NP2": 130, "HDT": 47 } },
-      "WK2": { "cal_week": 25, "target": 596, "by_lane": { "CCT": 210, "CH1": 60, "CP8": 76, "NP2": 200, "HDT": 50 } },
-      "WK3": { "cal_week": 26, "target": 320, "by_lane": { "CCT": 210, "CH1": 60, "CP8": 0, "NP2": 0, "HDT": 50 } },
+allocationTarget: {
+      "WK1": { "cal_week": 24, "target": 280, "by_lane": { "CCT": 0, "CH1": 60, "CP8": 43, "HDT": 47, "NP2": 130 } },
+      "WK2": { "cal_week": 25, "target": 596, "by_lane": { "CCT": 210, "CH1": 60, "CP8": 76, "HDT": 50, "NP2": 200 } },
+      "WK3": { "cal_week": 26, "target": 320, "by_lane": { "CCT": 210, "CH1": 60, "CP8": 0, "HDT": 50, "NP2": 0 } },
       "WK4": { "cal_week": 27, "target": 0, "by_lane": { "CH1": 0, "CP8": 0, "NP2": 0 } },
       "WK5": { "cal_week": 28, "target": 281, "by_lane": { "CCT": 281, "CP8": 0 } },
       "WK6": { "cal_week": 29, "target": 281, "by_lane": { "CCT": 281 } },
@@ -1018,10 +1018,10 @@ const portData = {
 },
     cargoSplitData: [],
     nawBookingByWeek: {},
-    allocationTarget: {
-      "WK1": { "cal_week": 24, "target": 1282, "by_lane": { "CCT": 1141, "CH1": 40, "CP8": 51, "HDT": 50 } },
-      "WK2": { "cal_week": 25, "target": 365, "by_lane": { "CCT": 175, "CH1": 20, "CP8": 120, "HDT": 50 } },
-      "WK3": { "cal_week": 26, "target": 245, "by_lane": { "CCT": 175, "CH1": 20, "CP8": 0, "HDT": 50 } },
+allocationTarget: {
+      "WK1": { "cal_week": 24, "target": 1473, "by_lane": { "CCT": 1141, "CH1": 40, "CP8": 51, "HDT": 241 } },
+      "WK2": { "cal_week": 25, "target": 553, "by_lane": { "CCT": 175, "CH1": 20, "CP8": 120, "HDT": 238 } },
+      "WK3": { "cal_week": 26, "target": 433, "by_lane": { "CCT": 175, "CH1": 20, "CP8": 0, "HDT": 238 } },
       "WK4": { "cal_week": 27, "target": 0, "by_lane": { "CH1": 0, "CP8": 0 } },
       "WK5": { "cal_week": 28, "target": 227, "by_lane": { "CCT": 227, "CP8": 0 } },
       "WK6": { "cal_week": 29, "target": 227, "by_lane": { "CCT": 227 } },
@@ -1258,10 +1258,10 @@ const portData = {
 },
     cargoSplitData: [],
     nawBookingByWeek: {},
-    allocationTarget: {
-      "WK1": { "cal_week": 24, "target": 216, "by_lane": { "NSX": 186, "TH3": 30 } },
-      "WK2": { "cal_week": 25, "target": 656, "by_lane": { "CST": 430, "NSX": 196, "TH3": 30 } },
-      "WK3": { "cal_week": 26, "target": 200, "by_lane": { "NSX": 170, "TH3": 30 } },
+allocationTarget: {
+      "WK1": { "cal_week": 24, "target": 198, "by_lane": { "NSX": 186, "TH3": 12 } },
+      "WK2": { "cal_week": 25, "target": 641, "by_lane": { "CST": 430, "NSX": 196, "TH3": 15 } },
+      "WK3": { "cal_week": 26, "target": 185, "by_lane": { "NSX": 170, "TH3": 15 } },
       "WK4": { "cal_week": 27, "target": 170, "by_lane": { "CST": 0, "NSX": 170 } },
       "WK5": { "cal_week": 28, "target": 170, "by_lane": { "CST": 0, "NSX": 170 } },
       "WK7": { "cal_week": 30, "target": 0, "by_lane": { "CST": 0 } }
@@ -1323,33 +1323,6 @@ const portData = {
                 "cal_week": 28,
                 "report_wk": "WK5",
                 "target": 170,
-                "port": "CNSHK",
-                "direction": "出口1"
-        },
-        {
-                "lane": "TH3",
-                "vessel": "KWGB2623S",
-                "cal_week": 24,
-                "report_wk": "WK1",
-                "target": 30,
-                "port": "CNSHK",
-                "direction": "出口1"
-        },
-        {
-                "lane": "TH3",
-                "vessel": "KWGB2624S",
-                "cal_week": 25,
-                "report_wk": "WK2",
-                "target": 30,
-                "port": "CNSHK",
-                "direction": "出口1"
-        },
-        {
-                "lane": "TH3",
-                "vessel": "KWGB2625S",
-                "cal_week": 26,
-                "report_wk": "WK3",
-                "target": 30,
                 "port": "CNSHK",
                 "direction": "出口1"
         },
@@ -1545,7 +1518,7 @@ const portData = {
 },
     cargoSplitData: [],
     nawBookingByWeek: {},
-    allocationTarget: {
+allocationTarget: {
       "WK1": { "cal_week": 24, "target": 182, "by_lane": { "CCT": 33, "NSX": 149, "SVP": 0 } },
       "WK2": { "cal_week": 25, "target": 680, "by_lane": { "CCT": 0, "CST": 430, "NSX": 154, "SVP": 96 } },
       "WK3": { "cal_week": 26, "target": 170, "by_lane": { "CCT": 0, "NSX": 170, "SVP": 0 } },
@@ -1711,7 +1684,7 @@ const portData = {
 },
     cargoSplitData: [],
     nawBookingByWeek: {},
-    allocationTarget: {
+allocationTarget: {
       "WK1": { "cal_week": 24, "target": 150, "by_lane": { "NP2": 150 } },
       "WK2": { "cal_week": 25, "target": 200, "by_lane": { "NP2": 200 } },
       "WK3": { "cal_week": 26, "target": 0, "by_lane": { "NP2": 0 } },
@@ -1781,7 +1754,7 @@ const portData = {
 },
     cargoSplitData: [],
     nawBookingByWeek: {},
-    allocationTarget: {
+allocationTarget: {
       "WK1": { "cal_week": 24, "target": 10, "by_lane": { "CCT": 0, "NSX": 10 } },
       "WK2": { "cal_week": 25, "target": 45, "by_lane": { "CCT": 0, "CST": 15, "NSX": 30 } },
       "WK3": { "cal_week": 26, "target": 12, "by_lane": { "CCT": 0, "NSX": 12 } },
