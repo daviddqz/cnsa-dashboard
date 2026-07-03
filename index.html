@@ -1513,7 +1513,7 @@ function renderForecastTable(wk) {
   if (isPending()) { showPendingOverlay('forecastCard'); return; }
 
   card.innerHTML = `<h3 id="tableTitle">WK${wk} 空箱预测明细</h3><div style="overflow-x:auto;"><table class="data-table" id="forecastTable">
-    <thead><tr><th>No.</th><th>Division</th><th>Sign</th><th>Total</th><th>20GP</th><th>20HC</th><th>40GP</th><th>53HC</th><th>45HW</th><th>40HC</th><th>45HC</th><th>Vessel Count</th><th>Detail</th></tr></thead>
+    <thead><tr><th>No.</th><th>Division</th><th>Sign</th><th>Total</th><th>20GP</th><th>40HC</th><th>Vessel Count</th><th>Detail</th></tr></thead>
     <tbody></tbody></table></div>`;
 
   const data = pd();
@@ -1596,7 +1596,7 @@ function renderForecastTable(wk) {
     html += `<tr class="${cls}">
       <td>${rowNum}</td><td>${ind}</td><td>${tag || signs[i]}</td>
       <td><strong>${row[0].toLocaleString()}</strong></td>
-      <td>${cell(displayRow[1],displayRow[0])}</td><td>${cell(displayRow[2],displayRow[0])}</td><td>${cell(displayRow[3],displayRow[0])}</td><td>${cell(displayRow[4],displayRow[0])}</td><td>${cell(displayRow[5],displayRow[0])}</td><td>${cell(displayRow[6],displayRow[0])}</td><td>${cell(displayRow[7],displayRow[0])}</td>
+      <td>${cell(displayRow[1],displayRow[0])}</td><td>${cell(displayRow[6],displayRow[0])}</td>
       <td>${vesselCount}</td>
       <td style="text-align:left;font-size:11px;">${vesselDetail}${detail}</td>
     </tr>`;
@@ -1607,7 +1607,8 @@ function renderForecastTable(wk) {
       const ibLabel = ibHasCDL ? '<span class="tag tag-cdl">Discharge (CDL Total)</span>' : (pc().turnTime ? `<span class="tag tag-forecast">Inbound Gen (Turn Time 20GP ${pc().turnTime.days20gp}d / 40HC ${pc().turnTime.days40hc}d) + Repo In</span>` : '<span class="tag tag-forecast">Inbound Gen (Turn Time 拆空) + Repo In (Forecast)</span>');
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">I/B Total</span></td><td></td>
         <td><strong>${ibDisplayTotal.toLocaleString()}</strong></td>
-        <td>${ibDisplay20||''}</td><td></td><td></td><td></td><td></td><td>${ibDisplay40||''}</td><td></td><td></td>
+        <td>${ibDisplay20||''}</td><td>${ibDisplay40||''}</td>
+        <td></td>
         <td style="text-align:left;font-size:11px;">${ibLabel}</td></tr>`;
       // Supply Subtotal row (sum of all + rows)
       const supplyTotal = indicators.filter((ind2,j) => signs[j]==='+').reduce((sum,ind2,j) => {
@@ -1617,7 +1618,7 @@ function renderForecastTable(wk) {
       html += `<tr class="supply" style="background:#e8f5e9;font-weight:700;border-top:2px solid #4caf50;">
         <td>${rowNum}</td><td>Supply Subtotal</td><td><span class="tag tag-supply">+</span></td>
       <td><strong>${supplyTotal[0].toLocaleString()}</strong></td>
-      <td>${cell(supplyTotal[1],supplyTotal[0])}</td><td>${cell(supplyTotal[2],supplyTotal[0])}</td><td>${cell(supplyTotal[3],supplyTotal[0])}</td><td>${cell(supplyTotal[4],supplyTotal[0])}</td><td>${cell(supplyTotal[5],supplyTotal[0])}</td><td>${cell(supplyTotal[6],supplyTotal[0])}</td><td>${cell(supplyTotal[7],supplyTotal[0])}</td>
+      <td>${cell(supplyTotal[1],supplyTotal[0])}</td><td>${cell(supplyTotal[6],supplyTotal[0])}</td>
         <td></td><td style="text-align:left;font-size:11px;color:#2e7d32;">Total Supply (Start+Inbound+Repo+OW+Other)</td></tr>`;
     }
     if (ind === '- Other') {
@@ -1632,13 +1633,15 @@ function renderForecastTable(wk) {
           : `<span class="tag tag-pending" style="color:#999;">No Live Booking Data</span>`);
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">O/B Total</span></td><td></td>
         <td><strong>${obHasData ? combinedTotal.toLocaleString() : '<span style="color:#999;">—</span>'}</strong></td>
-        <td>${obHasData ? (totalObFt20||'') : '<span style="color:#999;">—</span>'}</td><td></td><td></td><td></td><td></td><td>${obHasData ? (totalObFt40||'') : '<span style="color:#999;">—</span>'}</td><td></td><td></td>
+        <td>${obHasData ? (totalObFt20||'') : '<span style="color:#999;">—</span>'}</td><td>${obHasData ? (totalObFt40||'') : '<span style="color:#999;">—</span>'}</td>
+        <td></td>
         <td style="text-align:left;font-size:11px;">${obDetailHtml}</td></tr>`;
       // PICK UP VOLUME row (CIN_M1051 Movement Performance OP data)
       rowNum++;
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">PICK UP VOLUME</span></td><td></td>
         <td><strong>${pickupTeu.toLocaleString()}</strong></td>
-        <td>${pickupFt20||''}</td><td></td><td></td><td></td><td></td><td>${pickupFt40||''}</td><td></td><td></td>
+        <td>${pickupFt20||''}</td><td>${pickupFt40||''}</td>
+        <td></td>
         <td style="text-align:left;font-size:11px;">
           <span class="tag tag-cdl">CIN_M1051 OP Movement</span> ${pickupFt20}(20GP)/${pickupFt40}(40HC)
         </td></tr>`;
@@ -1650,7 +1653,7 @@ function renderForecastTable(wk) {
       html += `<tr class="demand" style="background:#ffebee;font-weight:700;border-top:2px solid #ef5350;">
         <td>${rowNum}</td><td>Demand Subtotal</td><td><span class="tag tag-demand">-</span></td>
       <td><strong>${demandTotal[0].toLocaleString()}</strong></td>
-      <td>${cell(demandTotal[1],demandTotal[0])}</td><td>${cell(demandTotal[2],demandTotal[0])}</td><td>${cell(demandTotal[3],demandTotal[0])}</td><td>${cell(demandTotal[4],demandTotal[0])}</td><td>${cell(demandTotal[5],demandTotal[0])}</td><td>${cell(demandTotal[6],demandTotal[0])}</td><td>${cell(demandTotal[7],demandTotal[0])}</td>
+      <td>${cell(demandTotal[1],demandTotal[0])}</td><td>${cell(demandTotal[6],demandTotal[0])}</td>
         <td></td><td style="text-align:left;font-size:11px;color:#c62828;">Total Demand (Outbound+RepoOut+OWOff+Other)</td></tr>`;
     }
   });
