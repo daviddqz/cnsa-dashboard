@@ -1354,6 +1354,25 @@ const signs = ["+","+","+","+","+","-","-","-","-","="];
 function pd() { return portData[currentPort]; }
 function pc() { return PORT_CONFIG[currentPort]; }
 
+// Compute Balance 20GP/40HC breakdown when original forecast breakdown is zero
+// (matches the display logic in renderForecastTable: supplyTotal - demandTotal)
+function getBalanceBreakdown(wk) {
+  const data = pd();
+  const row = data.forecastData["Balance(Forecast)"][String(wk)];
+  if (row[1] !== 0 || row[6] !== 0 || row[0] === 0) {
+    return [row[1], row[6]];
+  }
+  const supplyTotal = indicators.filter((ind, j) => signs[j] === '+').reduce((sum, ind) => {
+    const r = data.forecastData[ind][String(wk)];
+    return [sum[0] + r[0], sum[1] + r[1], sum[2] + r[2], sum[3] + r[3], sum[4] + r[4], sum[5] + r[5], sum[6] + r[6], sum[7] + r[7]];
+  }, [0, 0, 0, 0, 0, 0, 0, 0]);
+  const demandTotal = indicators.filter((ind, j) => signs[j] === '-').reduce((sum, ind) => {
+    const r = data.forecastData[ind][String(wk)];
+    return [sum[0] + r[0], sum[1] + r[1], sum[2] + r[2], sum[3] + r[3], sum[4] + r[4], sum[5] + r[5], sum[6] + r[6], sum[7] + r[7]];
+  }, [0, 0, 0, 0, 0, 0, 0, 0]);
+  return [supplyTotal[1] - demandTotal[1], supplyTotal[6] - demandTotal[6]];
+}
+
 // ============================================================
 // ===== PORT NAV =====
 // ============================================================
@@ -1434,6 +1453,9 @@ function renderSummaryCards() {
   const d0 = data.forecastData["Balance(Forecast)"]["0"];
   const d1 = data.forecastData["Balance(Forecast)"]["1"];
   const d2 = data.forecastData["Balance(Forecast)"]["2"];
+  const bal0 = getBalanceBreakdown(0);
+  const bal1 = getBalanceBreakdown(1);
+  const bal2 = getBalanceBreakdown(2);
   const start0 = data.forecastData["Start Empty"]["0"];
   const out0 = data.forecastData["Outbound Pick-up"]["0"];
   const inbound0 = data.forecastData["Inbound Generation"]["0"];
@@ -1453,7 +1475,7 @@ function renderSummaryCards() {
     <div class="card ${d0[0] >= 0 ? 'positive' : 'negative'}">
       <div class="card-title">WK0 Balance(Forecast)</div>
       <div class="card-value">${d0[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${fmt(d0[1],d0[0])} | 40HC: ${fmt(d0[6],d0[0])}</div>
+      <div class="card-sub">20GP: ${fmt(bal0[0],d0[0])} | 40HC: ${fmt(bal0[1],d0[0])}</div>
     </div>
     <div class="card info">
       <div class="card-title">WK0 Start Empty</div>
@@ -1473,12 +1495,12 @@ function renderSummaryCards() {
     <div class="card ${d1[0] >= 0 ? 'positive' : 'negative'}">
       <div class="card-title">WK1 Balance</div>
       <div class="card-value">${d1[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${fmt(d1[1],d1[0])} | 40HC: ${fmt(d1[6],d1[0])}</div>
+      <div class="card-sub">20GP: ${fmt(bal1[0],d1[0])} | 40HC: ${fmt(bal1[1],d1[0])}</div>
     </div>
     <div class="card ${d2[0] >= 0 ? 'positive' : 'negative'}">
       <div class="card-title">WK2 Balance</div>
       <div class="card-value">${d2[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${fmt(d2[1],d2[0])} | 40HC: ${fmt(d2[6],d2[0])}</div>
+      <div class="card-sub">20GP: ${fmt(bal2[0],d2[0])} | 40HC: ${fmt(bal2[1],d2[0])}</div>
     </div>
   `;
 }
@@ -1814,16 +1836,19 @@ function initCharts() {
   if (!isPending()) {
     const ctx1 = document.getElementById('trendChart').getContext('2d');
     const data = pd();
+    const b0 = getBalanceBreakdown(0);
+    const b1 = getBalanceBreakdown(1);
+    const b2 = getBalanceBreakdown(2);
     trendChart = new Chart(ctx1, {
       type: 'line',
       data: {
         labels: ['WK0', 'WK1', 'WK2'],
         datasets: [
           { label: '20GP Balance',
-            data: [data.forecastData["Balance(Forecast)"]["0"][1], data.forecastData["Balance(Forecast)"]["1"][1], data.forecastData["Balance(Forecast)"]["2"][1]],
+            data: [b0[0], b1[0], b2[0]],
             borderColor: pc().color, backgroundColor: pc().color + '22', tension: 0.3, fill: true },
           { label: '40HC Balance',
-            data: [data.forecastData["Balance(Forecast)"]["0"][6], data.forecastData["Balance(Forecast)"]["1"][6], data.forecastData["Balance(Forecast)"]["2"][6]],
+            data: [b0[1], b1[1], b2[1]],
             borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,0.1)', tension: 0.3, fill: true }
         ]
       },
