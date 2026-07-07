@@ -98,7 +98,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 .chart-card { background: var(--surface); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
 .chart-card h3 { font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
 .chart-card h3::before { content: ''; width: 3px; height: 14px; background: var(--accent); border-radius: 2px; }
-.chart-container { position: relative; height: 240px; }
+.chart-container { position: relative; height: 240px; width: 100%; }
 
 /* Tables */
 .table-card { background: var(--surface); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 24px; }
@@ -1173,7 +1173,7 @@ function initCharts() {
             borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,0.1)', tension: 0.3, fill: true }
         ]
       },
-      options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { title: { display: true, text: 'Units' } } } }
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { title: { display: true, text: 'Units' } } } }
     });
     updatePieChart(0);
   } else {
@@ -1204,7 +1204,7 @@ function updatePieChart(wk) {
       datasets: [{ data: [Math.abs(dStart[0]), dIn[0], dRepo[0], dOut[0]],
         backgroundColor: [pc().color, '#4caf50', '#81c784', '#ff7043'], borderWidth: 2, borderColor: '#fff' }]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' }, title: { display: true, text: `WK${wk} Flow Breakdown` } } }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, title: { display: true, text: `WK${wk} Flow Breakdown` } } }
   });
   document.getElementById('weekPieTitle').textContent = `WK${wk} Flow Breakdown`;
 }
