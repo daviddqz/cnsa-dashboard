@@ -162,7 +162,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
     <div class="logo">SML</div>
     <div>
       <h1 id="dashTitle">Empty Forecast &amp; Vessel Schedule Dashboard</h1>
-      <div class="meta" id="dashMeta">Location: SMD | Type: Dry | Refreshed: 2026-07-06 10:00 | Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking</div>
+      <div class="meta" id="dashMeta">Location: SMD | Type: Dry | Refreshed: 2026-07-07 10:00 | Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking</div>
     </div>
   </div>
   <div class="status-chip" id="headerStatus">LIVE</div>
@@ -259,7 +259,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
   </div>
 
   <div class="footer" id="footerText">
-    Empty Forecast Dashboard v11 | Multi-Port | Auto-generated 2026-07-06 10:00 | Data from ops.culines.com NAW System &amp; Live Dashboard
+    Empty Forecast Dashboard v11 | Multi-Port | Auto-generated 2026-07-07 10:00 | Data from ops.culines.com NAW System &amp; Live Dashboard
   </div>
 </div>
 
@@ -268,7 +268,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 // ===== MULTI-PORT DATA STORE =====
 // ============================================================
 const PORT_CONFIG = {
-  CNSHA: { label: 'SHA', name: '上海', live: true, color: '#2e75b6', wkLabels: ['WK0(07/05-07/11)','WK1(07/12-07/18)','WK2(07/19-07/25)'], cdlVessels: 13, turnTime: { days20gp: 4, days40hc: 3 } },
+  CNSHA: { label: 'SHA', name: '上海', live: true, color: '#2e75b6', wkLabels: ['WK0(07/05-07/11)','WK1(07/12-07/18)','WK2(07/19-07/25)'], cdlVessels: 18, turnTime: { days20gp: 4, days40hc: 3 } },
   CNNGB: { label: 'NGB', name: '宁波', live: true, color: '#388e3c', wkLabels: ['WK0(07/05-07/11)','WK1(07/12-07/18)','WK2(07/19-07/25)'], cdlVessels: 18 },
   CNSHK: { label: 'SHK', name: '蛇口/深圳', live: true, color: '#7b1fa2', wkLabels: ['WK0(07/05-07/11)','WK1(07/12-07/18)','WK2(07/19-07/25)'], cdlVessels: 21 },
   CNNAS: { label: 'NAS', name: '南沙/广州', live: true, color: '#e65100', wkLabels: ['WK0(07/05-07/11)','WK1(07/12-07/18)','WK2(07/19-07/25)'], cdlVessels: 45 },
@@ -283,28 +283,1025 @@ const portData = {
   // ============================================================
   CNSHA: {
     forecastData: {
-    "Start Empty": { "0": [1423, 565, 0, 0, 0, 0, 858, 0], "1": [841, 352, 0, 0, 0, 0, 489, 0], "2": [18, -11, 0, 0, 0, 0, 29, 0] },
-    "Inbound Generation": { "0": [30, 15, 0, 0, 0, 0, 15, 0], "1": [30, 15, 0, 0, 0, 0, 15, 0], "2": [30, 15, 0, 0, 0, 0, 15, 0] },
-    "Reposition In": { "0": [826, 302, 0, 0, 0, 0, 524, 0], "1": [245, 14, 0, 0, 0, 0, 231, 0], "2": [565, 7, 0, 0, 0, 0, 558, 0] },
-    "OW & On-hire": { "0": [0, 0, 0, 0, 0, 0, 0, 0], "1": [0, 0, 0, 0, 0, 0, 0, 0], "2": [0, 0, 0, 0, 0, 0, 0, 0] },
-    "+ Other": { "0": [0, 0, 0, 0, 0, 0, 0, 0], "1": [0, 0, 0, 0, 0, 0, 0, 0], "2": [0, 0, 0, 0, 0, 0, 0, 0] },
-    "Outbound Pick-up": { "0": [1438, 530, 0, 0, 0, 0, 908, 0], "1": [1098, 392, 0, 0, 0, 0, 706, 0], "2": [1400, 500, 0, 0, 0, 0, 900, 0] },
-    "Reposition out": { "0": [0, 0, 0, 0, 0, 0, 0, 0], "1": [0, 0, 0, 0, 0, 0, 0, 0], "2": [0, 0, 0, 0, 0, 0, 0, 0] },
-    "OneWay & Off Hire": { "0": [0, 0, 0, 0, 0, 0, 0, 0], "1": [0, 0, 0, 0, 0, 0, 0, 0], "2": [0, 0, 0, 0, 0, 0, 0, 0] },
-    "- Other": { "0": [0, 0, 0, 0, 0, 0, 0, 0], "1": [0, 0, 0, 0, 0, 0, 0, 0], "2": [0, 0, 0, 0, 0, 0, 0, 0] },
-    "Balance(Forecast)": { "0": [841, 352, 0, 0, 0, 0, 489, 0], "1": [18, -11, 0, 0, 0, 0, 29, 0], "2": [-787, -489, 0, 0, 0, 0, -298, 0] }
+  "Start Empty": {
+    "0": [
+      1423,
+      565,
+      0,
+      0,
+      0,
+      0,
+      858,
+      0
+    ],
+    "1": [
+      999,
+      357,
+      0,
+      0,
+      0,
+      0,
+      642,
+      0
+    ],
+    "2": [
+      303,
+      40,
+      0,
+      0,
+      0,
+      0,
+      263,
+      0
+    ]
   },
+  "Inbound Generation": {
+    "0": [
+      165,
+      20,
+      0,
+      0,
+      0,
+      0,
+      145,
+      0
+    ],
+    "1": [
+      157,
+      61,
+      0,
+      0,
+      0,
+      0,
+      96,
+      0
+    ],
+    "2": [
+      204,
+      50,
+      0,
+      0,
+      0,
+      0,
+      154,
+      0
+    ]
+  },
+  "Reposition In": {
+    "0": [
+      849,
+      302,
+      0,
+      0,
+      0,
+      0,
+      547,
+      0
+    ],
+    "1": [
+      245,
+      14,
+      0,
+      0,
+      0,
+      0,
+      231,
+      0
+    ],
+    "2": [
+      565,
+      7,
+      0,
+      0,
+      0,
+      0,
+      558,
+      0
+    ]
+  },
+  "OW & On-hire": {
+    "0": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "+ Other": {
+    "0": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "Outbound Pick-up": {
+    "0": [
+      1438,
+      530,
+      0,
+      0,
+      0,
+      0,
+      908,
+      0
+    ],
+    "1": [
+      1098,
+      392,
+      0,
+      0,
+      0,
+      0,
+      706,
+      0
+    ],
+    "2": [
+      1400,
+      500,
+      0,
+      0,
+      0,
+      0,
+      900,
+      0
+    ]
+  },
+  "Reposition out": {
+    "0": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "OneWay & Off Hire": {
+    "0": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "- Other": {
+    "0": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "Balance(Forecast)": {
+    "0": [
+      999,
+      357,
+      0,
+      0,
+      0,
+      0,
+      642,
+      0
+    ],
+    "1": [
+      303,
+      40,
+      0,
+      0,
+      0,
+      0,
+      263,
+      0
+    ],
+    "2": [
+      -328,
+      -403,
+      0,
+      0,
+      0,
+      0,
+      75,
+      0
+    ]
+  }
+},
     bookingByVessel: {
-    "CSJ72630W": {alloc:320,current:1012,ft20:160,ft40:426},
-    "GFPS2619W": {alloc:275,current:275,ft20:35,ft40:120},
-    "RACE2628W": {alloc:960,current:400,ft20:40,ft40:180},
-    "ZGYC2627W": {alloc:900,current:898,ft20:150,ft40:374}
+  "CSJ72630W": {
+    "alloc": 320,
+    "current": 1012,
+    "ft20": 160,
+    "ft40": 426
   },
+  "GFPS2619W": {
+    "alloc": 275,
+    "current": 275,
+    "ft20": 35,
+    "ft40": 120
+  },
+  "RACE2628W": {
+    "alloc": 960,
+    "current": 400,
+    "ft20": 40,
+    "ft40": 180
+  },
+  "ZGYC2627W": {
+    "alloc": 900,
+    "current": 898,
+    "ft20": 150,
+    "ft40": 374
+  }
+},
     vesselsByWeek: {
-    "0": [{voyage:"AOTK2626S",lane:"SHT",terminal:"CNSHAT03",eta:"2026-07-05 03:00"}, {voyage:"CSRO2627S",lane:"SHT",terminal:"CNSHAT04",eta:"2026-07-05 04:00"}, {voyage:"JUBM2625S",lane:"CCT",terminal:"CNSHAT04",eta:"2026-07-05 06:00"}, {voyage:"CASN2625N",lane:"CH1",terminal:"CNSHAT02",eta:"2026-07-05 12:00"}, {voyage:"CANY2624N",lane:"SHT",terminal:"CNSHAT02",eta:"2026-07-05 15:00"}, {voyage:"JHT92632W",lane:"YRD",terminal:"CNSHAT04",eta:"2026-07-05 17:00"}, {voyage:"GLSH2627S",lane:"SHT",terminal:"CNSHAT03",eta:"2026-07-06 00:00"}, {voyage:"XIHG2627S",lane:"SHT",terminal:"CNSHAT01",eta:"2026-07-06 00:00"}, {voyage:"ZGYC2627W",lane:"REX",terminal:"CNSHAT02",eta:"2026-07-06 00:08"}, {voyage:"JJTY2626S",lane:"SHT",terminal:"CNSHAT02",eta:"2026-07-07 03:00"}, {voyage:"CUXM2621E",lane:"HDT",terminal:"CNSHAT01",eta:"2026-07-07 06:00"}, {voyage:"JJTY2627S",lane:"SHT",terminal:"CNSHAT02",eta:"2026-07-08 00:00"}, {voyage:"TBN12815E",lane:"LHT",terminal:"CNSHAT02",eta:"2026-07-08 12:00"}, {voyage:"GLZD2627S",lane:"SHT",terminal:"CNSHAT01",eta:"2026-07-09 04:00"}, {voyage:"H8112625S",lane:"NP2",terminal:"CNSHAT02",eta:"2026-07-09 13:00"}, {voyage:"CSJ72630W",lane:"REX",terminal:"CNSHAT02",eta:"2026-07-09 18:00"}, {voyage:"RNSH2627S",lane:"SHT",terminal:"CNSHAT04",eta:"2026-07-09 23:00"}, {voyage:"COSK2621W",lane:"LHT",terminal:"CNSHAT01",eta:"2026-07-10 02:00"}, {voyage:"UABM2620E",lane:"CI3",terminal:"CNSHAT03",eta:"2026-07-10 14:00"}, {voyage:"FH862627S",lane:"CH1",terminal:"CNSHAT02",eta:"2026-07-10 20:00"}, {voyage:"JJTY2628S",lane:"SHT",terminal:"CNSHAT02",eta:"2026-07-11 00:00"}, {voyage:"CUNS2626S",lane:"CCT",terminal:"CNSHAT04",eta:"2026-07-11 06:00"}, {voyage:"ESDB2624E",lane:"LHT",terminal:"CNSHAT03",eta:"2026-07-11 15:00"}, {voyage:"JHT92633W",lane:"YRD",terminal:"CNSHAT04",eta:"2026-07-11 16:00"}, {voyage:"GLGD2626S",lane:"SHT",terminal:"CNSHAT01",eta:"2026-07-11 18:00"}],
-    "1": [{voyage:"MDTN2628S",lane:"SHT",terminal:"CNSHAT04",eta:"2026-07-12 00:00"}, {voyage:"HRRR2628S",lane:"SHT",terminal:"CNSHAT03",eta:"2026-07-13 00:00"}, {voyage:"XIHG2628S",lane:"SHT",terminal:"CNSHAT01",eta:"2026-07-13 00:00"}, {voyage:"YMWH0050E",lane:"LHT",terminal:"CNSHAT07",eta:"2026-07-13 08:00"}, {voyage:"CAOK2625N",lane:"CH1",terminal:"CNSHAT02",eta:"2026-07-13 18:00"}, {voyage:"CUXM2622E",lane:"HDT",terminal:"CNSHAT01",eta:"2026-07-14 07:00"}, {voyage:"ZGZH2627W",lane:"RES",terminal:"CNSHAT02",eta:"2026-07-14 08:00"}, {voyage:"CLMB2618S",lane:"CP8",terminal:"CNSHAT02",eta:"2026-07-14 17:00"}, {voyage:"ZGU92629W",lane:"RES",terminal:"CNSHAT02",eta:"2026-07-15 21:00"}, {voyage:"GLGD2628S",lane:"SHT",terminal:"CNSHAT01",eta:"2026-07-16 00:00"}, {voyage:"EVLE2614E",lane:"CWS",terminal:"CNSHAT03",eta:"2026-07-16 03:00"}, {voyage:"XFJH2626S",lane:"NP2",terminal:"CNSHAT02",eta:"2026-07-16 09:00"}, {voyage:"GFPS2619W",lane:"AM1",terminal:"CNSHAT02",eta:"2026-07-16 19:00"}, {voyage:"GFPS2627W",lane:"AM1",terminal:"CNSHAT02",eta:"2026-07-16 19:00"}, {voyage:"PETH2629W",lane:"AM1",terminal:"CNSHAT02",eta:"2026-07-16 19:00"}, {voyage:"AOTK2628S",lane:"SHT",terminal:"CNSHAT03",eta:"2026-07-17 00:00"}, {voyage:"RNLG2628S",lane:"SHT",terminal:"CNSHAT04",eta:"2026-07-17 02:00"}, {voyage:"JHT92634W",lane:"YRD",terminal:"CNSHAT04",eta:"2026-07-17 15:00"}, {voyage:"JJTY2629S",lane:"SHT",terminal:"CNSHAT02",eta:"2026-07-18 00:00"}, {voyage:"XSAS2628W",lane:"MFX",terminal:"CNSHAT02",eta:"2026-07-18 05:30"}, {voyage:"LTWR2627S",lane:"CCT",terminal:"CNSHAT04",eta:"2026-07-18 06:00"}, {voyage:"CLMB2620S",lane:"CP8",terminal:"CNSHAT02",eta:"2026-07-18 12:00"}, {voyage:"RACE2628W",lane:"SGX",terminal:"CNSHAT02",eta:"2026-07-18 18:00"}],
-    "2": [{voyage:"CSCC2628S",lane:"SHT",terminal:"CNSHAT04",eta:"2026-07-19 00:00"}, {voyage:"XIHG2624S",lane:"SHT",terminal:"CNSHAT01",eta:"2026-07-19 02:00"}, {voyage:"CMSP2619S",lane:"CP8",terminal:"CNSHAT02",eta:"2026-07-19 04:00"}, {voyage:"IAAL2622E",lane:"CI3",terminal:"CNSHAT03",eta:"2026-07-19 06:00"}, {voyage:"KNBM2627S",lane:"CCT",terminal:"CNSHAT04",eta:"2026-07-19 13:00"}, {voyage:"MBBG2627W",lane:"KCI",terminal:"CNSHAT03",eta:"2026-07-19 16:00"}, {voyage:"FH862628S",lane:"CH1",terminal:"CNSHAT02",eta:"2026-07-19 21:00"}, {voyage:"JJSN2628S",lane:"SHT",terminal:"CNSHAT03",eta:"2026-07-20 00:00"}, {voyage:"DFMH2627W",lane:"CGS",terminal:"CNSHAT02",eta:"2026-07-20 12:00"}, {voyage:"XIHG2629S",lane:"SHT",terminal:"CNSHAT01",eta:"2026-07-21 00:00"}, {voyage:"CUXM2623E",lane:"HDT",terminal:"CNSHAT01",eta:"2026-07-21 07:00"}, {voyage:"CAOE2660E",lane:"LHT",terminal:"CNSHAT07",eta:"2026-07-21 10:00"}, {voyage:"ZGNC2629W",lane:"AM1",terminal:"CNSHAT02",eta:"2026-07-21 19:00"}, {voyage:"ZGNC2626W",lane:"AM1",terminal:"CNSHAT02",eta:"2026-07-22 03:00"}, {voyage:"LYJE2629W",lane:"MFX",terminal:"CNSHAT02",eta:"2026-07-22 15:30"}, {voyage:"ORC12630W",lane:"MFX",terminal:"CNSHAT02",eta:"2026-07-22 18:00"}, {voyage:"GLZD2629S",lane:"SHT",terminal:"CNSHAT01",eta:"2026-07-23 00:00"}, {voyage:"JHT92635W",lane:"YRD",terminal:"CNSHAT04",eta:"2026-07-23 14:00"}, {voyage:"CAOK2630S",lane:"CH1",terminal:"CNSHAT02",eta:"2026-07-23 21:00"}, {voyage:"NHZY2624W",lane:"CGS",terminal:"CNSHAT02",eta:"2026-07-24 11:00"}, {voyage:"HMBM2628W",lane:"KCI",terminal:"CNSHAT03",eta:"2026-07-24 16:00"}, {voyage:"JJTY2630S",lane:"SHT",terminal:"CNSHAT02",eta:"2026-07-25 00:00"}, {voyage:"JUBM2628S",lane:"CCT",terminal:"CNSHAT04",eta:"2026-07-25 06:00"}]
-  },
+  "0": [
+    {
+      "voyage": "AOTK2626S",
+      "eta": "07/05 03:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 3,
+      "dis40": 6
+    },
+    {
+      "voyage": "CSRO2627S",
+      "eta": "07/05 04:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JUBM2625S",
+      "eta": "07/05 06:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CASN2625N",
+      "eta": "07/05 12:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 27,
+      "dis40": 5
+    },
+    {
+      "voyage": "CANY2624N",
+      "eta": "07/05 15:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92632W",
+      "eta": "07/05 17:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "GLSH2627S",
+      "eta": "07/06 00:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 2,
+      "dis40": 27
+    },
+    {
+      "voyage": "JHT92632W",
+      "eta": "07/06 00:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "XIHG2627S",
+      "eta": "07/06 00:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "ZGYC2627W",
+      "eta": "07/06 00:08",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 130,
+      "dis40": 140
+    },
+    {
+      "voyage": "JHT92632W",
+      "eta": "07/06 07:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92632W",
+      "eta": "07/06 14:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JJTY2626S",
+      "eta": "07/07 03:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CUXM2621E",
+      "eta": "07/07 06:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 17,
+      "dis40": 10
+    },
+    {
+      "voyage": "JJTY2627S",
+      "eta": "07/08 00:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "TBN12815E",
+      "eta": "07/08 12:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "GLZD2627S",
+      "eta": "07/09 04:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 1,
+      "dis40": 36
+    },
+    {
+      "voyage": "H8112625S",
+      "eta": "07/09 13:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CSJ72630W",
+      "eta": "07/09 18:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 84,
+      "dis40": 114
+    },
+    {
+      "voyage": "RNSH2627S",
+      "eta": "07/09 23:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "COSK2621W",
+      "eta": "07/10 02:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "UABM2620E",
+      "eta": "07/10 14:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 10,
+      "dis40": 25
+    },
+    {
+      "voyage": "FH862627S",
+      "eta": "07/10 20:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JJTY2628S",
+      "eta": "07/11 00:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CUNS2626S",
+      "eta": "07/11 06:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 29,
+      "dis40": 50
+    },
+    {
+      "voyage": "ESDB2624E",
+      "eta": "07/11 15:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92633W",
+      "eta": "07/11 16:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "GLGD2626S",
+      "eta": "07/11 18:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92633W",
+      "eta": "07/11 23:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    }
+  ],
+  "1": [
+    {
+      "voyage": "MDTN2628S",
+      "eta": "07/12 00:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 3,
+      "dis40": 3
+    },
+    {
+      "voyage": "JHT92633W",
+      "eta": "07/12 06:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92633W",
+      "eta": "07/12 13:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "HRRR2628S",
+      "eta": "07/13 00:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 1,
+      "dis40": 14
+    },
+    {
+      "voyage": "XIHG2628S",
+      "eta": "07/13 00:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "YMWH0050E",
+      "eta": "07/13 08:00",
+      "service": "",
+      "terminal": "CNSHAT07",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CAOK2625N",
+      "eta": "07/13 18:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 6,
+      "dis40": 14
+    },
+    {
+      "voyage": "CUXM2622E",
+      "eta": "07/14 07:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "ZGZH2627W",
+      "eta": "07/14 08:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 26,
+      "dis40": 113
+    },
+    {
+      "voyage": "CLMB2618S",
+      "eta": "07/14 17:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 5,
+      "dis40": 7
+    },
+    {
+      "voyage": "ZGU92629W",
+      "eta": "07/15 21:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "GLGD2628S",
+      "eta": "07/16 00:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "EVLE2614E",
+      "eta": "07/16 03:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "XFJH2626S",
+      "eta": "07/16 09:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "GFPS2619W",
+      "eta": "07/16 19:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "GFPS2627W",
+      "eta": "07/16 19:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "PETH2629W",
+      "eta": "07/16 19:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "AOTK2628S",
+      "eta": "07/17 00:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "RNLG2628S",
+      "eta": "07/17 02:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92634W",
+      "eta": "07/17 15:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92634W",
+      "eta": "07/17 22:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JJTY2629S",
+      "eta": "07/18 00:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92634W",
+      "eta": "07/18 05:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "XSAS2628W",
+      "eta": "07/18 05:30",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "LTWR2627S",
+      "eta": "07/18 06:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 4,
+      "dis40": 7
+    },
+    {
+      "voyage": "CLMB2620S",
+      "eta": "07/18 12:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92634W",
+      "eta": "07/18 12:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "RACE2628W",
+      "eta": "07/18 18:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    }
+  ],
+  "2": [
+    {
+      "voyage": "CSCC2628S",
+      "eta": "07/19 00:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "XIHG2624S",
+      "eta": "07/19 02:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CMSP2619S",
+      "eta": "07/19 04:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "IAAL2622E",
+      "eta": "07/19 06:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 15,
+      "dis40": 28
+    },
+    {
+      "voyage": "KNBM2627S",
+      "eta": "07/19 13:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "MBBG2627W",
+      "eta": "07/19 16:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "FH862628S",
+      "eta": "07/19 21:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JJSN2628S",
+      "eta": "07/20 00:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "DFMH2627W",
+      "eta": "07/20 12:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "XIHG2629S",
+      "eta": "07/21 00:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CUXM2623E",
+      "eta": "07/21 07:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CAOE2660E",
+      "eta": "07/21 10:00",
+      "service": "",
+      "terminal": "CNSHAT07",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "ZGNC2629W",
+      "eta": "07/21 19:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "ZGNC2626W",
+      "eta": "07/22 03:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 32,
+      "dis40": 323
+    },
+    {
+      "voyage": "LYJE2629W",
+      "eta": "07/22 15:30",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "ORC12630W",
+      "eta": "07/22 18:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "GLZD2629S",
+      "eta": "07/23 00:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92635W",
+      "eta": "07/23 14:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "CAOK2630S",
+      "eta": "07/23 21:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92635W",
+      "eta": "07/23 21:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92635W",
+      "eta": "07/24 04:00",
+      "service": "",
+      "terminal": "CNSHAT01",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JHT92635W",
+      "eta": "07/24 11:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "NHZY2624W",
+      "eta": "07/24 11:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "HMBM2628W",
+      "eta": "07/24 16:00",
+      "service": "",
+      "terminal": "CNSHAT03",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JJTY2630S",
+      "eta": "07/25 00:00",
+      "service": "",
+      "terminal": "CNSHAT02",
+      "dis20": 0,
+      "dis40": 0
+    },
+    {
+      "voyage": "JUBM2628S",
+      "eta": "07/25 06:00",
+      "service": "",
+      "terminal": "CNSHAT04",
+      "dis20": 0,
+      "dis40": 0
+    }
+  ]
+},
     cargoSplitData: { "WK0": {f20:0,e20:0,f40:0,e40:0}, "WK1": {f20:0,e20:0,f40:0,e40:0}, "WK2": {f20:0,e20:0,f40:0,e40:0} },
     nawBookingByWeek: {
       "WK0": { "20GP": 173, "40HC": 120 },
@@ -313,10 +1310,19 @@ const portData = {
     },
 allocationTarget: {},
     pickupVolumeByWeek: {
-    "WK0": {"20GP":87,"40HC":363},
-    "WK1": {"20GP":0,"40HC":0},
-    "WK2": {"20GP":0,"40HC":0}
+  "WK0": {
+    "20GP": 87,
+    "40HC": 363
   },
+  "WK1": {
+    "20GP": 0,
+    "40HC": 0
+  },
+  "WK2": {
+    "20GP": 0,
+    "40HC": 0
+  }
+},
     allocationVessels: [{lane:"CCT",vessel:"HOGE2620S",cal_week:"24",report_wk:"WK1",target:0}, {lane:"CCT",vessel:"LTWR2621S",cal_week:"25",report_wk:"WK2",target:210}, {lane:"CCT",vessel:"KNBM2622S",cal_week:"26",report_wk:"WK3",target:210}, {lane:"CCT",vessel:"CUNS2623S",cal_week:"28",report_wk:"WK5",target:281}, {lane:"CCT",vessel:"LTWR2624S",cal_week:"29",report_wk:"WK6",target:281}, {lane:"CCT",vessel:"KNBM2625S",cal_week:"30",report_wk:"WK7",target:0}, {lane:"CH1",vessel:"CAOK2621S",cal_week:"24",report_wk:"WK1",target:60}, {lane:"CH1",vessel:"CAKB2624S",cal_week:"25",report_wk:"WK2",target:60}, {lane:"CH1",vessel:"CAOK2623S",cal_week:"26",report_wk:"WK3",target:60}, {lane:"CH1",vessel:"CAKB2626S",cal_week:"27",report_wk:"WK4",target:0}, {lane:"CP8",vessel:"H9362613S",cal_week:"24",report_wk:"WK1",target:43}, {lane:"CP8",vessel:"CLMB2614S",cal_week:"25",report_wk:"WK2",target:76}, {lane:"CP8",vessel:"H9362615S",cal_week:"26",report_wk:"WK3",target:0}, {lane:"CP8",vessel:"CLMB2616S",cal_week:"27",report_wk:"WK4",target:0}, {lane:"CP8",vessel:"H9362617S",cal_week:"28",report_wk:"WK5",target:0}, {lane:"HDT",vessel:"CUXM2618E",cal_week:"24",report_wk:"WK1",target:47}, {lane:"HDT",vessel:"CUXM2619E",cal_week:"25",report_wk:"WK2",target:50}, {lane:"HDT",vessel:"CUXM2620E",cal_week:"26",report_wk:"WK3",target:50}, {lane:"NP2",vessel:"CSJ72619S",cal_week:"24",report_wk:"WK1",target:130}, {lane:"NP2",vessel:"XFJH2620S",cal_week:"25",report_wk:"WK2",target:200}, {lane:"NP2",vessel:"CSJ72623S",cal_week:"26",report_wk:"WK3",target:0}, {lane:"NP2",vessel:"XFJH2624S",cal_week:"27",report_wk:"WK4",target:0}]},
   // ============================================================
   // ===== CNNGB - 宁波 (LIVE) =====
@@ -346,7 +1352,197 @@ allocationTarget: {},
     "1": [{voyage:"NYHA2628N",lane:"TWT",terminal:"CNNGBT04",eta:"2026-07-12 00:00"}, {voyage:"H9682628E",lane:"YRD",terminal:"CNNGBT04",eta:"2026-07-12 08:00"}, {voyage:"EVVR2627W",lane:"MFX",terminal:"CNNGBT04",eta:"2026-07-12 09:00"}, {voyage:"CUXM2622E",lane:"HDT",terminal:"CNNGBT02",eta:"2026-07-12 17:00"}, {voyage:"RHMB2624E",lane:"LHT",terminal:"CNNGBT04",eta:"2026-07-12 17:00"}, {voyage:"CAOK2625N",lane:"CH1",terminal:"CNNGBT02",eta:"2026-07-12 18:00"}, {voyage:"NM662627S",lane:"SHT",terminal:"CNNGBT02",eta:"2026-07-13 01:00"}, {voyage:"XM182627S",lane:"SHT",terminal:"CNNGBT05",eta:"2026-07-14 00:00"}, {voyage:"TBTL2626E",lane:"LHT",terminal:"CNNGBT04",eta:"2026-07-15 00:00"}, {voyage:"CLMB2618S",lane:"CP8",terminal:"CNNGBT02",eta:"2026-07-15 19:00"}, {voyage:"ZGZH2627W",lane:"RES",terminal:"CNNGBT06",eta:"2026-07-16 03:00"}, {voyage:"LTWR2627S",lane:"CCT",terminal:"CNNGBT05",eta:"2026-07-16 05:00"}, {voyage:"CH272629E",lane:"YRD",terminal:"CNNGBT04",eta:"2026-07-17 08:00"}, {voyage:"ZGU92629W",lane:"RES",terminal:"CNNGBT06",eta:"2026-07-17 13:00"}, {voyage:"ZYHS2628W",lane:"SGX",terminal:"CNNGBT04",eta:"2026-07-17 23:00"}, {voyage:"FH862628S",lane:"CH1",terminal:"CNNGBT02",eta:"2026-07-18 22:00"}, {voyage:"GFPS2619W",lane:"AM1",terminal:"CNNGBT06",eta:"2026-07-18 22:00"}, {voyage:"CLMB2620S",lane:"CP8",terminal:"CNNGBT02",eta:"2026-07-18 23:00"}],
     "2": [{voyage:"GFPS2627W",lane:"AM1",terminal:"CNNGBT06",eta:"2026-07-19 00:00"}, {voyage:"PETH2629W",lane:"AM1",terminal:"CNNGBT06",eta:"2026-07-19 00:00"}, {voyage:"CUXM2623E",lane:"HDT",terminal:"CNNGBT02",eta:"2026-07-19 17:00"}, {voyage:"NM682628S",lane:"SHT",terminal:"CNNGBT02",eta:"2026-07-19 23:00"}, {voyage:"KNBM2627S",lane:"CCT",terminal:"CNNGBT05",eta:"2026-07-20 13:00"}, {voyage:"XM262628S",lane:"SHT",terminal:"CNNGBT05",eta:"2026-07-21 02:00"}, {voyage:"YMWS2623E",lane:"LHT",terminal:"CNNGBT06",eta:"2026-07-21 05:00"}, {voyage:"MBBG2627W",lane:"KCI",terminal:"CNNGBT05",eta:"2026-07-21 08:00"}, {voyage:"CMSP2619S",lane:"CP8",terminal:"CNNGBT02",eta:"2026-07-21 17:00"}, {voyage:"RACE2628W",lane:"SGX",terminal:"CNNGBT04",eta:"2026-07-22 03:00"}, {voyage:"H9682629E",lane:"YRD",terminal:"CNNGBT04",eta:"2026-07-22 08:00"}, {voyage:"PTST2631W",lane:"MFX",terminal:"CNNGBT04",eta:"2026-07-22 21:00"}, {voyage:"CAOK2630S",lane:"CH1",terminal:"CNNGBT02",eta:"2026-07-22 22:00"}, {voyage:"JUBM2628S",lane:"CCT",terminal:"CNNGBT05",eta:"2026-07-23 05:00"}, {voyage:"ZGNC2626W",lane:"AM1",terminal:"CNNGBT06",eta:"2026-07-23 08:00"}, {voyage:"ZGNC2629W",lane:"AM1",terminal:"CNNGBT06",eta:"2026-07-24 00:00"}, {voyage:"LYJE2629W",lane:"MFX",terminal:"CNNGBT04",eta:"2026-07-24 08:30"}]
   },
-    cargoSplitData: [],
+    cargoSplitData: [
+  {
+    "vessel": "AOTK2626S",
+    "f20": 3,
+    "f40": 6,
+    "p20": 0,
+    "p40": 0,
+    "vvd": "AOTK2626S",
+    "match": true
+  },
+  {
+    "vessel": "CSRO2627S",
+    "f20": 0,
+    "f40": 1,
+    "p20": 0,
+    "p40": 0,
+    "vvd": "CSRO2627S",
+    "match": true
+  },
+  {
+    "vessel": "CASN2625N",
+    "f20": 3,
+    "f40": 5,
+    "p20": 24,
+    "p40": 0,
+    "vvd": "CASN2625N",
+    "match": true
+  },
+  {
+    "vessel": "CANY2624N",
+    "f20": 0,
+    "f40": 0,
+    "p20": 50,
+    "p40": 0,
+    "vvd": "CANY2624N",
+    "match": true
+  },
+  {
+    "vessel": "JHT92632W",
+    "f20": 0,
+    "f40": 9,
+    "p20": 0,
+    "p40": 0,
+    "vvd": "JHT92631E",
+    "match": true
+  },
+  {
+    "vessel": "GLSH2627S",
+    "f20": 2,
+    "f40": 27,
+    "p20": 0,
+    "p40": 0,
+    "vvd": "GLSH2627S",
+    "match": true
+  },
+  {
+    "vessel": "JHT92632W",
+    "f20": 0,
+    "f40": 9,
+    "p20": 0,
+    "p40": 0,
+    "vvd": "JHT92631E",
+    "match": true
+  },
+  {
+    "vessel": "ZGYC2627W",
+    "f20": 0,
+    "f40": 0,
+    "p20": 130,
+    "p40": 140,
+    "vvd": "ZGYC2617E",
+    "match": true
+  },
+  {
+    "vessel": "JHT92632W",
+    "f20": 0,
+    "f40": 9,
+    "p20": 0,
+    "p40": 0,
+    "vvd": "JHT92631E",
+    "match": true
+  },
+  {
+    "vessel": "JHT92632W",
+    "f20": 0,
+    "f40": 9,
+    "p20": 0,
+    "p40": 0,
+    "vvd": "JHT92631E",
+    "match": true
+  },
+  {
+    "vessel": "JJTY2626S",
+    "f20": 0,
+    "f40": 11,
+    "p20": 0,
+    "p40": 0,
+    "vvd": "JJTY2626S",
+    "match": true
+  },
+  {
+    "vessel": "CUXM2621E",
+    "f20": 1,
+    "f40": 10,
+    "p20": 16,
+    "p40": 0,
+    "vvd": "CUXM2620W",
+    "match": true
+  },
+  {
+    "vessel": "GLZD2627S",
+    "f20": 1,
+    "f40": 36,
+    "p20": 0,
+    "p40": 0,
+    "vvd": "GLZD2627S",
+    "match": true
+  },
+  {
+    "vessel": "H8112625S",
+    "f20": 0,
+    "f40": 0,
+    "p20": 0,
+    "p40": 93,
+    "vvd": "H8112625S",
+    "match": true
+  },
+  {
+    "vessel": "CSJ72630W",
+    "f20": 2,
+    "f40": 1,
+    "p20": 82,
+    "p40": 113,
+    "vvd": "CSJ72623N",
+    "match": true
+  },
+  {
+    "vessel": "COSK2621W",
+    "f20": 0,
+    "f40": 0,
+    "p20": 0,
+    "p40": 87,
+    "vvd": "COSK2621W",
+    "match": true
+  },
+  {
+    "vessel": "UABM2620E",
+    "f20": 10,
+    "f40": 0,
+    "p20": 0,
+    "p40": 25,
+    "vvd": "UABM2620E",
+    "match": true
+  },
+  {
+    "vessel": "JJTY2628S",
+    "f20": 0,
+    "f40": 24,
+    "p20": 0,
+    "p40": 0,
+    "vvd": "JJTY2628S",
+    "match": true
+  },
+  {
+    "vessel": "CUNS2626S",
+    "f20": 29,
+    "f40": 11,
+    "p20": 0,
+    "p40": 39,
+    "vvd": "CUNS2626N",
+    "match": true
+  },
+  {
+    "vessel": "ESDB2624E",
+    "f20": 0,
+    "f40": 0,
+    "p20": 0,
+    "p40": 50,
+    "vvd": "ESDB2624E",
+    "match": true
+  },
+  {
+    "vessel": "GLGD2626S",
+    "f20": 2,
+    "f40": 0,
+    "p20": 0,
+    "p40": 0,
+    "vvd": "GLGD2626S",
+    "match": true
+  }
+],
     nawBookingByWeek: {},
 allocationTarget: {},
         pickupVolumeByWeek: {
@@ -528,7 +1724,41 @@ allocationTarget: {},
     "WK1": {"20GP":0,"40HC":0},
     "WK2": {"20GP":0,"40HC":0}
   },
-    allocationTarget: {},
+    allocationTarget: {
+  "WK0": {
+    "cal_week": 28,
+    "target": 281,
+    "by_lane": {
+      "CCT": 281,
+      "CH1": 0,
+      "CP8": 0,
+      "HDT": 0,
+      "NP2": 0
+    }
+  },
+  "WK1": {
+    "cal_week": 29,
+    "target": 281,
+    "by_lane": {
+      "CCT": 281,
+      "CH1": 0,
+      "CP8": 0,
+      "HDT": 0,
+      "NP2": 0
+    }
+  },
+  "WK2": {
+    "cal_week": 30,
+    "target": 0,
+    "by_lane": {
+      "CCT": 0,
+      "CH1": 0,
+      "CP8": 0,
+      "HDT": 0,
+      "NP2": 0
+    }
+  }
+},
     allocationVessels: []
   }
 };
@@ -607,7 +1837,7 @@ function updateHeaderMeta() {
   document.getElementById('dashTitle').textContent = `${currentPort} (${cfg.name}) Empty Forecast & Vessel Schedule Dashboard`;
   const status = cfg.live ? 'LIVE' : '待刷新 Pending';
   document.getElementById('dashMeta').textContent =
-    `Location: SMD | Port: ${currentPort} | Type: Dry | Status: ${status} | Refreshed: 2026-07-06 10:00 | Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking`;
+    `Location: SMD | Port: ${currentPort} | Type: Dry | Status: ${status} | Refreshed: 2026-07-07 10:00 | Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking`;
   const statusChip = document.getElementById('headerStatus');
   if (statusChip) {
     statusChip.textContent = status;
