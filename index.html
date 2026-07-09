@@ -502,7 +502,7 @@ function renderSummaryCards() {
   const out0 = data.forecastData["Outbound Pick-up"]["0"];
   const inbound0 = data.forecastData["Inbound Generation"]["0"];
   const repo0 = data.forecastData["Reposition In"]["0"];
-  const wk0Vessels = data.vesselsByWeek[0] || [];
+  const wk0Vessels = data.vesselsByWeek['WK0'] || [];
   const ibTotal20 = wk0Vessels.reduce((s,v) => s + (v.dis20||0), 0);
   const ibTotal40 = wk0Vessels.reduce((s,v) => s + (v.dis40||0), 0);
   // I/B Total fallback for summary cards
@@ -565,7 +565,7 @@ function renderForecastTable(wk) {
     <tbody></tbody></table></div>`;
 
   const data = pd();
-  const vessels = data.vesselsByWeek[wk] || [];
+  const vessels = data.vesselsByWeek['WK' + wk] || [];
   const ibTotal20 = vessels.reduce((s,v) => s + (v.dis20||0), 0);
   const ibTotal40 = vessels.reduce((s,v) => s + (v.dis40||0), 0);
   // I/B Total fallback: if no discharge data, use Inbound Generation + Reposition In from forecast
@@ -721,7 +721,7 @@ function renderBookingTable(wk) {
     <tbody></tbody></table></div>`;
 
   const data = pd();
-  const vessels = data.vesselsByWeek[wk] || [];
+  const vessels = data.vesselsByWeek['WK' + wk] || [];
   const bookingVessels = vessels.filter(v => data.bookingByVessel[v.voyage]);
   const allocTgtKey = 'WK' + (wk + 1);
   const allocTgt = (data.allocationTarget && data.allocationTarget[allocTgtKey]) ? data.allocationTarget[allocTgtKey] : null;
@@ -734,7 +734,7 @@ function renderBookingTable(wk) {
   vessels.forEach(v => { vesselLookup[v.voyage] = v; });
   // Also check all weeks for vessels not in current week
   [0, 1, 2].forEach(w => {
-    (data.vesselsByWeek[w] || []).forEach(v => { if (!vesselLookup[v.voyage]) vesselLookup[v.voyage] = v; });
+    (data.vesselsByWeek['WK' + w] || []).forEach(v => { if (!vesselLookup[v.voyage]) vesselLookup[v.voyage] = v; });
   });
 
   const bsaVessels = allocVessels
@@ -871,7 +871,7 @@ function renderVesselSection(wk) {
     return;
   }
   const data = pd();
-  const vessels = data.vesselsByWeek[wk] || [];
+  const vessels = data.vesselsByWeek['WK' + wk] || [];
   let html = `<div class="table-card"><h3>WK${wk} Vessel Schedule - ${currentPort} (${vessels.length} vessels)</h3><div class="vessel-grid">`;
   if (vessels.length === 0) {
     html += `<div style="color:#bbb;padding:20px;grid-column:1/-1;">No vessels scheduled for this week.</div>`;
