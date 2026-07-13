@@ -729,7 +729,11 @@ function renderBookingTable(wk) {
   const allocTgtByLane = allocTgt ? (allocTgt.by_lane || {}) : {};
 
   // Build BSA vessel table: match allocationVessels (vessel-level target) with vesselsByWeek (ETA/terminal)
-  const allocVessels = data.allocationVessels || [];
+  // allocationVessels may be stored as flat array or object grouped by lane
+  const rawAllocVessels = data.allocationVessels || [];
+  const allocVessels = Array.isArray(rawAllocVessels)
+    ? rawAllocVessels
+    : Object.values(rawAllocVessels).flat();
   const vesselLookup = {};
   vessels.forEach(v => { vesselLookup[v.voyage] = v; });
   // Also check all weeks for vessels not in current week
