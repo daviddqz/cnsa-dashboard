@@ -408,6 +408,21 @@ function getBalanceBreakdown(wk) {
   return [supplyTotal[1] - demandTotal[1], supplyTotal[6] - demandTotal[6]];
 }
 
+function getStartEmptyBreakdown(wk) {
+  const data = pd();
+  const row = data.forecastData["Start Empty"][String(wk)];
+  // NAW provides breakdown for current week (WK0); use it directly
+  if (row[1] !== 0 || row[6] !== 0 || row[0] === 0) {
+    return [row[1], row[6]];
+  }
+  // For WK1/WK2, NAW only gives Total; use previous week's Balance breakdown
+  // because ending balance of week N = starting empty of week N+1
+  if (wk > 0) {
+    return getBalanceBreakdown(wk - 1);
+  }
+  return [0, 0];
+}
+
 // ============================================================
 // ===== PORT NAV =====
 // ============================================================
@@ -499,6 +514,7 @@ function renderSummaryCards() {
   const bal1 = getBalanceBreakdown(1);
   const bal2 = getBalanceBreakdown(2);
   const start0 = data.forecastData["Start Empty"]["0"];
+  const startBreakdown0 = getStartEmptyBreakdown(0);
   const out0 = data.forecastData["Outbound Pick-up"]["0"];
   const inbound0 = data.forecastData["Inbound Generation"]["0"];
   const repo0 = data.forecastData["Reposition In"]["0"];
@@ -524,7 +540,7 @@ function renderSummaryCards() {
       <div class="card-icon">INV</div>
       <div class="card-title">WK0 Start Empty</div>
       <div class="card-value">${start0[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${fmt(start0[1],start0[0])} | 40HC: ${fmt(start0[6],start0[0])}</div>
+      <div class="card-sub">20GP: ${fmt(startBreakdown0[0],start0[0])} | 40HC: ${fmt(startBreakdown0[1],start0[0])}</div>
     </div>
     <div class="card warning">
       <div class="card-icon">OUT</div>
@@ -638,9 +654,14 @@ function renderForecastTable(wk) {
     // Display cell: show '—' when breakdown is 0 but Total is non-zero (NAW WK1/WK2 limitation)
     const cell = (val, total) => (val === 0 && total !== 0) ? '<span style="color:#999;">—</span>' : val;
     // For Balance row: if breakdown is missing but Total is present, compute from supply - demand
-    const displayRow = (isBalance && row[1] === 0 && row[6] === 0 && row[0] !== 0)
+    let displayRow = (isBalance && row[1] === 0 && row[6] === 0 && row[0] !== 0)
       ? [row[0], supplyTotal[1] - demandTotal[1], row[2], row[3], row[4], row[5], supplyTotal[6] - demandTotal[6], row[7]]
       : row;
+    // For Start Empty row: if breakdown is missing, use previous week's Balance breakdown
+    if (ind === 'Start Empty' && row[1] === 0 && row[6] === 0 && row[0] !== 0 && wk > 0) {
+      const [se20, se40] = getBalanceBreakdown(wk - 1);
+      displayRow = [row[0], se20, row[2], row[3], row[4], row[5], se40, row[7]];
+    }
     html += `<tr class="${cls}">
       <td>${rowNum}</td><td>${ind}</td><td>${tag || signs[i]}</td>
       <td><strong>${row[0].toLocaleString()}</strong></td>
@@ -658,15 +679,24 @@ function renderForecastTable(wk) {
         <td>${ibDisplay20||''}</td><td>${ibDisplay40||''}</td>
         <td></td>
         <td style="text-align:left;font-size:11px;">${ibLabel}</td></tr>`;
-      // Supply Subtotal row (sum of all + rows)
+      // Supply Subtotal row (sum of all + rows, with Start Empty display override)
       const supplyTotal = indicators.filter((ind2,j) => signs[j]==='+').reduce((sum,ind2,j) => {
         const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
       }, [0,0,0,0,0,0,0,0]);
+      const startEmptyRowSub = data.forecastData['Start Empty'][String(wk)];
+      const startEmptyDisplaySub = getStartEmptyBreakdown(wk);
+      const displaySupplyTotal = [
+        supplyTotal[0],
+        supplyTotal[1] + startEmptyDisplaySub[0] - startEmptyRowSub[1],
+        supplyTotal[2], supplyTotal[3], supplyTotal[4], supplyTotal[5],
+        supplyTotal[6] + startEmptyDisplaySub[1] - startEmptyRowSub[6],
+        supplyTotal[7]
+      ];
       rowNum++;
       html += `<tr class="supply" style="background:#e8f5e9;font-weight:700;border-top:2px solid #4caf50;">
         <td>${rowNum}</td><td>Supply Subtotal</td><td><span class="tag tag-supply">+</span></td>
       <td><strong>${supplyTotal[0].toLocaleString()}</strong></td>
-      <td>${cell(supplyTotal[1],supplyTotal[0])}</td><td>${cell(supplyTotal[6],supplyTotal[0])}</td>
+      <td>${cell(displaySupplyTotal[1],displaySupplyTotal[0])}</td><td>${cell(displaySupplyTotal[6],displaySupplyTotal[0])}</td>
         <td></td><td style="text-align:left;font-size:11px;color:#2e7d32;">Total Supply (Start+Inbound+Repo+OW+Other)</td></tr>`;
     }
     if (ind === '- Other') {
