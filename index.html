@@ -1420,11 +1420,12 @@ function renderBookingTable(wk) {
 
   let html = '', totalAlloc = 0, totalCurrent = 0, totalFt20 = 0, totalFt40 = 0;
 
-  // Build a lookup from vessel voyage to its BSA target (for current report week)
+  // Build a lookup from vessel voyage to its BSA target (across all report weeks)
   const bsaLookup = {};
   allocVessels.forEach(av => {
-    if (av.report_wk === allocTgtKey && av.bsa > 0) {
-      bsaLookup[av.vessel] = av.bsa;
+    if (av.bsa > 0) {
+      const existing = bsaLookup[av.vessel];
+      bsaLookup[av.vessel] = existing ? Math.max(existing, av.bsa) : av.bsa;
     }
   });
 
