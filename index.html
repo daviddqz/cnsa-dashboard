@@ -856,7 +856,22 @@ function renderBookingTable(wk) {
       }
     }
   } else {
-    html = `<tr><td colspan="11" style="color:#999;padding:20px;">No ${currentPort} booking data for this week</td></tr>`;
+    // No Live booking data, but check if NAW booking exists for this week
+    const nawWkKey = 'WK' + wk;
+    const naw = data.nawBookingByWeek && data.nawBookingByWeek[nawWkKey];
+    if (naw && (naw['20GP'] > 0 || naw['40HC'] > 0)) {
+      const naw20 = naw['20GP'] || 0;
+      const naw40 = naw['40HC'] || 0;
+      const nawTeu = naw20 * 1 + naw40 * 2;
+      html = `<tr style="background:#fff3e0;">
+        <td colspan="5" style="text-align:left;padding:8px 16px;color:#999;">No Live Booking for WK${wk} — NAW data only</td>
+        <td style="font-weight:700;">${nawTeu.toLocaleString()}</td>
+        <td>${naw20.toLocaleString()}</td><td>${naw40.toLocaleString()}</td>
+        <td>-</td><td>-</td><td>-</td>
+      </tr>`;
+    } else {
+      html = `<tr><td colspan="11" style="color:#999;padding:20px;">No ${currentPort} booking data for this week</td></tr>`;
+    }
   }
   document.querySelector('#bookingTable tbody').innerHTML = html;
 }
