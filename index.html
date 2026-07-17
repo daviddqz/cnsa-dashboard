@@ -758,15 +758,16 @@ function renderBookingTable(wk) {
 
   card.innerHTML = `<h3 id="bookingTitle">WK${wk} Booking Details (${currentPort})</h3>
     <div style="overflow-x:auto;"><table class="data-table" id="bookingTable">
-    <thead><tr><th>VVD</th><th>ETA</th><th>Service</th><th>Alloc (TEU)</th><th>BSA (TEU)</th><th>Booked (TEU)</th><th>20GP</th><th>40HC</th><th>Gap</th><th>Completion</th><th>Terminal</th></tr></thead>
+    <thead><tr><th>VVD</th><th>ETA</th><th>Service/Lane</th><th>Alloc (TEU)</th><th>BSA (TEU)</th><th>Booked (TEU)</th><th>20GP</th><th>40HC</th><th>Gap</th><th>Completion</th><th>Terminal</th></tr></thead>
     <tbody></tbody></table></div>`;
 
   const data = pd();
   const vessels = data.vesselsByWeek['WK' + wk] || [];
   const bookingVessels = vessels.filter(v => data.bookingByVessel[v.voyage]);
-  const allocTgtKey = 'WK' + (wk + 1);
+  const allocTgtKey = 'WK' + wk;
   const allocTgt = (data.allocationTarget && data.allocationTarget[allocTgtKey]) ? data.allocationTarget[allocTgtKey] : null;
   const allocTgtTotal = allocTgt ? (allocTgt.target || 0) : 0;
+  const allocTgtBsa = allocTgt ? (allocTgt.bsa || 0) : 0;
   const allocTgtByLane = allocTgt ? (allocTgt.by_lane || {}) : {};
 
   // Build BSA vessel table: match allocationVessels (vessel-level target) with vesselsByWeek (ETA/terminal)
@@ -789,7 +790,7 @@ function renderBookingTable(wk) {
       lane: av.lane,
       bsa: av.bsa,
       eta: (vesselLookup[av.vessel] && vesselLookup[av.vessel].eta) || '-',
-      service: (vesselLookup[av.vessel] && vesselLookup[av.vessel].service) || av.lane,
+      service: (vesselLookup[av.vessel] && vesselLookup[av.vessel].lane) || av.lane,
       terminal: (vesselLookup[av.vessel] && vesselLookup[av.vessel].terminal) || '-'
     }));
 
@@ -804,6 +805,14 @@ function renderBookingTable(wk) {
     }
   });
 
+  // Build per-week allocation lookup for NAW vessels: vessel -> report_wk -> {target, bsa}
+  const allocVesselLookup = {};
+  allocVessels.forEach(av => {
+    if (!av.vessel) return;
+    if (!allocVesselLookup[av.vessel]) allocVesselLookup[av.vessel] = {};
+    allocVesselLookup[av.vessel][av.report_wk] = { target: av.target || 0, bsa: av.bsa || 0 };
+  });
+
   bookingVessels.forEach(v => {
     const bk = data.bookingByVessel[v.voyage];
     const gap = bk.current - bk.alloc;
@@ -812,7 +821,7 @@ function renderBookingTable(wk) {
     totalAlloc += bk.alloc; totalCurrent += bk.current;
     totalFt20 += bk.ft20; totalFt40 += bk.ft40;
     html += `<tr>
-      <td><strong>${v.voyage}</strong></td><td>${v.eta}</td><td>${v.service}</td>
+      <td><strong>${v.voyage}</strong></td><td>${v.eta}</td><td>${v.lane}</td>
       <td>${bk.alloc.toLocaleString()}</td><td>${vesselBsa ? vesselBsa.toLocaleString() : '-'}</td><td>${bk.current.toLocaleString()}</td>
       <td>${bk.ft20.toLocaleString()}</td><td>${bk.ft40.toLocaleString()}</td>
       <td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${gap >= 0 ? '+' : ''}${gap.toLocaleString()}</td>
@@ -849,15 +858,17 @@ function renderBookingTable(wk) {
         </td>
       </tr>`;
 
-      let nawTotalBooked = 0, nawTotal20 = 0, nawTotal40 = 0, nawTotalAlloc = 0;
+      let nawTotalBooked = 0, nawTotal20 = 0, nawTotal40 = 0, nawTotalAlloc = 0, nawTotalBsa = 0;
+      const currentWkKey = 'WK' + wk;
       nawVessels.forEach(nv => {
         const vvd = nv.vessel;
         const vInfo = vesselLookup[vvd];
         const eta = vInfo ? vInfo.eta : '-';
-        const svc = vInfo ? vInfo.service : '-';
+        const svc = vInfo ? vInfo.lane : '-';
         const term = vInfo ? vInfo.terminal : '-';
-        const bsa = bsaLookup[vvd] || 0;
-        const allocVal = bsa;
+        const allocEntry = (allocVesselLookup[vvd] && allocVesselLookup[vvd][currentWkKey]) || { target: 0, bsa: 0 };
+        const allocVal = allocEntry.target || 0;
+        const bsa = allocEntry.bsa || 0;
         const booked = (nv['20GP'] || 0) * 1 + (nv['40HC'] || 0) * 2;
         const gap = allocVal > 0 ? booked - allocVal : 0;
         const pct = allocVal > 0 ? (booked / allocVal * 100).toFixed(1) : '-';
@@ -865,6 +876,7 @@ function renderBookingTable(wk) {
         nawTotal20 += nv['20GP'] || 0;
         nawTotal40 += nv['40HC'] || 0;
         nawTotalAlloc += allocVal;
+        nawTotalBsa += bsa;
         html += `<tr style="background:#fff8e1;">
           <td><strong>${vvd}</strong></td><td>${eta}</td><td>${svc}</td>
           <td>${allocVal > 0 ? allocVal.toLocaleString() : '-'}</td>
@@ -882,7 +894,7 @@ function renderBookingTable(wk) {
       html += `<tr style="font-weight:700;background:#ffe0b2;">
         <td><strong>NAW Subtotal</strong></td><td>-</td><td>${nawVessels.length} vessels</td>
         <td>${nawTotalAlloc > 0 ? nawTotalAlloc.toLocaleString() : '-'}</td>
-        <td>${nawTotalAlloc > 0 ? nawTotalAlloc.toLocaleString() : '-'}</td>
+        <td>${nawTotalBsa > 0 ? nawTotalBsa.toLocaleString() : '-'}</td>
         <td>${nawTotalBooked.toLocaleString()}</td>
         <td>${nawTotal20.toLocaleString()}</td><td>${nawTotal40.toLocaleString()}</td>
         <td style="color:${nawTotalGap >= 0 ? '#c62828' : '#2e7d32'}">${nawTotalAlloc > 0 ? (nawTotalGap >= 0 ? '+' : '') + nawTotalGap.toLocaleString() : '-'}</td>
@@ -891,7 +903,7 @@ function renderBookingTable(wk) {
 
       html += `<tr style="font-weight:700;background:#e8f5e9;">
         <td><strong>TOTAL incl. NAW</strong></td><td>-</td><td>-</td>
-        <td>${totalAlloc.toLocaleString()}</td><td>${allocTgtTotal > 0 ? allocTgtTotal.toLocaleString() : '-'}</td><td>${grandTeu.toLocaleString()}</td>
+        <td>${totalAlloc.toLocaleString()}</td><td>${allocTgtBsa > 0 ? allocTgtBsa.toLocaleString() : '-'}</td><td>${grandTeu.toLocaleString()}</td>
         <td>${grandFt20.toLocaleString()}</td><td>${grandFt40.toLocaleString()}</td>
         <td style="color:${grandTeu - totalAlloc >= 0 ? '#c62828' : '#2e7d32'}">${grandTeu - totalAlloc >= 0 ? '+' : ''}${(grandTeu - totalAlloc).toLocaleString()}</td>
         <td>${totalAlloc > 0 ? (grandTeu/totalAlloc*100).toFixed(1) : 'N/A'}%</td><td>-</td>
@@ -931,7 +943,7 @@ function renderBookingTable(wk) {
         html += `<tr style="background:#e3f2fd;">
           <td colspan="11" style="padding:0;">
             <div style="padding:10px 16px;">
-              <div style="font-weight:700;margin-bottom:6px;color:#1565c0;">BSA Allocation by Lane (${allocTgtKey} · ${allocTgt && allocTgt.cal_week ? 'CW' + allocTgt.cal_week : 'current'} · total ${allocTgtTotal.toLocaleString()} TEU)</div>
+              <div style="font-weight:700;margin-bottom:6px;color:#1565c0;">Allocation Target by Lane (${allocTgtKey} · ${allocTgt && allocTgt.cal_week ? 'CW' + allocTgt.cal_week : 'current'} · total ${allocTgtTotal.toLocaleString()} TEU)</div>
               <div style="display:flex;flex-wrap:wrap;gap:10px;">` +
               laneEntries.map(([lane, val]) => `<span class="tag tag-booking" style="background:#bbdefb;color:#0d47a1;">${lane}: ${val.toLocaleString()}</span>`).join('') +
               `</div>
@@ -952,20 +964,22 @@ function renderBookingTable(wk) {
 
       if (nawVessels.length > 0) {
         // Render per-vessel NAW booking rows
-        let nawTotalAlloc = 0, nawTotalBooked = 0, nawTotal20 = 0, nawTotal40 = 0;
+        let nawTotalAlloc = 0, nawTotalBsa = 0, nawTotalBooked = 0, nawTotal20 = 0, nawTotal40 = 0;
+        const currentWkKey = 'WK' + wk;
         nawVessels.forEach(nv => {
           const vvd = nv.vessel;
           const vInfo = vesselLookup[vvd];
           const eta = vInfo ? vInfo.eta : '-';
           const svc = vInfo ? vInfo.lane : '-';
           const term = vInfo ? vInfo.terminal : '-';
-          // BSA (= Alloc) from allocationVessels, using allocTgtKey for week mapping
-          const bsa = bsaLookup[vvd] || 0;
-          const allocVal = bsa;
+          const allocEntry = (allocVesselLookup[vvd] && allocVesselLookup[vvd][currentWkKey]) || { target: 0, bsa: 0 };
+          const allocVal = allocEntry.target || 0;
+          const bsa = allocEntry.bsa || 0;
           const booked = (nv['20GP'] || 0) * 1 + (nv['40HC'] || 0) * 2;
           const gap = allocVal > 0 ? booked - allocVal : 0;
           const pct = allocVal > 0 ? (booked / allocVal * 100).toFixed(1) : '-';
           nawTotalAlloc += allocVal;
+          nawTotalBsa += bsa;
           nawTotalBooked += booked;
           nawTotal20 += nv['20GP'] || 0;
           nawTotal40 += nv['40HC'] || 0;
@@ -985,7 +999,7 @@ function renderBookingTable(wk) {
         html += `<tr style="font-weight:700;background:#fce4d6;">
           <td><strong>NAW TOTAL</strong></td><td>-</td><td>${nawVessels.length} vessels</td>
           <td>${nawTotalAlloc > 0 ? nawTotalAlloc.toLocaleString() : '-'}</td>
-          <td>${nawTotalAlloc > 0 ? nawTotalAlloc.toLocaleString() : '-'}</td>
+          <td>${nawTotalBsa > 0 ? nawTotalBsa.toLocaleString() : '-'}</td>
           <td>${nawTotalBooked.toLocaleString()}</td>
           <td>${nawTotal20.toLocaleString()}</td><td>${nawTotal40.toLocaleString()}</td>
           <td style="color:${totalGap >= 0 ? '#c62828' : '#2e7d32'}">${nawTotalAlloc > 0 ? (totalGap >= 0 ? '+' : '') + totalGap.toLocaleString() : '-'}</td>
@@ -1038,7 +1052,7 @@ function renderVesselSection(wk) {
     }
     html += `<div class="vessel-chip ${cls}">
       <div class="voyage">${v.voyage}</div>
-      <div class="detail">${v.eta} | ${v.service} | ${v.terminal}</div>
+      <div class="detail">${v.eta} | ${v.lane} | ${v.terminal}</div>
       ${extra}
     </div>`;
   });
