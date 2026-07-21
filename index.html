@@ -640,8 +640,10 @@ function renderForecastTable(wk) {
     rowNum++;
     const row = data.forecastData[ind][String(wk)];
     const isSupply = signs[i] === '+', isBalance = signs[i] === '=';
-    const cls = isBalance ? 'balance' : (isSupply ? 'supply' : 'demand');
-    const tag = isBalance ? '' : `<span class="tag ${isSupply ? 'tag-supply' : 'tag-demand'}">${signs[i]}</span>`;
+    // Balance row is rendered manually after - Other per UI request
+    if (isBalance) { rowNum--; return; }
+    const cls = isSupply ? 'supply' : 'demand';
+    const tag = `<span class="tag ${isSupply ? 'tag-supply' : 'tag-demand'}">${signs[i]}</span>`;
     let detail = '';
     if (ind === 'Inbound Generation' && wk === 0) {
       if (ibHasCDL) {
@@ -664,17 +666,14 @@ function renderForecastTable(wk) {
 
     // Display cell: show '—' when breakdown is 0 but Total is non-zero (NAW WK1/WK2 limitation)
     const cell = (val, total) => (val === 0 && total !== 0) ? '<span style="color:#999;">—</span>' : val;
-    // For Balance row: if breakdown is missing but Total is present, compute from supply - demand
-    let displayRow = (isBalance && row[1] === 0 && row[6] === 0 && row[0] !== 0)
-      ? [row[0], supplyTotal[1] - demandTotal[1], row[2], row[3], row[4], row[5], supplyTotal[6] - demandTotal[6], row[7]]
-      : row;
+    let displayRow = row;
     // For Start Empty row: if breakdown is missing, use previous week's Balance breakdown
     if (ind === 'Start Empty' && row[1] === 0 && row[6] === 0 && row[0] !== 0 && wk > 0) {
       const [se20, se40] = getBalanceBreakdown(wk - 1);
       displayRow = [row[0], se20, row[2], row[3], row[4], row[5], se40, row[7]];
     }
     html += `<tr class="${cls}">
-      <td>${rowNum}</td><td>${ind}</td><td>${tag || signs[i]}</td>
+      <td>${rowNum}</td><td>${ind}</td><td>${tag}</td>
       <td><strong>${row[0].toLocaleString()}</strong></td>
       <td>${cell(displayRow[1],displayRow[0])}</td><td>${cell(displayRow[6],displayRow[0])}</td>
       <td>${vesselCount}</td>
@@ -711,6 +710,27 @@ function renderForecastTable(wk) {
         <td></td><td style="text-align:left;font-size:11px;color:#2e7d32;">Total Supply (Start+Inbound+Repo+OW+Other)</td></tr>`;
     }
     if (ind === '- Other') {
+      // Demand Subtotal row (sum of all - rows)
+      const demandTotal = indicators.filter((ind2,j) => signs[j]==='-').reduce((sum,ind2,j) => {
+        const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
+      }, [0,0,0,0,0,0,0,0]);
+      rowNum++;
+      html += `<tr class="demand" style="background:#ffebee;font-weight:700;border-top:2px solid #ef5350;">
+        <td>${rowNum}</td><td>Demand Subtotal</td><td><span class="tag tag-demand">-</span></td>
+      <td><strong>${demandTotal[0].toLocaleString()}</strong></td>
+      <td>${cell(demandTotal[1],demandTotal[0])}</td><td>${cell(demandTotal[6],demandTotal[0])}</td>
+        <td></td><td style="text-align:left;font-size:11px;color:#c62828;">Total Demand (Outbound+RepoOut+OWOff+Other)</td></tr>`;
+      // Balance(Forecast) row (rendered manually here instead of main loop)
+      const balRow = data.forecastData['Balance(Forecast)'][String(wk)];
+      const balDisplayRow = (balRow[1] === 0 && balRow[6] === 0 && balRow[0] !== 0)
+        ? [balRow[0], supplyTotal[1] - demandTotal[1], balRow[2], balRow[3], balRow[4], balRow[5], supplyTotal[6] - demandTotal[6], balRow[7]]
+        : balRow;
+      rowNum++;
+      html += `<tr class="balance">
+        <td>${rowNum}</td><td>Balance(Forecast)</td><td></td>
+        <td><strong>${balRow[0].toLocaleString()}</strong></td>
+        <td>${cell(balDisplayRow[1], balDisplayRow[0])}</td><td>${cell(balDisplayRow[6], balDisplayRow[0])}</td>
+        <td></td><td style="text-align:left;font-size:11px;"><span class="tag tag-forecast">Forecast</span></td></tr>`;
       // O/B Total row (Booking + NAW Work with Booking + Forecast fallback)
       const allocTgt = (data.allocationTarget && data.allocationTarget['WK' + (wk + 1)]) ? data.allocationTarget['WK' + (wk + 1)] : null;
       const allocTgtVal = allocTgt ? allocTgt.target : 0;
@@ -734,16 +754,6 @@ function renderForecastTable(wk) {
         <td style="text-align:left;font-size:11px;">
           <span class="tag tag-cdl">CIN_M1051 OP Movement</span> ${pickupFt20}(20GP)/${pickupFt40}(40HC)
         </td></tr>`;
-      // Demand Subtotal row (sum of all - rows)
-      const demandTotal = indicators.filter((ind2,j) => signs[j]==='-').reduce((sum,ind2,j) => {
-        const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
-      }, [0,0,0,0,0,0,0,0]);
-      rowNum++;
-      html += `<tr class="demand" style="background:#ffebee;font-weight:700;border-top:2px solid #ef5350;">
-        <td>${rowNum}</td><td>Demand Subtotal</td><td><span class="tag tag-demand">-</span></td>
-      <td><strong>${demandTotal[0].toLocaleString()}</strong></td>
-      <td>${cell(demandTotal[1],demandTotal[0])}</td><td>${cell(demandTotal[6],demandTotal[0])}</td>
-        <td></td><td style="text-align:left;font-size:11px;color:#c62828;">Total Demand (Outbound+RepoOut+OWOff+Other)</td></tr>`;
     }
   });
   document.querySelector('#forecastTable tbody').innerHTML = html;
