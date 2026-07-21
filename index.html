@@ -785,14 +785,28 @@ function renderBookingTable(wk) {
 
   const bsaVessels = allocVessels
     .filter(av => av.report_wk === allocTgtKey && av.bsa > 0)
-    .map(av => ({
-      voyage: av.vessel,
-      lane: av.lane,
-      bsa: av.bsa,
-      eta: (vesselLookup[av.vessel] && vesselLookup[av.vessel].eta) || '-',
-      service: (vesselLookup[av.vessel] && vesselLookup[av.vessel].lane) || av.lane,
-      terminal: (vesselLookup[av.vessel] && vesselLookup[av.vessel].terminal) || '-'
-    }));
+    .map(av => {
+      // Try exact vessel match first, then prefix match for ETA/terminal
+      let vInfo = vesselLookup[av.vessel];
+      if (!vInfo) {
+        const prefix = av.vessel.substring(0, 4);
+        // Find matching vessel in vesselLookup by prefix
+        for (const [voyage, info] of Object.entries(vesselLookup)) {
+          if (voyage.substring(0, 4) === prefix && info.lane === av.lane) {
+            vInfo = info;
+            break;
+          }
+        }
+      }
+      return {
+        voyage: av.vessel,
+        lane: av.lane,
+        bsa: av.bsa,
+        eta: vInfo ? vInfo.eta : '-',
+        service: vInfo ? vInfo.lane : av.lane,
+        terminal: vInfo ? vInfo.terminal : '-'
+      };
+    });
 
   let html = '', totalAlloc = 0, totalCurrent = 0, totalFt20 = 0, totalFt40 = 0;
 
@@ -806,18 +820,40 @@ function renderBookingTable(wk) {
   });
 
   // Build per-week allocation lookup for NAW vessels: vessel -> report_wk -> {target, bsa}
+  // Include prefix-based fallback: same ship's inbound (E) and outbound (W) voyages share BSA
   const allocVesselLookup = {};
+  const allocPrefixLookup = {};  // vessel_prefix -> {wk: {target, bsa, lane}}
   allocVessels.forEach(av => {
     if (!av.vessel) return;
     if (!allocVesselLookup[av.vessel]) allocVesselLookup[av.vessel] = {};
-    allocVesselLookup[av.vessel][av.report_wk] = { target: av.target || 0, bsa: av.bsa || 0 };
+    allocVesselLookup[av.vessel][av.report_wk] = { target: av.target || 0, bsa: av.bsa || 0, lane: av.lane || '' };
+    // Also build prefix lookup for fallback matching
+    const prefix = av.vessel.substring(0, 4);
+    if (!allocPrefixLookup[prefix]) allocPrefixLookup[prefix] = {};
+    // For prefix, store per-lane (a prefix may map to multiple lanes)
+    if (!allocPrefixLookup[prefix][av.lane]) allocPrefixLookup[prefix][av.lane] = {};
+    allocPrefixLookup[prefix][av.lane][av.report_wk] = { target: av.target || 0, bsa: av.bsa || 0 };
   });
 
   bookingVessels.forEach(v => {
     const bk = data.bookingByVessel[v.voyage];
     const gap = bk.current - bk.alloc;
     const pct = bk.alloc > 0 ? (bk.current / bk.alloc * 100).toFixed(1) : 'N/A';
-    const vesselBsa = bsaLookup[v.voyage];
+    let vesselBsa = bsaLookup[v.voyage];
+    // Prefix fallback for BSA: if exact match fails, try vessel prefix
+    if (!vesselBsa) {
+      const prefix = v.voyage.substring(0, 4);
+      if (allocPrefixLookup[prefix]) {
+        // Find max bsa across all lanes and weeks for this prefix
+        let maxBsa = 0;
+        Object.values(allocPrefixLookup[prefix]).forEach(laneMap => {
+          Object.values(laneMap).forEach(wkEntry => {
+            if (wkEntry.bsa > maxBsa) maxBsa = wkEntry.bsa;
+          });
+        });
+        if (maxBsa > 0) vesselBsa = maxBsa;
+      }
+    }
     totalAlloc += bk.alloc; totalCurrent += bk.current;
     totalFt20 += bk.ft20; totalFt40 += bk.ft40;
     html += `<tr>
@@ -866,7 +902,28 @@ function renderBookingTable(wk) {
         const eta = vInfo ? vInfo.eta : '-';
         const svc = vInfo ? vInfo.lane : '-';
         const term = vInfo ? vInfo.terminal : '-';
-        const allocEntry = (allocVesselLookup[vvd] && allocVesselLookup[vvd][currentWkKey]) || { target: 0, bsa: 0 };
+        // BSA lookup: exact match first, then prefix-based fallback (E/W voyage mismatch)
+        let allocEntry = (allocVesselLookup[vvd] && allocVesselLookup[vvd][currentWkKey]) || null;
+        if (!allocEntry) {
+          const prefix = vvd.substring(0, 4);
+          const svcLane = svc !== '-' ? svc : '';
+          // Try prefix match: first by same lane, then all lanes
+          if (allocPrefixLookup[prefix]) {
+            const laneEntries = allocPrefixLookup[prefix][svcLane];
+            if (laneEntries && laneEntries[currentWkKey]) {
+              allocEntry = laneEntries[currentWkKey];
+            } else {
+              // Try all lanes for this prefix, pick the one with highest bsa in currentWK
+              let bestBsa = 0, bestTarget = 0;
+              Object.values(allocPrefixLookup[prefix]).forEach(laneMap => {
+                const wkEntry = laneMap[currentWkKey];
+                if (wkEntry && wkEntry.bsa > bestBsa) { bestBsa = wkEntry.bsa; bestTarget = wkEntry.target; }
+              });
+              if (bestBsa > 0) allocEntry = { target: bestTarget, bsa: bestBsa };
+            }
+          }
+        }
+        if (!allocEntry) allocEntry = { target: 0, bsa: 0 };
         const allocVal = allocEntry.target || 0;
         const bsa = allocEntry.bsa || 0;
         const booked = (nv['20GP'] || 0) * 1 + (nv['40HC'] || 0) * 2;
@@ -972,7 +1029,26 @@ function renderBookingTable(wk) {
           const eta = vInfo ? vInfo.eta : '-';
           const svc = vInfo ? vInfo.lane : '-';
           const term = vInfo ? vInfo.terminal : '-';
-          const allocEntry = (allocVesselLookup[vvd] && allocVesselLookup[vvd][currentWkKey]) || { target: 0, bsa: 0 };
+          // BSA lookup: exact match first, then prefix-based fallback
+          let allocEntry = (allocVesselLookup[vvd] && allocVesselLookup[vvd][currentWkKey]) || null;
+          if (!allocEntry) {
+            const prefix = vvd.substring(0, 4);
+            const svcLane = svc !== '-' ? svc : '';
+            if (allocPrefixLookup[prefix]) {
+              const laneEntries = allocPrefixLookup[prefix][svcLane];
+              if (laneEntries && laneEntries[currentWkKey]) {
+                allocEntry = laneEntries[currentWkKey];
+              } else {
+                let bestBsa = 0, bestTarget = 0;
+                Object.values(allocPrefixLookup[prefix]).forEach(laneMap => {
+                  const wkEntry = laneMap[currentWkKey];
+                  if (wkEntry && wkEntry.bsa > bestBsa) { bestBsa = wkEntry.bsa; bestTarget = wkEntry.target; }
+                });
+                if (bestBsa > 0) allocEntry = { target: bestTarget, bsa: bestBsa };
+              }
+            }
+          }
+          if (!allocEntry) allocEntry = { target: 0, bsa: 0 };
           const allocVal = allocEntry.target || 0;
           const bsa = allocEntry.bsa || 0;
           const booked = (nv['20GP'] || 0) * 1 + (nv['40HC'] || 0) * 2;
