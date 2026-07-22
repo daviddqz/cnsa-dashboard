@@ -214,9 +214,10 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
   <!-- Controls -->
   <div class="controls-row">
     <div class="week-tabs" id="weekTabs">
-      <div class="week-tab active" onclick="switchWeek(0)">WK0 (07/05-07/11)</div>
-      <div class="week-tab" onclick="switchWeek(1)">WK1 (07/12-07/18)</div>
-      <div class="week-tab" onclick="switchWeek(2)">WK2 (07/19-07/25)</div>
+      <div class="week-tab active" onclick="switchWeek(0)">WK0 (07/19-07/25)</div>
+      <div class="week-tab" onclick="switchWeek(1)">WK1 (07/26-08/01)</div>
+      <div class="week-tab" onclick="switchWeek(2)">WK2 (08/02-08/08)</div>
+      <div class="week-tab" onclick="switchWeek(3)">WK3 (08/09-08/15)</div>
     </div>
     <div class="section-title">Weekly Detail</div>
   </div>
@@ -308,114 +309,4155 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 // ===== MULTI-PORT DATA STORE =====
 // ============================================================
 const PORT_CONFIG = {
-  CNSHA: { label: 'SHA', name: '上海', live: true, color: '#2e75b6', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)'], cdlVessels: 13, turnTime: { days20gp: 4, days40hc: 3 } },
-  CNNGB: { label: 'NGB', name: '宁波', live: true, color: '#388e3c', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)'], cdlVessels: 18 },
-  CNSHK: { label: 'SHK', name: '蛇口/深圳', live: true, color: '#7b1fa2', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)'], cdlVessels: 21 },
-  CNNAS: { label: 'NAS', name: '南沙/广州', live: true, color: '#e65100', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)'], cdlVessels: 45 },
-  CNTAO: { label: 'TAO', name: '青岛', live: true, color: '#00695c', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)'], cdlVessels: 12 },
-  CNSWA: { label: 'SWA', name: '汕头', live: true, color: '#d84315', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)'], cdlVessels: 6 },
-  CNXMN: { label: 'XMN', name: '厦门', live: true, color: '#00838f', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)'], cdlVessels: 6 }
+  CNSHA: { label: 'SHA', name: '上海', live: true, color: '#2e75b6', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)', 'WK3 (08/09-08/15)'], cdlVessels: 13, turnTime: { days20gp: 4, days40hc: 3 } },
+  CNNGB: { label: 'NGB', name: '宁波', live: true, color: '#388e3c', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)', 'WK3 (08/09-08/15)'], cdlVessels: 18 },
+  CNSHK: { label: 'SHK', name: '蛇口/深圳', live: true, color: '#7b1fa2', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)', 'WK3 (08/09-08/15)'], cdlVessels: 21 },
+  CNNAS: { label: 'NAS', name: '南沙/广州', live: true, color: '#e65100', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)', 'WK3 (08/09-08/15)'], cdlVessels: 45 },
+  CNTAO: { label: 'TAO', name: '青岛', live: true, color: '#00695c', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)', 'WK3 (08/09-08/15)'], cdlVessels: 12 },
+  CNSWA: { label: 'SWA', name: '汕头', live: true, color: '#d84315', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)', 'WK3 (08/09-08/15)'], cdlVessels: 6 },
+  CNXMN: { label: 'XMN', name: '厦门', live: true, color: '#00838f', wkLabels: ['WK0 (07/19-07/25)', 'WK1 (07/26-08/01)', 'WK2 (08/02-08/08)', 'WK3 (08/09-08/15)'], cdlVessels: 6 }
 };
 
 const portData = {
-  // ============================================================
-  // ===== CNSHA - 上海 (LIVE) =====
-  // ============================================================
   CNSHA: {
-    forecastData: {'Start Empty': {'0': [1781,730,0,0,0,0,1051,0], '1': [766,0,0,0,0,0,0,0], '2': [-290,0,0,0,0,0,0,0]}, 'Inbound Generation': {'0': [30,15,0,0,0,0,15,0], '1': [30,15,0,0,0,0,15,0], '2': [30,15,0,0,0,0,15,0]}, 'Reposition In': {'0': [523,74,0,0,0,0,449,0], '1': [176,0,0,0,0,0,176,0], '2': [518,38,0,0,0,0,480,0]}, 'OW & On-hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '+ Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Outbound Pick-up': {'0': [1568,502,0,0,0,0,1066,0], '1': [1262,399,0,0,0,0,863,0], '2': [1400,500,0,0,0,0,900,0]}, 'Reposition out': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'OneWay & Off Hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '- Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Balance(Forecast)': {'0': [766,0,0,0,0,0,0,0], '1': [-290,0,0,0,0,0,0,0], '2': [-1142,0,0,0,0,0,0,0]}},
-    bookingByVessel: {'BZCF2627W': {alloc:950,current:939,ft20:117,ft40:411}, 'DFMH2627W': {alloc:339,current:492,ft20:120,ft40:186}, 'GFPS2627W': {alloc:275,current:383,ft20:49,ft40:167}, 'NHZY2624W': {alloc:103,current:0,ft20:0,ft40:0}, 'RACE2628W': {alloc:1000,current:833,ft20:83,ft40:375}, 'ZGNC2628W': {alloc:555,current:393,ft20:49,ft40:172}},
-    vesselsByWeek: {WK0: [{voyage:'CSCC2628S',lane:'SHT',terminal:'CNSHAT04',eta:'07/19 00:00',dis20:0,dis40:0},{voyage:'XIHG2627S',lane:'SHT',terminal:'CNSHAT01',eta:'07/19 04:00',dis20:0,dis40:0},{voyage:'EVLE2614E',lane:'CWS',terminal:'CNSHAT03',eta:'07/19 09:00',dis20:0,dis40:0},{voyage:'FH862627S',lane:'CH1',terminal:'CNSHAT02',eta:'07/19 12:00',dis20:0,dis40:0},{voyage:'XSAS2628W',lane:'MFX',terminal:'CNSHAT02',eta:'07/19 12:00',dis20:0,dis40:0},{voyage:'GFPS2627W',lane:'AM1',terminal:'CNSHAT02',eta:'07/19 13:00',dis20:0,dis40:0},{voyage:'APCR2619S',lane:'CP8',terminal:'CNSHAT02',eta:'07/19 16:00',dis20:0,dis40:0},{voyage:'CLMB2616N',lane:'CP8',terminal:'CNSHAT02',eta:'07/19 18:00',dis20:0,dis40:0},{voyage:'JJSN2628S',lane:'SHT',terminal:'CNSHAT03',eta:'07/20 00:00',dis20:0,dis40:0},{voyage:'MBBG2627W',lane:'KCI',terminal:'CNSHAT03',eta:'07/20 00:00',dis20:0,dis40:0},{voyage:'RACE2628W',lane:'SGX',terminal:'CNSHAT02',eta:'07/20 10:00',dis20:0,dis40:0},{voyage:'AOTK2628S',lane:'SHT',terminal:'CNSHAT03',eta:'07/20 20:00',dis20:0,dis40:0},{voyage:'IAAL2622E',lane:'CI3',terminal:'CNSHAT03',eta:'07/21 04:00',dis20:0,dis40:0},{voyage:'XFJH2626S',lane:'NP2',terminal:'CNSHAT02',eta:'07/21 09:00',dis20:0,dis40:0},{voyage:'CAOE2660E',lane:'LHT',terminal:'CNSHAT07',eta:'07/21 10:00',dis20:0,dis40:0},{voyage:'CUXM2622E',lane:'HDT',terminal:'CNSHAT01',eta:'07/21 14:00',dis20:0,dis40:0},{voyage:'ORC12630W',lane:'MFX',terminal:'CNSHAT02',eta:'07/22 18:00',dis20:0,dis40:0},{voyage:'GLZD2629S',lane:'SHT',terminal:'CNSHAT01',eta:'07/23 00:00',dis20:0,dis40:0},{voyage:'MDTN2628S',lane:'SHT',terminal:'CNSHAT04',eta:'07/23 00:00',dis20:0,dis40:0},{voyage:'XIHG2628S',lane:'SHT',terminal:'CNSHAT01',eta:'07/23 00:00',dis20:0,dis40:0},{voyage:'JHT92635W',lane:'YRD',terminal:'CNSHAT04',eta:'07/23 14:00',dis20:0,dis40:0},{voyage:'GLGD2628S',lane:'SHT',terminal:'CNSHAT01',eta:'07/24 00:00',dis20:0,dis40:0},{voyage:'CANY2629S',lane:'CH1',terminal:'CNSHAT02',eta:'07/24 07:00',dis20:0,dis40:0},{voyage:'JUBM2628S',lane:'CCT',terminal:'CNSHAT04',eta:'07/25 06:00',dis20:0,dis40:0},{voyage:'ZGNC2628W',lane:'AM1',terminal:'CNSHAT02',eta:'07/25 10:30',dis20:0,dis40:0},{voyage:'DFMH2627W',lane:'CGS',terminal:'CNSHAT02',eta:'07/25 12:00',dis20:0,dis40:0},{voyage:'ZGHA2630W',lane:'RES',terminal:'CNSHAT02',eta:'07/25 19:00',dis20:0,dis40:0}], WK1: [{voyage:'GLSH2629S',lane:'SHT',terminal:'CNSHAT03',eta:'07/27 00:00',dis20:0,dis40:0},{voyage:'CUXM2623E',lane:'HDT',terminal:'CNSHAT01',eta:'07/28 14:00',dis20:0,dis40:0},{voyage:'AROA2624E',lane:'MFX',terminal:'CNSHAT02',eta:'07/28 20:00',dis20:0,dis40:0},{voyage:'JJTY2630S',lane:'SHT',terminal:'CNSHAT02',eta:'07/29 00:00',dis20:0,dis40:0},{voyage:'JRBM2629W',lane:'KCI',terminal:'CNSHAT03',eta:'07/29 03:00',dis20:0,dis40:0},{voyage:'BZCF2627W',lane:'REX',terminal:'CNSHAT02',eta:'07/29 09:00',dis20:0,dis40:0},{voyage:'JHT92636W',lane:'YRD',terminal:'CNSHAT04',eta:'07/29 13:00',dis20:0,dis40:0},{voyage:'GLGD2630S',lane:'SHT',terminal:'CNSHAT04',eta:'07/30 00:00',dis20:0,dis40:0},{voyage:'KPBG2621E',lane:'CI3',terminal:'CNSHAT03',eta:'07/30 09:00',dis20:0,dis40:0},{voyage:'RNSH2630S',lane:'SHT',terminal:'CNSHAT04',eta:'07/30 23:00',dis20:0,dis40:0},{voyage:'FH862628S',lane:'CH1',terminal:'CNSHAT02',eta:'07/31 06:00',dis20:0,dis40:0},{voyage:'ZGU32628W',lane:'RES',terminal:'CNSHAT02',eta:'07/31 07:00',dis20:0,dis40:0},{voyage:'APCR2621S',lane:'CP8',terminal:'CNSHAT02',eta:'08/01 00:00',dis20:0,dis40:0},{voyage:'CSRO2631S',lane:'SHT',terminal:'CNSHAT04',eta:'08/01 00:00',dis20:0,dis40:0},{voyage:'SPNT2620S',lane:'CP8',terminal:'CNSHAT02',eta:'08/01 00:00',dis20:0,dis40:0}], WK2: [{voyage:'VRYB2623E',lane:'CI3',terminal:'CNSHAT03',eta:'08/02 06:00',dis20:0,dis40:0},{voyage:'HMBM2628W',lane:'KCI',terminal:'CNSHAT03',eta:'08/02 12:00',dis20:0,dis40:0},{voyage:'LYJE2629W',lane:'MFX',terminal:'CNSHAT02',eta:'08/02 18:00',dis20:0,dis40:0},{voyage:'HRRR2631S',lane:'SHT',terminal:'CNSHAT03',eta:'08/03 02:00',dis20:0,dis40:0},{voyage:'NHZY2624W',lane:'CGS',terminal:'CNSHAT02',eta:'08/03 21:00',dis20:0,dis40:0},{voyage:'JHT92637W',lane:'YRD',terminal:'CNSHAT04',eta:'08/04 12:00',dis20:0,dis40:0},{voyage:'CUXM2624E',lane:'HDT',terminal:'CNSHAT01',eta:'08/04 14:00',dis20:0,dis40:0},{voyage:'JJTY2631S',lane:'SHT',terminal:'CNSHAT02',eta:'08/05 00:00',dis20:0,dis40:0},{voyage:'H8112627S',lane:'NP2',terminal:'CNSHAT02',eta:'08/05 03:30',dis20:0,dis40:0},{voyage:'XFJH2628S',lane:'NP2',terminal:'CNSHAT02',eta:'08/05 13:00',dis20:0,dis40:0},{voyage:'GLZD2631S',lane:'SHT',terminal:'CNSHAT04',eta:'08/06 00:00',dis20:0,dis40:0},{voyage:'CUYP2632W',lane:'REX',terminal:'CNSHAT02',eta:'08/06 10:00',dis20:0,dis40:0},{voyage:'ZGHZ2630W',lane:'KCI',terminal:'CNSHAT03',eta:'08/06 14:30',dis20:0,dis40:0},{voyage:'PETH2629W',lane:'AM1',terminal:'CNSHAT02',eta:'08/06 19:00',dis20:0,dis40:0},{voyage:'CUNS2629S',lane:'CCT',terminal:'CNSHAT04',eta:'08/06 21:00',dis20:0,dis40:0},{voyage:'XIHG2630S',lane:'SHT',terminal:'CNSHAT01',eta:'08/07 00:00',dis20:0,dis40:0},{voyage:'CANY2630S',lane:'CH1',terminal:'CNSHAT02',eta:'08/07 21:00',dis20:0,dis40:0},{voyage:'JJTY2632S',lane:'SHT',terminal:'CNSHAT02',eta:'08/08 02:00',dis20:0,dis40:0},{voyage:'KNBM2630S',lane:'CCT',terminal:'CNSHAT04',eta:'08/08 06:00',dis20:0,dis40:0},{voyage:'FH862629S',lane:'CH1',terminal:'CNSHAT02',eta:'08/08 14:00',dis20:0,dis40:0},{voyage:'CUHC2631W',lane:'AM1',terminal:'CNSHAT02',eta:'08/08 16:00',dis20:0,dis40:0}]},
-    cargoSplitData: [{vessel:'CSCC2628S',f20:0,f40:7,p20:0,p40:0,vvd:'CSCC2628S',match:true},{vessel:'CLMB2616N',f20:6,f40:9,p20:50,p40:13,vvd:'CLMB2616N',match:true},{vessel:'JJSN2628S',f20:3,f40:26,p20:0,p40:0,vvd:'JJSN2628S',match:true},{vessel:'AOTK2628S',f20:2,f40:0,p20:0,p40:0,vvd:'AOTK2628S',match:true},{vessel:'IAAL2622E',f20:15,f40:18,p20:0,p40:10,vvd:'IAAL2622E',match:true},{vessel:'GLZD2629S',f20:1,f40:21,p20:0,p40:0,vvd:'GLZD2629S',match:true},{vessel:'MDTN2628S',f20:3,f40:4,p20:0,p40:0,vvd:'MDTN2628S',match:true},{vessel:'GLGD2628S',f20:0,f40:14,p20:0,p40:0,vvd:'GLGD2628S',match:true}],
-                    nawBookingByWeek: {'WK0': {'20GP':251,'40HC':526,vessels:[{vessel:'FH862627S','20GP':40,'40HC':29},{vessel:'APCR2619S','20GP':23,'40HC':46},{vessel:'MBBG2627W','20GP':34,'40HC':200},{vessel:'XFJH2626S','20GP':17,'40HC':60},{vessel:'CUXM2622E','20GP':34,'40HC':19},{vessel:'CANY2629S','20GP':19,'40HC':31},{vessel:'JUBM2628S','20GP':78,'40HC':100},{vessel:'ZGHA2630W','20GP':6,'40HC':41}]}, 'WK1': {'20GP':11,'40HC':55,vessels:[{vessel:'CUXM2623E','20GP':0,'40HC':21},{vessel:'JRBM2629W','20GP':11,'40HC':34}]}, 'WK2': {'20GP':0,'40HC':1,vessels:[{vessel:'CUHC2631W','20GP':0,'40HC':1}]}},
-allocationTarget: {'WK0': {cal_week:30,target:305,bsa:305,by_lane:{'CCT':40, 'HDT/出口2':30, 'KHX':35, 'CP8':200}}, 'WK1': {cal_week:31,target:360,bsa:360,by_lane:{'CH1':300, 'KHX':60}}, 'WK2': {cal_week:32,target:180,bsa:180,by_lane:{'CCT':80, 'HDT/出口2':0, 'CP8':100}}},
-    pickupVolumeByWeek: {WK0: {'20GP':339,'40HC':746}, WK1: {'20GP':0,'40HC':0}, WK2: {'20GP':0,'40HC':0}},
-    allocationVessels: {'CCT': [{lane:'CCT', vessel:'CANY2629S', cal_week:30, report_wk:'WK0', target:40, bsa:40, port:'CNSHA', direction:'出口1'}, {lane:'CCT', vessel:'CANY2630S', cal_week:32, report_wk:'WK2', target:80, bsa:80, port:'CNSHA', direction:'出口1'}], 'CH1': [{lane:'CH1', vessel:'APCR2619S', cal_week:31, report_wk:'WK1', target:0, bsa:0, port:'CNSHA', direction:'出口1'}, {lane:'CH1', vessel:'MMRN2629S', cal_week:31, report_wk:'WK1', target:300, bsa:300, port:'CNSHA', direction:'出口1'}], 'HDT/出口2': [{lane:'HDT', vessel:'CUXM2622E', cal_week:30, report_wk:'WK0', target:30, bsa:30, port:'CNSHA', direction:'出口2'}, {lane:'HDT', vessel:'CUXM2624E', cal_week:32, report_wk:'WK2', target:0, bsa:0, port:'CNSHA', direction:'出口2'}], 'KHX': [{lane:'KHX', vessel:'SKTA2625S', cal_week:30, report_wk:'WK0', target:20, bsa:20, port:'CNSHA', direction:'出口1'}, {lane:'KHX', vessel:'SKMN2626S', cal_week:31, report_wk:'WK1', target:30, bsa:30, port:'CNSHA', direction:'出口1'}, {lane:'KHX', vessel:'KWGB2629S', cal_week:30, report_wk:'WK0', target:15, bsa:15, port:'CNSHA', direction:'出口1'}, {lane:'KHX', vessel:'KWGB2630S', cal_week:31, report_wk:'WK1', target:30, bsa:30, port:'CNSHA', direction:'出口1'}], 'CP8': [{lane:'CP8', vessel:'HPEC2628S', cal_week:30, report_wk:'WK0', target:200, bsa:200, port:'CNSHA', direction:'出口1'}, {lane:'CP8', vessel:'HPEC2630S', cal_week:32, report_wk:'WK2', target:100, bsa:100, port:'CNSHA', direction:'出口1'}]},
+    forecastData: {
+      'Start Empty': {
+        '0': [1781,730,0,0,0,0,1051,0],
+        '1': [766,0,0,0,0,0,0,0],
+        '2': [-290,0,0,0,0,0,0,0],
+        '3': [-1468,0,0,0,0,0,0,0]
+      },
+      'Inbound Generation': {
+        '0': [30,15,0,0,0,0,15,0],
+        '1': [30,15,0,0,0,0,15,0],
+        '2': [30,15,0,0,0,0,15,0],
+        '3': [30,15,0,0,0,0,15,0]
+      },
+      'Reposition In': {
+        '0': [523,74,0,0,0,0,449,0],
+        '1': [176,0,0,0,0,0,176,0],
+        '2': [192,5,0,0,0,0,187,0],
+        '3': [444,2,0,0,0,0,442,0]
+      },
+      'OW & On-hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '+ Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Outbound Pick-up': {
+        '0': [1568,502,0,0,0,0,1066,0],
+        '1': [1262,399,0,0,0,0,863,0],
+        '2': [1400,500,0,0,0,0,900,0],
+        '3': [1400,500,0,0,0,0,900,0]
+      },
+      'Reposition out': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OneWay & Off Hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '- Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Balance(Forecast)': {
+        '0': [766,0,0,0,0,0,0,0],
+        '1': [-290,0,0,0,0,0,0,0],
+        '2': [-1468,0,0,0,0,0,0,0],
+        '3': [-2394,0,0,0,0,0,0,0]
+      }
+    },
+    bookingByVessel: {
+      BZCF2627W: {
+        alloc: 950,
+        current: 939,
+        ft20: 117,
+        ft40: 411
+      },
+      DFMH2627W: {
+        alloc: 339,
+        current: 492,
+        ft20: 120,
+        ft40: 186
+      },
+      GFPS2627W: {
+        alloc: 275,
+        current: 383,
+        ft20: 49,
+        ft40: 167
+      },
+      NHZY2624W: {
+        alloc: 103,
+        current: 0,
+        ft20: 0,
+        ft40: 0
+      },
+      RACE2628W: {
+        alloc: 1000,
+        current: 833,
+        ft20: 83,
+        ft40: 375
+      },
+      ZGNC2628W: {
+        alloc: 555,
+        current: 393,
+        ft20: 49,
+        ft40: 172
+      }
+    },
+    vesselsByWeek: {
+      WK0: [{
+        voyage: 'XIHG2627S',
+        lane: 'SHT',
+        terminal: 'CNSHAT01',
+        eta: '07/19 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GFPS2627W',
+        lane: 'AM1',
+        terminal: 'CNSHAT02',
+        eta: '07/19 05:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'EVLE2614E',
+        lane: 'CWS',
+        terminal: 'CNSHAT03',
+        eta: '07/19 09:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FH862627S',
+        lane: 'CH1',
+        terminal: 'CNSHAT02',
+        eta: '07/19 12:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XSAS2628W',
+        lane: 'MFX',
+        terminal: 'CNSHAT02',
+        eta: '07/19 12:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'APCR2619S',
+        lane: 'CP8',
+        terminal: 'CNSHAT02',
+        eta: '07/19 16:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MBBG2627W',
+        lane: 'KCI',
+        terminal: 'CNSHAT03',
+        eta: '07/20 07:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'RACE2628W',
+        lane: 'SGX',
+        terminal: 'CNSHAT02',
+        eta: '07/20 13:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'AOTK2628S',
+        lane: 'SHT',
+        terminal: 'CNSHAT03',
+        eta: '07/20 20:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUNS2626S',
+        lane: 'CCT',
+        terminal: 'CNSHAT04',
+        eta: '07/21 00:06',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XFJH2626S',
+        lane: 'NP2',
+        terminal: 'CNSHAT02',
+        eta: '07/22 17:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ORC12630W',
+        lane: 'MFX',
+        terminal: 'CNSHAT02',
+        eta: '07/22 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUXM2622E',
+        lane: 'HDT',
+        terminal: 'CNSHAT01',
+        eta: '07/22 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XIHG2628S',
+        lane: 'SHT',
+        terminal: 'CNSHAT01',
+        eta: '07/23 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JHT92635W',
+        lane: 'YRD',
+        terminal: 'CNSHAT04',
+        eta: '07/23 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CANY2629S',
+        lane: 'CH1',
+        terminal: 'CNSHAT02',
+        eta: '07/23 21:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GLGD2628S',
+        lane: 'SHT',
+        terminal: 'CNSHAT01',
+        eta: '07/24 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MDTN2628S',
+        lane: 'SHT',
+        terminal: 'CNSHAT04',
+        eta: '07/24 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CLMB2616N',
+        lane: 'CP8',
+        terminal: 'CNSHAT02',
+        eta: '07/24 12:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JUBM2628S',
+        lane: 'CCT',
+        terminal: 'CNSHAT04',
+        eta: '07/25 06:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGNC2628W',
+        lane: 'AM1',
+        terminal: 'CNSHAT02',
+        eta: '07/25 10:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JJSN2628S',
+        lane: 'SHT',
+        terminal: 'CNSHAT03',
+        eta: '07/25 13:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGHA2630W',
+        lane: 'RES',
+        terminal: 'CNSHAT02',
+        eta: '07/25 19:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK1: [{
+        voyage: 'IAAL2622E',
+        lane: 'CI3',
+        terminal: 'CNSHAT03',
+        eta: '07/26 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CSCC2628S',
+        lane: 'SHT',
+        terminal: 'CNSHAT04',
+        eta: '07/27 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GLSH2629S',
+        lane: 'SHT',
+        terminal: 'CNSHAT03',
+        eta: '07/27 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'AROA2624E',
+        lane: 'MFX',
+        terminal: 'CNSHAT02',
+        eta: '07/28 20:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JRBM2629W',
+        lane: 'KCI',
+        terminal: 'CNSHAT03',
+        eta: '07/29 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'DFMH2627W',
+        lane: 'CGS',
+        terminal: 'CNSHAT02',
+        eta: '07/29 12:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JHT92636W',
+        lane: 'YRD',
+        terminal: 'CNSHAT04',
+        eta: '07/29 13:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FXD92621S',
+        lane: 'NP2',
+        terminal: 'CNSHAT02',
+        eta: '07/29 22:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUXM2623E',
+        lane: 'HDT',
+        terminal: 'CNSHAT01',
+        eta: '07/30 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'KPBG2621E',
+        lane: 'CI3',
+        terminal: 'CNSHAT03',
+        eta: '07/30 09:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'BZCF2627W',
+        lane: 'REX',
+        terminal: 'CNSHAT02',
+        eta: '07/30 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'RNSH2630S',
+        lane: 'SHT',
+        terminal: 'CNSHAT04',
+        eta: '07/30 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FH862628S',
+        lane: 'CH1',
+        terminal: 'CNSHAT02',
+        eta: '07/31 06:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGU32628W',
+        lane: 'RES',
+        terminal: 'CNSHAT02',
+        eta: '07/31 07:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'H8112625N',
+        lane: 'NP2',
+        terminal: 'CNSHAT02',
+        eta: '07/31 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'APCR2621S',
+        lane: 'CP8',
+        terminal: 'CNSHAT02',
+        eta: '08/01 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CSRO2631S',
+        lane: 'SHT',
+        terminal: 'CNSHAT04',
+        eta: '08/01 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GLZD2629S',
+        lane: 'SHT',
+        terminal: 'CNSHAT01',
+        eta: '08/01 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JJTY2630S',
+        lane: 'SHT',
+        terminal: 'CNSHAT02',
+        eta: '08/01 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SPNT2620S',
+        lane: 'CP8',
+        terminal: 'CNSHAT02',
+        eta: '08/01 00:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK2: [{
+        voyage: 'LYJE2629W',
+        lane: 'MFX',
+        terminal: 'CNSHAT02',
+        eta: '08/02 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HMBM2628W',
+        lane: 'KCI',
+        terminal: 'CNSHAT03',
+        eta: '08/03 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HRRR2631S',
+        lane: 'SHT',
+        terminal: 'CNSHAT03',
+        eta: '08/03 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'NHZY2624W',
+        lane: 'CGS',
+        terminal: 'CNSHAT02',
+        eta: '08/03 21:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JHT92637W',
+        lane: 'YRD',
+        terminal: 'CNSHAT04',
+        eta: '08/04 12:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUXM2624E',
+        lane: 'HDT',
+        terminal: 'CNSHAT01',
+        eta: '08/04 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'VRYB2623E',
+        lane: 'CI3',
+        terminal: 'CNSHAT03',
+        eta: '08/05 16:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GLGD2630S',
+        lane: 'SHT',
+        terminal: 'CNSHAT04',
+        eta: '08/06 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GLZD2631S',
+        lane: 'SHT',
+        terminal: 'CNSHAT04',
+        eta: '08/06 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PETH2629W',
+        lane: 'AM1',
+        terminal: 'CNSHAT02',
+        eta: '08/06 19:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUNS2629S',
+        lane: 'CCT',
+        terminal: 'CNSHAT04',
+        eta: '08/06 21:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XIHG2630S',
+        lane: 'SHT',
+        terminal: 'CNSHAT01',
+        eta: '08/07 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CANY2630S',
+        lane: 'CH1',
+        terminal: 'CNSHAT02',
+        eta: '08/07 11:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JJTY2632S',
+        lane: 'SHT',
+        terminal: 'CNSHAT02',
+        eta: '08/08 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'KNBM2630S',
+        lane: 'CCT',
+        terminal: 'CNSHAT04',
+        eta: '08/08 06:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUYP2632W',
+        lane: 'REX',
+        terminal: 'CNSHAT02',
+        eta: '08/08 13:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHC2631W',
+        lane: 'AM1',
+        terminal: 'CNSHAT02',
+        eta: '08/08 16:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XFJH2628S',
+        lane: 'NP2',
+        terminal: 'CNSHAT02',
+        eta: '08/08 17:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK3: [{
+        voyage: 'MDTN2632S',
+        lane: 'SHT',
+        terminal: 'CNSHAT04',
+        eta: '08/09 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JJSN2632S',
+        lane: 'SHT',
+        terminal: 'CNSHAT03',
+        eta: '08/10 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SPND2633W',
+        lane: 'MFX',
+        terminal: 'CNSHAT02',
+        eta: '08/10 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGHZ2630W',
+        lane: 'KCI',
+        terminal: 'CNSHAT03',
+        eta: '08/10 08:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CAOE2660E',
+        lane: 'LHT',
+        terminal: 'CNSHAT07',
+        eta: '08/10 10:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JHT92638W',
+        lane: 'YRD',
+        terminal: 'CNSHAT04',
+        eta: '08/10 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MEBB2631W',
+        lane: 'KCI',
+        terminal: 'CNSHAT03',
+        eta: '08/10 17:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'KTPM2624E',
+        lane: 'CI3',
+        terminal: 'CNSHAT03',
+        eta: '08/10 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUXM2625E',
+        lane: 'HDT',
+        terminal: 'CNSHAT01',
+        eta: '08/11 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SPNT2622S',
+        lane: 'CP8',
+        terminal: 'CNSHAT02',
+        eta: '08/11 20:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZG162631W',
+        lane: 'RES',
+        terminal: 'CNSHAT02',
+        eta: '08/12 19:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GLGD2632S',
+        lane: 'SHT',
+        terminal: 'CNSHAT04',
+        eta: '08/13 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XIHG2631S',
+        lane: 'SHT',
+        terminal: 'CNSHAT01',
+        eta: '08/13 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'APCR2623S',
+        lane: 'CP8',
+        terminal: 'CNSHAT02',
+        eta: '08/13 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FH862629S',
+        lane: 'CH1',
+        terminal: 'CNSHAT02',
+        eta: '08/13 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'YMWL2616E',
+        lane: 'LHT',
+        terminal: 'CNSHAT07',
+        eta: '08/13 17:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CMSP2623S',
+        lane: 'CP8',
+        terminal: 'CNSHAT02',
+        eta: '08/14 16:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZYHS2631W',
+        lane: 'SGX',
+        terminal: 'CNSHAT02',
+        eta: '08/14 17:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CSCC2633S',
+        lane: 'SHT',
+        terminal: 'CNSHAT04',
+        eta: '08/15 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JJTY2633S',
+        lane: 'SHT',
+        terminal: 'CNSHAT02',
+        eta: '08/15 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JUBM2631S',
+        lane: 'CCT',
+        terminal: 'CNSHAT04',
+        eta: '08/15 06:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CULC2633W',
+        lane: 'REX',
+        terminal: 'CNSHAT02',
+        eta: '08/15 09:00',
+        dis20: 0,
+        dis40: 0
+      }]
+    },
+    cargoSplitData: [{
+      vessel: 'CSCC2628S',
+      f20: 0,
+      f40: 7,
+      p20: 0,
+      p40: 0,
+      vvd: 'CSCC2628S',
+      match: true
+    },{
+      vessel: 'CLMB2616N',
+      f20: 6,
+      f40: 9,
+      p20: 50,
+      p40: 13,
+      vvd: 'CLMB2616N',
+      match: true
+    },{
+      vessel: 'JJSN2628S',
+      f20: 3,
+      f40: 26,
+      p20: 0,
+      p40: 0,
+      vvd: 'JJSN2628S',
+      match: true
+    },{
+      vessel: 'AOTK2628S',
+      f20: 2,
+      f40: 0,
+      p20: 0,
+      p40: 0,
+      vvd: 'AOTK2628S',
+      match: true
+    },{
+      vessel: 'IAAL2622E',
+      f20: 15,
+      f40: 18,
+      p20: 0,
+      p40: 10,
+      vvd: 'IAAL2622E',
+      match: true
+    },{
+      vessel: 'GLZD2629S',
+      f20: 1,
+      f40: 21,
+      p20: 0,
+      p40: 0,
+      vvd: 'GLZD2629S',
+      match: true
+    },{
+      vessel: 'MDTN2628S',
+      f20: 3,
+      f40: 4,
+      p20: 0,
+      p40: 0,
+      vvd: 'MDTN2628S',
+      match: true
+    },{
+      vessel: 'GLGD2628S',
+      f20: 0,
+      f40: 14,
+      p20: 0,
+      p40: 0,
+      vvd: 'GLGD2628S',
+      match: true
+    }],
+    nawBookingByWeek: {
+      WK0: {
+        '20GP': 251,
+        '40HC': 526,
+        vessels: [{
+          vessel: 'FH862627S',
+          '20GP': 40,
+          '40HC': 29
+        },{
+          vessel: 'APCR2619S',
+          '20GP': 23,
+          '40HC': 46
+        },{
+          vessel: 'MBBG2627W',
+          '20GP': 34,
+          '40HC': 200
+        },{
+          vessel: 'XFJH2626S',
+          '20GP': 17,
+          '40HC': 60
+        },{
+          vessel: 'CUXM2622E',
+          '20GP': 34,
+          '40HC': 19
+        },{
+          vessel: 'CANY2629S',
+          '20GP': 19,
+          '40HC': 31
+        },{
+          vessel: 'JUBM2628S',
+          '20GP': 78,
+          '40HC': 100
+        },{
+          vessel: 'ZGHA2630W',
+          '20GP': 6,
+          '40HC': 41
+        }]
+      },
+      WK1: {
+        '20GP': 11,
+        '40HC': 55,
+        vessels: [{
+          vessel: 'CUXM2623E',
+          '20GP': 0,
+          '40HC': 21
+        },{
+          vessel: 'JRBM2629W',
+          '20GP': 11,
+          '40HC': 34
+        }]
+      },
+      WK2: {
+        '20GP': 0,
+        '40HC': 1,
+        vessels: [{
+          vessel: 'CUHC2631W',
+          '20GP': 0,
+          '40HC': 1
+        }]
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0,
+        vessels: []
+      }
+    },
+    allocationTarget: {
+      WK0: {
+        cal_week: 30,
+        target: 305,
+        bsa: 305,
+        by_lane: {
+          CCT: 40,
+          'HDT/出口2': 30,
+          KHX: 35,
+          CP8: 200
+        }
+      },
+      WK1: {
+        cal_week: 31,
+        target: 360,
+        bsa: 360,
+        by_lane: {
+          CH1: 300,
+          KHX: 60
+        }
+      },
+      WK2: {
+        cal_week: 32,
+        target: 180,
+        bsa: 180,
+        by_lane: {
+          CCT: 80,
+          'HDT/出口2': 0,
+          CP8: 100
+        }
+      }
+    },
+    pickupVolumeByWeek: {
+      WK0: {
+        '20GP': 339,
+        '40HC': 746
+      },
+      WK1: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK2: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0
+      }
+    },
+    allocationVessels: {
+      CCT: [{
+        lane: 'CCT',
+        vessel: 'CANY2629S',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 40,
+        bsa: 40,
+        port: 'CNSHA',
+        direction: '出口1'
+      },{
+        lane: 'CCT',
+        vessel: 'CANY2630S',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 80,
+        bsa: 80,
+        port: 'CNSHA',
+        direction: '出口1'
+      }],
+      CH1: [{
+        lane: 'CH1',
+        vessel: 'APCR2619S',
+        cal_week: 31,
+        report_wk: 'WK1',
+        target: 0,
+        bsa: 0,
+        port: 'CNSHA',
+        direction: '出口1'
+      },{
+        lane: 'CH1',
+        vessel: 'MMRN2629S',
+        cal_week: 31,
+        report_wk: 'WK1',
+        target: 300,
+        bsa: 300,
+        port: 'CNSHA',
+        direction: '出口1'
+      }],
+      'HDT/出口2': [{
+        lane: 'HDT',
+        vessel: 'CUXM2622E',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 30,
+        bsa: 30,
+        port: 'CNSHA',
+        direction: '出口2'
+      },{
+        lane: 'HDT',
+        vessel: 'CUXM2624E',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 0,
+        bsa: 0,
+        port: 'CNSHA',
+        direction: '出口2'
+      }],
+      KHX: [{
+        lane: 'KHX',
+        vessel: 'SKTA2625S',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 20,
+        bsa: 20,
+        port: 'CNSHA',
+        direction: '出口1'
+      },{
+        lane: 'KHX',
+        vessel: 'SKMN2626S',
+        cal_week: 31,
+        report_wk: 'WK1',
+        target: 30,
+        bsa: 30,
+        port: 'CNSHA',
+        direction: '出口1'
+      },{
+        lane: 'KHX',
+        vessel: 'KWGB2629S',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 15,
+        bsa: 15,
+        port: 'CNSHA',
+        direction: '出口1'
+      },{
+        lane: 'KHX',
+        vessel: 'KWGB2630S',
+        cal_week: 31,
+        report_wk: 'WK1',
+        target: 30,
+        bsa: 30,
+        port: 'CNSHA',
+        direction: '出口1'
+      }],
+      CP8: [{
+        lane: 'CP8',
+        vessel: 'HPEC2628S',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 200,
+        bsa: 200,
+        port: 'CNSHA',
+        direction: '出口1'
+      },{
+        lane: 'CP8',
+        vessel: 'HPEC2630S',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 100,
+        bsa: 100,
+        port: 'CNSHA',
+        direction: '出口1'
+      }]
+    }
   },
-
-  // ============================================================
-  // ===== CNNGB - 宁波 (LIVE) =====
-  // ============================================================
   CNNGB: {
-    forecastData: {'Start Empty': {'0': [1613,623,0,0,0,0,990,0], '1': [1101,0,0,0,0,0,0,0], '2': [490,0,0,0,0,0,0,0]}, 'Inbound Generation': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Reposition In': {'0': [778,11,0,0,0,0,767,0], '1': [712,102,0,0,0,0,610,0], '2': [519,170,0,0,0,0,349,0]}, 'OW & On-hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '+ Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Outbound Pick-up': {'0': [1290,279,0,0,0,0,1011,0], '1': [1323,261,0,0,0,0,1062,0], '2': [1362,281,0,0,0,0,1081,0]}, 'Reposition out': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'OneWay & Off Hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '- Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Balance(Forecast)': {'0': [1101,0,0,0,0,0,0,0], '1': [490,0,0,0,0,0,0,0], '2': [-353,0,0,0,0,0,0,0]}},
-    bookingByVessel: {'BZCF2627W': {alloc:900,current:0,ft20:0,ft40:0}, 'GFPS2627W': {alloc:366,current:621,ft20:17,ft40:302}, 'RACE2628W': {alloc:1160,current:1107,ft20:199,ft40:454}, 'ZGNC2628W': {alloc:641,current:549,ft20:23,ft40:263}, 'ZYHS2628W': {alloc:480,current:918,ft20:108,ft40:405}},
-    vesselsByWeek: {WK0: [{voyage:'H9682628E',lane:'YRD',terminal:'CNNGBT04',eta:'07/19 04:00',dis20:0,dis40:0},{voyage:'EVVR2627W',lane:'MFX',terminal:'CNNGBT04',eta:'07/19 06:00',dis20:0,dis40:0},{voyage:'ZYHS2628W',lane:'SGX',terminal:'CNNGBT04',eta:'07/19 12:00',dis20:0,dis40:0},{voyage:'KNBM2627S',lane:'CCT',terminal:'CNNGBT05',eta:'07/19 19:00',dis20:0,dis40:0},{voyage:'CUXM2622E',lane:'HDT',terminal:'CNNGBT02',eta:'07/20 00:00',dis20:0,dis40:0},{voyage:'CH272629E',lane:'YRD',terminal:'CNNGBT04',eta:'07/20 03:30',dis20:0,dis40:0},{voyage:'W2732627N',lane:'TWT',terminal:'CNNGBT02',eta:'07/20 04:00',dis20:0,dis40:0},{voyage:'ZGU92629W',lane:'RES',terminal:'CNNGBT06',eta:'07/20 04:00',dis20:0,dis40:0},{voyage:'PTST2631W',lane:'MFX',terminal:'CNNGBT04',eta:'07/20 13:00',dis20:0,dis40:0},{voyage:'YMWS2623E',lane:'LHT',terminal:'CNNGBT06',eta:'07/21 05:00',dis20:0,dis40:0},{voyage:'APCR2619S',lane:'CP8',terminal:'CNNGBT02',eta:'07/22 02:00',dis20:0,dis40:0},{voyage:'CANY2629S',lane:'CH1',terminal:'CNNGBT02',eta:'07/22 03:00',dis20:0,dis40:0},{voyage:'MBBG2627W',lane:'KCI',terminal:'CNNGBT05',eta:'07/22 11:00',dis20:0,dis40:0},{voyage:'GFPS2627W',lane:'AM1',terminal:'CNNGBT06',eta:'07/22 12:00',dis20:0,dis40:0},{voyage:'JUBM2628S',lane:'CCT',terminal:'CNNGBT05',eta:'07/23 08:00',dis20:0,dis40:0},{voyage:'FH862627S',lane:'CH1',terminal:'CNNGBT02',eta:'07/23 22:00',dis20:0,dis40:0},{voyage:'RACE2628W',lane:'SGX',terminal:'CNNGBT04',eta:'07/24 22:00',dis20:0,dis40:0},{voyage:'ASHP2629S',lane:'SHT',terminal:'CNNGBT05',eta:'07/25 00:00',dis20:0,dis40:0},{voyage:'NM682628S',lane:'SHT',terminal:'CNNGBT05',eta:'07/25 03:00',dis20:0,dis40:0},{voyage:'MSCL2624W',lane:'LHT',terminal:'CNNGBT06',eta:'07/25 10:00',dis20:0,dis40:0}], WK1: [{voyage:'XM262628S',lane:'SHT',terminal:'CNNGBT05',eta:'07/26 07:00',dis20:0,dis40:0},{voyage:'ZGNC2628W',lane:'AM1',terminal:'CNNGBT06',eta:'07/26 15:30',dis20:0,dis40:0},{voyage:'H9682629E',lane:'YRD',terminal:'CNNGBT04',eta:'07/26 18:00',dis20:0,dis40:0},{voyage:'NM602629S',lane:'SHT',terminal:'CNNGBT02',eta:'07/26 23:00',dis20:0,dis40:0},{voyage:'CUXM2623E',lane:'HDT',terminal:'CNNGBT02',eta:'07/27 00:00',dis20:0,dis40:0},{voyage:'CH272630E',lane:'YRD',terminal:'CNNGBT04',eta:'07/27 08:00',dis20:0,dis40:0},{voyage:'NYHA2628N',lane:'TWT',terminal:'CNNGBT04',eta:'07/28 00:30',dis20:0,dis40:0},{voyage:'MST22629S',lane:'SHT',terminal:'CNNGBT05',eta:'07/28 02:00',dis20:0,dis40:0},{voyage:'ZGHA2630W',lane:'RES',terminal:'CNNGBT06',eta:'07/28 06:00',dis20:0,dis40:0},{voyage:'AROA2624E',lane:'MFX',terminal:'CNNGBT04',eta:'07/29 18:00',dis20:0,dis40:0},{voyage:'XM222629S',lane:'SHT',terminal:'CNNGBT02',eta:'07/29 23:00',dis20:0,dis40:0},{voyage:'FH862628S',lane:'CH1',terminal:'CNNGBT02',eta:'07/30 11:00',dis20:0,dis40:0},{voyage:'BZCF2627W',lane:'REX',terminal:'CNNGBT04',eta:'07/30 18:00',dis20:0,dis40:0},{voyage:'JRBM2629W',lane:'KCI',terminal:'CNNGBT05',eta:'07/31 16:00',dis20:0,dis40:0}], WK2: [{voyage:'APCR2621S',lane:'CP8',terminal:'CNNGBT02',eta:'08/02 07:00',dis20:0,dis40:0},{voyage:'SPNT2620S',lane:'CP8',terminal:'CNNGBT02',eta:'08/02 13:00',dis20:0,dis40:0},{voyage:'ZGU32628W',lane:'RES',terminal:'CNNGBT06',eta:'08/02 20:00',dis20:0,dis40:0},{voyage:'NM662630S',lane:'SHT',terminal:'CNNGBT02',eta:'08/02 23:00',dis20:0,dis40:0},{voyage:'CUXM2624E',lane:'HDT',terminal:'CNNGBT02',eta:'08/03 00:00',dis20:0,dis40:0},{voyage:'ASHP2630S',lane:'SHT',terminal:'CNNGBT05',eta:'08/04 03:00',dis20:0,dis40:0},{voyage:'TBN12676N',lane:'FDR',terminal:'CNNGBT05',eta:'08/04 08:00',dis20:0,dis40:0},{voyage:'LYJE2629W',lane:'MFX',terminal:'CNNGBT04',eta:'08/04 11:00',dis20:0,dis40:0},{voyage:'HMBM2628W',lane:'KCI',terminal:'CNNGBT05',eta:'08/04 15:00',dis20:0,dis40:0},{voyage:'CUNS2629S',lane:'CCT',terminal:'CNNGBT05',eta:'08/05 04:00',dis20:0,dis40:0},{voyage:'TBN12677N',lane:'SHT',terminal:'CNNGBT05',eta:'08/05 08:00',dis20:0,dis40:0},{voyage:'FH862629S',lane:'CH1',terminal:'CNNGBT02',eta:'08/05 15:00',dis20:0,dis40:0},{voyage:'KNBM2630S',lane:'CCT',terminal:'CNNGBT05',eta:'08/06 05:00',dis20:0,dis40:0},{voyage:'CANY2630S',lane:'CH1',terminal:'CNNGBT02',eta:'08/06 22:00',dis20:0,dis40:0},{voyage:'CSQC2630W',lane:'SGX',terminal:'CNNGBT04',eta:'08/07 22:00',dis20:0,dis40:0},{voyage:'ZGHZ2630W',lane:'KCI',terminal:'CNNGBT05',eta:'08/08 00:30',dis20:0,dis40:0},{voyage:'EVHA2633W',lane:'REX',terminal:'CNNGBT04',eta:'08/08 18:00',dis20:0,dis40:0}]},
+    forecastData: {
+      'Start Empty': {
+        '0': [1613,623,0,0,0,0,990,0],
+        '1': [1101,0,0,0,0,0,0,0],
+        '2': [490,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Inbound Generation': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition In': {
+        '0': [778,11,0,0,0,0,767,0],
+        '1': [712,102,0,0,0,0,610,0],
+        '2': [519,170,0,0,0,0,349,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OW & On-hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '+ Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Outbound Pick-up': {
+        '0': [1290,279,0,0,0,0,1011,0],
+        '1': [1323,261,0,0,0,0,1062,0],
+        '2': [1362,281,0,0,0,0,1081,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition out': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OneWay & Off Hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '- Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Balance(Forecast)': {
+        '0': [1101,0,0,0,0,0,0,0],
+        '1': [490,0,0,0,0,0,0,0],
+        '2': [-353,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      }
+    },
+    bookingByVessel: {
+      BZCF2627W: {
+        alloc: 900,
+        current: 0,
+        ft20: 0,
+        ft40: 0
+      },
+      GFPS2627W: {
+        alloc: 366,
+        current: 621,
+        ft20: 17,
+        ft40: 302
+      },
+      RACE2628W: {
+        alloc: 1160,
+        current: 1107,
+        ft20: 199,
+        ft40: 454
+      },
+      ZGNC2628W: {
+        alloc: 641,
+        current: 549,
+        ft20: 23,
+        ft40: 263
+      },
+      ZYHS2628W: {
+        alloc: 480,
+        current: 918,
+        ft20: 108,
+        ft40: 405
+      }
+    },
+    vesselsByWeek: {
+      WK0: [{
+        voyage: 'H9682628E',
+        lane: 'YRD',
+        terminal: 'CNNGBT04',
+        eta: '07/19 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'EVVR2627W',
+        lane: 'MFX',
+        terminal: 'CNNGBT04',
+        eta: '07/19 06:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZYHS2628W',
+        lane: 'SGX',
+        terminal: 'CNNGBT04',
+        eta: '07/19 12:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'KNBM2627S',
+        lane: 'CCT',
+        terminal: 'CNNGBT05',
+        eta: '07/19 19:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUXM2622E',
+        lane: 'HDT',
+        terminal: 'CNNGBT02',
+        eta: '07/20 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CH272629E',
+        lane: 'YRD',
+        terminal: 'CNNGBT04',
+        eta: '07/20 03:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'W2732627N',
+        lane: 'TWT',
+        terminal: 'CNNGBT02',
+        eta: '07/20 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGU92629W',
+        lane: 'RES',
+        terminal: 'CNNGBT06',
+        eta: '07/20 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PTST2631W',
+        lane: 'MFX',
+        terminal: 'CNNGBT04',
+        eta: '07/20 13:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'YMWS2623E',
+        lane: 'LHT',
+        terminal: 'CNNGBT06',
+        eta: '07/21 05:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'APCR2619S',
+        lane: 'CP8',
+        terminal: 'CNNGBT02',
+        eta: '07/22 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CANY2629S',
+        lane: 'CH1',
+        terminal: 'CNNGBT02',
+        eta: '07/22 03:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MBBG2627W',
+        lane: 'KCI',
+        terminal: 'CNNGBT05',
+        eta: '07/22 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GFPS2627W',
+        lane: 'AM1',
+        terminal: 'CNNGBT06',
+        eta: '07/22 12:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JUBM2628S',
+        lane: 'CCT',
+        terminal: 'CNNGBT05',
+        eta: '07/23 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FH862627S',
+        lane: 'CH1',
+        terminal: 'CNNGBT02',
+        eta: '07/23 22:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'RACE2628W',
+        lane: 'SGX',
+        terminal: 'CNNGBT04',
+        eta: '07/24 22:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ASHP2629S',
+        lane: 'SHT',
+        terminal: 'CNNGBT05',
+        eta: '07/25 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'NM682628S',
+        lane: 'SHT',
+        terminal: 'CNNGBT05',
+        eta: '07/25 03:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MSCL2624W',
+        lane: 'LHT',
+        terminal: 'CNNGBT06',
+        eta: '07/25 10:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK1: [{
+        voyage: 'XM262628S',
+        lane: 'SHT',
+        terminal: 'CNNGBT05',
+        eta: '07/26 07:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGNC2628W',
+        lane: 'AM1',
+        terminal: 'CNNGBT06',
+        eta: '07/26 15:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'H9682629E',
+        lane: 'YRD',
+        terminal: 'CNNGBT04',
+        eta: '07/26 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'NM602629S',
+        lane: 'SHT',
+        terminal: 'CNNGBT02',
+        eta: '07/26 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUXM2623E',
+        lane: 'HDT',
+        terminal: 'CNNGBT02',
+        eta: '07/27 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CH272630E',
+        lane: 'YRD',
+        terminal: 'CNNGBT04',
+        eta: '07/27 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'NYHA2628N',
+        lane: 'TWT',
+        terminal: 'CNNGBT04',
+        eta: '07/28 00:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MST22629S',
+        lane: 'SHT',
+        terminal: 'CNNGBT05',
+        eta: '07/28 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGHA2630W',
+        lane: 'RES',
+        terminal: 'CNNGBT06',
+        eta: '07/28 06:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'AROA2624E',
+        lane: 'MFX',
+        terminal: 'CNNGBT04',
+        eta: '07/29 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XM222629S',
+        lane: 'SHT',
+        terminal: 'CNNGBT02',
+        eta: '07/29 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FH862628S',
+        lane: 'CH1',
+        terminal: 'CNNGBT02',
+        eta: '07/30 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'BZCF2627W',
+        lane: 'REX',
+        terminal: 'CNNGBT04',
+        eta: '07/30 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JRBM2629W',
+        lane: 'KCI',
+        terminal: 'CNNGBT05',
+        eta: '07/31 16:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK2: [{
+        voyage: 'APCR2621S',
+        lane: 'CP8',
+        terminal: 'CNNGBT02',
+        eta: '08/02 07:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SPNT2620S',
+        lane: 'CP8',
+        terminal: 'CNNGBT02',
+        eta: '08/02 13:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGU32628W',
+        lane: 'RES',
+        terminal: 'CNNGBT06',
+        eta: '08/02 20:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'NM662630S',
+        lane: 'SHT',
+        terminal: 'CNNGBT02',
+        eta: '08/02 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUXM2624E',
+        lane: 'HDT',
+        terminal: 'CNNGBT02',
+        eta: '08/03 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ASHP2630S',
+        lane: 'SHT',
+        terminal: 'CNNGBT05',
+        eta: '08/04 03:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBN12676N',
+        lane: 'FDR',
+        terminal: 'CNNGBT05',
+        eta: '08/04 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'LYJE2629W',
+        lane: 'MFX',
+        terminal: 'CNNGBT04',
+        eta: '08/04 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HMBM2628W',
+        lane: 'KCI',
+        terminal: 'CNNGBT05',
+        eta: '08/04 15:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUNS2629S',
+        lane: 'CCT',
+        terminal: 'CNNGBT05',
+        eta: '08/05 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBN12677N',
+        lane: 'SHT',
+        terminal: 'CNNGBT05',
+        eta: '08/05 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FH862629S',
+        lane: 'CH1',
+        terminal: 'CNNGBT02',
+        eta: '08/05 15:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'KNBM2630S',
+        lane: 'CCT',
+        terminal: 'CNNGBT05',
+        eta: '08/06 05:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CANY2630S',
+        lane: 'CH1',
+        terminal: 'CNNGBT02',
+        eta: '08/06 22:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CSQC2630W',
+        lane: 'SGX',
+        terminal: 'CNNGBT04',
+        eta: '08/07 22:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGHZ2630W',
+        lane: 'KCI',
+        terminal: 'CNNGBT05',
+        eta: '08/08 00:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'EVHA2633W',
+        lane: 'REX',
+        terminal: 'CNNGBT04',
+        eta: '08/08 18:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK3: []
+    },
     cargoSplitData: [],
-                    nawBookingByWeek: {'WK0': {'20GP':251,'40HC':837,vessels:[{vessel:'KNBM2627S','20GP':62,'40HC':121},{vessel:'CUXM2622E','20GP':73,'40HC':120},{vessel:'ZGU92629W','20GP':0,'40HC':57},{vessel:'PTST2631W','20GP':7,'40HC':15},{vessel:'APCR2619S','20GP':8,'40HC':132},{vessel:'CANY2629S','20GP':2,'40HC':19},{vessel:'MBBG2627W','20GP':28,'40HC':261},{vessel:'JUBM2628S','20GP':52,'40HC':101},{vessel:'FH862627S','20GP':19,'40HC':11}]}, 'WK1': {'20GP':38,'40HC':107,vessels:[{vessel:'CUXM2623E','20GP':36,'40HC':74},{vessel:'ZGHA2630W','20GP':1,'40HC':8},{vessel:'FH862628S','20GP':0,'40HC':3},{vessel:'JRBM2629W','20GP':1,'40HC':22}]}, 'WK2': {'20GP':11,'40HC':66,vessels:[{vessel:'CUXM2624E','20GP':0,'40HC':2},{vessel:'HMBM2628W','20GP':0,'40HC':24},{vessel:'CUNS2629S','20GP':11,'40HC':26},{vessel:'KNBM2630S','20GP':0,'40HC':14}]}},
-allocationTarget: {'WK0': {cal_week:30,target:475,bsa:475,by_lane:{'CCT':40, 'HDT/出口2':30, 'CP8':405}}, 'WK1': {cal_week:31,target:420,bsa:420,by_lane:{'CCT':40, 'CH1':350, 'HDT/出口2':30}}, 'WK2': {cal_week:32,target:355,bsa:355,by_lane:{'CP8':355}}},
-        pickupVolumeByWeek: {WK0: {'20GP':386,'40HC':1309}, WK1: {'20GP':0,'40HC':0}, WK2: {'20GP':0,'40HC':0}},
-    allocationVessels: {'CCT': [{lane:'CCT', vessel:'CANY2629S', cal_week:30, report_wk:'WK0', target:40, bsa:40, port:'CNNGB', direction:'出口1'}, {lane:'CCT', vessel:'FH862628S', cal_week:31, report_wk:'WK1', target:40, bsa:40, port:'CNNGB', direction:'出口1'}], 'CH1': [{lane:'CH1', vessel:'APCR2619S', cal_week:31, report_wk:'WK1', target:150, bsa:150, port:'CNNGB', direction:'出口1'}, {lane:'CH1', vessel:'MMRN2629S', cal_week:31, report_wk:'WK1', target:200, bsa:200, port:'CNNGB', direction:'出口1'}], 'HDT/出口2': [{lane:'HDT', vessel:'CUXM2622E', cal_week:30, report_wk:'WK0', target:30, bsa:30, port:'CNNGB', direction:'出口2'}, {lane:'HDT', vessel:'CUXM2623E', cal_week:31, report_wk:'WK1', target:30, bsa:30, port:'CNNGB', direction:'出口2'}], 'CP8': [{lane:'CP8', vessel:'H8112625S', cal_week:30, report_wk:'WK0', target:250, bsa:250, port:'CNNGB', direction:'出口1'}, {lane:'CP8', vessel:'HPEC2628S', cal_week:30, report_wk:'WK0', target:155, bsa:155, port:'CNNGB', direction:'出口1'}, {lane:'CP8', vessel:'HPEC2630S', cal_week:32, report_wk:'WK2', target:355, bsa:355, port:'CNNGB', direction:'出口1'}]},
+    nawBookingByWeek: {
+      WK0: {
+        '20GP': 251,
+        '40HC': 837,
+        vessels: [{
+          vessel: 'KNBM2627S',
+          '20GP': 62,
+          '40HC': 121
+        },{
+          vessel: 'CUXM2622E',
+          '20GP': 73,
+          '40HC': 120
+        },{
+          vessel: 'ZGU92629W',
+          '20GP': 0,
+          '40HC': 57
+        },{
+          vessel: 'PTST2631W',
+          '20GP': 7,
+          '40HC': 15
+        },{
+          vessel: 'APCR2619S',
+          '20GP': 8,
+          '40HC': 132
+        },{
+          vessel: 'CANY2629S',
+          '20GP': 2,
+          '40HC': 19
+        },{
+          vessel: 'MBBG2627W',
+          '20GP': 28,
+          '40HC': 261
+        },{
+          vessel: 'JUBM2628S',
+          '20GP': 52,
+          '40HC': 101
+        },{
+          vessel: 'FH862627S',
+          '20GP': 19,
+          '40HC': 11
+        }]
+      },
+      WK1: {
+        '20GP': 38,
+        '40HC': 107,
+        vessels: [{
+          vessel: 'CUXM2623E',
+          '20GP': 36,
+          '40HC': 74
+        },{
+          vessel: 'ZGHA2630W',
+          '20GP': 1,
+          '40HC': 8
+        },{
+          vessel: 'FH862628S',
+          '20GP': 0,
+          '40HC': 3
+        },{
+          vessel: 'JRBM2629W',
+          '20GP': 1,
+          '40HC': 22
+        }]
+      },
+      WK2: {
+        '20GP': 11,
+        '40HC': 66,
+        vessels: [{
+          vessel: 'CUXM2624E',
+          '20GP': 0,
+          '40HC': 2
+        },{
+          vessel: 'HMBM2628W',
+          '20GP': 0,
+          '40HC': 24
+        },{
+          vessel: 'CUNS2629S',
+          '20GP': 11,
+          '40HC': 26
+        },{
+          vessel: 'KNBM2630S',
+          '20GP': 0,
+          '40HC': 14
+        }]
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0,
+        vessels: []
+      }
+    },
+    allocationTarget: {
+      WK0: {
+        cal_week: 30,
+        target: 475,
+        bsa: 475,
+        by_lane: {
+          CCT: 40,
+          'HDT/出口2': 30,
+          CP8: 405
+        }
+      },
+      WK1: {
+        cal_week: 31,
+        target: 420,
+        bsa: 420,
+        by_lane: {
+          CCT: 40,
+          CH1: 350,
+          'HDT/出口2': 30
+        }
+      },
+      WK2: {
+        cal_week: 32,
+        target: 355,
+        bsa: 355,
+        by_lane: {
+          CP8: 355
+        }
+      }
+    },
+    pickupVolumeByWeek: {
+      WK0: {
+        '20GP': 386,
+        '40HC': 1309
+      },
+      WK1: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK2: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0
+      }
+    },
+    allocationVessels: {
+      CCT: [{
+        lane: 'CCT',
+        vessel: 'CANY2629S',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 40,
+        bsa: 40,
+        port: 'CNNGB',
+        direction: '出口1'
+      },{
+        lane: 'CCT',
+        vessel: 'FH862628S',
+        cal_week: 31,
+        report_wk: 'WK1',
+        target: 40,
+        bsa: 40,
+        port: 'CNNGB',
+        direction: '出口1'
+      }],
+      CH1: [{
+        lane: 'CH1',
+        vessel: 'APCR2619S',
+        cal_week: 31,
+        report_wk: 'WK1',
+        target: 150,
+        bsa: 150,
+        port: 'CNNGB',
+        direction: '出口1'
+      },{
+        lane: 'CH1',
+        vessel: 'MMRN2629S',
+        cal_week: 31,
+        report_wk: 'WK1',
+        target: 200,
+        bsa: 200,
+        port: 'CNNGB',
+        direction: '出口1'
+      }],
+      'HDT/出口2': [{
+        lane: 'HDT',
+        vessel: 'CUXM2622E',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 30,
+        bsa: 30,
+        port: 'CNNGB',
+        direction: '出口2'
+      },{
+        lane: 'HDT',
+        vessel: 'CUXM2623E',
+        cal_week: 31,
+        report_wk: 'WK1',
+        target: 30,
+        bsa: 30,
+        port: 'CNNGB',
+        direction: '出口2'
+      }],
+      CP8: [{
+        lane: 'CP8',
+        vessel: 'H8112625S',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 250,
+        bsa: 250,
+        port: 'CNNGB',
+        direction: '出口1'
+      },{
+        lane: 'CP8',
+        vessel: 'HPEC2628S',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 155,
+        bsa: 155,
+        port: 'CNNGB',
+        direction: '出口1'
+      },{
+        lane: 'CP8',
+        vessel: 'HPEC2630S',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 355,
+        bsa: 355,
+        port: 'CNNGB',
+        direction: '出口1'
+      }]
+    }
   },
-
-
-  // ============================================================
-  // ===== CNSHK - 蛇口/深圳 (LIVE) =====
-  // ============================================================
   CNSHK: {
-    forecastData: {'Start Empty': {'0': [1928,617,0,0,0,0,1311,0], '1': [1122,0,0,0,0,0,0,0], '2': [577,0,0,0,0,0,0,0]}, 'Inbound Generation': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Reposition In': {'0': [144,34,0,0,0,0,110,0], '1': [405,21,0,0,0,0,384,0], '2': [0,0,0,0,0,0,0,0]}, 'OW & On-hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '+ Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Outbound Pick-up': {'0': [950,300,0,0,0,0,650,0], '1': [950,300,0,0,0,0,650,0], '2': [950,300,0,0,0,0,650,0]}, 'Reposition out': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'OneWay & Off Hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '- Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Balance(Forecast)': {'0': [1122,0,0,0,0,0,0,0], '1': [577,0,0,0,0,0,0,0], '2': [-373,0,0,0,0,0,0,0]}},
-    bookingByVessel: {'BZCF2627W': {alloc:0,current:18,ft20:0,ft40:9}, 'RACE2628W': {alloc:610,current:179,ft20:43,ft40:68}},
-    vesselsByWeek: {WK0: [{voyage:'TJFZ2629W',lane:'PRD',terminal:'CNSHKT07',eta:'07/19 00:00',dis20:0,dis40:0},{voyage:'HPEC2628S',lane:'NSX',terminal:'CNSHKT07',eta:'07/19 02:15',dis20:0,dis40:0},{voyage:'TOSF2628W',lane:'PRD',terminal:'CNSHKT01',eta:'07/19 12:00',dis20:0,dis40:0},{voyage:'CUHP2626E',lane:'ST3',terminal:'CNSHKT07',eta:'07/21 02:30',dis20:0,dis40:0},{voyage:'KWGB2630N',lane:'TH3',terminal:'CNSHKT02',eta:'07/22 12:00',dis20:0,dis40:0},{voyage:'MODS2629S',lane:'NSX',terminal:'CNSHKT07',eta:'07/23 14:00',dis20:0,dis40:0},{voyage:'HUJQ0385W',lane:'PRD',terminal:'CNSHKT01',eta:'07/23 18:00',dis20:0,dis40:0},{voyage:'MMRN2629S',lane:'CST',terminal:'CNSHKT07',eta:'07/23 20:30',dis20:0,dis40:0},{voyage:'YMWH0050E',lane:'LHT',terminal:'CNSHKT07',eta:'07/23 22:00',dis20:0,dis40:0},{voyage:'FZ352628W',lane:'PRD',terminal:'CNSHKT07',eta:'07/23 23:00',dis20:0,dis40:0},{voyage:'LDWG2627S',lane:'JCT',terminal:'CNSHKT01',eta:'07/24 08:00',dis20:0,dis40:0},{voyage:'YAFZ2630W',lane:'PRD',terminal:'CNSHKT07',eta:'07/24 08:00',dis20:0,dis40:0},{voyage:'PDPC2632S',lane:'BDX',terminal:'CNSHKT07',eta:'07/24 09:30',dis20:0,dis40:0},{voyage:'DJVS2627N',lane:'IQH',terminal:'CNSHKT02',eta:'07/24 19:00',dis20:0,dis40:0},{voyage:'PEHE2627N',lane:'IQH',terminal:'CNSHKT02',eta:'07/24 20:30',dis20:0,dis40:0},{voyage:'SHLG2624N',lane:'JCT',terminal:'CNSHKT01',eta:'07/25 05:00',dis20:0,dis40:0},{voyage:'MBBG2627W',lane:'KCI',terminal:'CNSHKT02',eta:'07/25 09:00',dis20:0,dis40:0}], WK1: [{voyage:'CUHA2628E',lane:'ST1',terminal:'CNSHKT07',eta:'07/26 07:30',dis20:0,dis40:0},{voyage:'HAXG2628N',lane:'JCT',terminal:'CNSHKT01',eta:'07/27 05:00',dis20:0,dis40:0},{voyage:'CUHP2627E',lane:'ST3',terminal:'CNSHKT07',eta:'07/28 02:30',dis20:0,dis40:0},{voyage:'PDPC2633S',lane:'BDX',terminal:'CNSHKT07',eta:'07/28 18:30',dis20:0,dis40:0},{voyage:'KWGB2631N',lane:'TH3',terminal:'CNSHKT02',eta:'07/29 14:00',dis20:0,dis40:0},{voyage:'FUYU2630W',lane:'SGX',terminal:'CNSHKT07',eta:'07/30 00:00',dis20:0,dis40:0},{voyage:'RACE2628W',lane:'SGX',terminal:'CNSHKT07',eta:'07/30 05:00',dis20:0,dis40:0},{voyage:'FZ352629W',lane:'PRD',terminal:'CNSHKT07',eta:'07/31 11:00',dis20:0,dis40:0},{voyage:'TBN12807N',lane:'SHT',terminal:'CNSHKT01',eta:'08/01 00:00',dis20:0,dis40:0},{voyage:'HPEC2630S',lane:'NSX',terminal:'CNSHKT07',eta:'08/01 02:00',dis20:0,dis40:0},{voyage:'FZ352630W',lane:'PRD',terminal:'CNSHKT07',eta:'08/01 23:00',dis20:0,dis40:0}], WK2: [{voyage:'CUHA2629E',lane:'ST1',terminal:'CNSHKT07',eta:'08/02 01:30',dis20:0,dis40:0},{voyage:'BZCF2627W',lane:'REX',terminal:'CNSHKT07',eta:'08/03 09:00',dis20:0,dis40:0},{voyage:'JRBM2629W',lane:'KCI',terminal:'CNSHKT02',eta:'08/03 22:00',dis20:0,dis40:0},{voyage:'CUHP2628E',lane:'ST3',terminal:'CNSHKT07',eta:'08/04 02:30',dis20:0,dis40:0},{voyage:'KWGB2632N',lane:'TH3',terminal:'CNSHKT02',eta:'08/05 16:00',dis20:0,dis40:0},{voyage:'MODS2631S',lane:'NSX',terminal:'CNSHKT07',eta:'08/05 16:00',dis20:0,dis40:0},{voyage:'MMRN2631S',lane:'CST',terminal:'CNSHKT07',eta:'08/06 16:00',dis20:0,dis40:0},{voyage:'LDWG2627N',lane:'JCT',terminal:'CNSHKT01',eta:'08/06 20:00',dis20:0,dis40:0},{voyage:'PDPC2634S',lane:'BDX',terminal:'CNSHKT07',eta:'08/07 01:30',dis20:0,dis40:0},{voyage:'HMBM2628W',lane:'KCI',terminal:'CNSHKT02',eta:'08/07 23:00',dis20:0,dis40:0},{voyage:'FZ352631W',lane:'PRD',terminal:'CNSHKT07',eta:'08/08 11:00',dis20:0,dis40:0},{voyage:'DJVS2628N',lane:'IQH',terminal:'CNSHKT02',eta:'08/08 17:00',dis20:0,dis40:0},{voyage:'CUHA2630E',lane:'ST1',terminal:'CNSHKT07',eta:'08/08 19:30',dis20:0,dis40:0}]},
+    forecastData: {
+      'Start Empty': {
+        '0': [1928,617,0,0,0,0,1311,0],
+        '1': [1122,0,0,0,0,0,0,0],
+        '2': [577,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Inbound Generation': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition In': {
+        '0': [144,34,0,0,0,0,110,0],
+        '1': [405,21,0,0,0,0,384,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OW & On-hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '+ Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Outbound Pick-up': {
+        '0': [950,300,0,0,0,0,650,0],
+        '1': [950,300,0,0,0,0,650,0],
+        '2': [950,300,0,0,0,0,650,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition out': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OneWay & Off Hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '- Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Balance(Forecast)': {
+        '0': [1122,0,0,0,0,0,0,0],
+        '1': [577,0,0,0,0,0,0,0],
+        '2': [-373,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      }
+    },
+    bookingByVessel: {
+      BZCF2627W: {
+        alloc: 0,
+        current: 18,
+        ft20: 0,
+        ft40: 9
+      },
+      RACE2628W: {
+        alloc: 610,
+        current: 179,
+        ft20: 43,
+        ft40: 68
+      }
+    },
+    vesselsByWeek: {
+      WK0: [{
+        voyage: 'TJFZ2629W',
+        lane: 'PRD',
+        terminal: 'CNSHKT07',
+        eta: '07/19 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HPEC2628S',
+        lane: 'NSX',
+        terminal: 'CNSHKT07',
+        eta: '07/19 02:15',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TOSF2628W',
+        lane: 'PRD',
+        terminal: 'CNSHKT01',
+        eta: '07/19 12:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHP2626E',
+        lane: 'ST3',
+        terminal: 'CNSHKT07',
+        eta: '07/21 02:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'KWGB2630N',
+        lane: 'TH3',
+        terminal: 'CNSHKT02',
+        eta: '07/22 12:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MODS2629S',
+        lane: 'NSX',
+        terminal: 'CNSHKT07',
+        eta: '07/23 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HUJQ0385W',
+        lane: 'PRD',
+        terminal: 'CNSHKT01',
+        eta: '07/23 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MMRN2629S',
+        lane: 'CST',
+        terminal: 'CNSHKT07',
+        eta: '07/23 20:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'YMWH0050E',
+        lane: 'LHT',
+        terminal: 'CNSHKT07',
+        eta: '07/23 22:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352628W',
+        lane: 'PRD',
+        terminal: 'CNSHKT07',
+        eta: '07/23 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'LDWG2627S',
+        lane: 'JCT',
+        terminal: 'CNSHKT01',
+        eta: '07/24 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'YAFZ2630W',
+        lane: 'PRD',
+        terminal: 'CNSHKT07',
+        eta: '07/24 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PDPC2632S',
+        lane: 'BDX',
+        terminal: 'CNSHKT07',
+        eta: '07/24 09:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'DJVS2627N',
+        lane: 'IQH',
+        terminal: 'CNSHKT02',
+        eta: '07/24 19:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PEHE2627N',
+        lane: 'IQH',
+        terminal: 'CNSHKT02',
+        eta: '07/24 20:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SHLG2624N',
+        lane: 'JCT',
+        terminal: 'CNSHKT01',
+        eta: '07/25 05:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MBBG2627W',
+        lane: 'KCI',
+        terminal: 'CNSHKT02',
+        eta: '07/25 09:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK1: [{
+        voyage: 'CUHA2628E',
+        lane: 'ST1',
+        terminal: 'CNSHKT07',
+        eta: '07/26 07:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HAXG2628N',
+        lane: 'JCT',
+        terminal: 'CNSHKT01',
+        eta: '07/27 05:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHP2627E',
+        lane: 'ST3',
+        terminal: 'CNSHKT07',
+        eta: '07/28 02:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PDPC2633S',
+        lane: 'BDX',
+        terminal: 'CNSHKT07',
+        eta: '07/28 18:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'KWGB2631N',
+        lane: 'TH3',
+        terminal: 'CNSHKT02',
+        eta: '07/29 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FUYU2630W',
+        lane: 'SGX',
+        terminal: 'CNSHKT07',
+        eta: '07/30 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'RACE2628W',
+        lane: 'SGX',
+        terminal: 'CNSHKT07',
+        eta: '07/30 05:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352629W',
+        lane: 'PRD',
+        terminal: 'CNSHKT07',
+        eta: '07/31 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBN12807N',
+        lane: 'SHT',
+        terminal: 'CNSHKT01',
+        eta: '08/01 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HPEC2630S',
+        lane: 'NSX',
+        terminal: 'CNSHKT07',
+        eta: '08/01 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352630W',
+        lane: 'PRD',
+        terminal: 'CNSHKT07',
+        eta: '08/01 23:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK2: [{
+        voyage: 'CUHA2629E',
+        lane: 'ST1',
+        terminal: 'CNSHKT07',
+        eta: '08/02 01:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'BZCF2627W',
+        lane: 'REX',
+        terminal: 'CNSHKT07',
+        eta: '08/03 09:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'JRBM2629W',
+        lane: 'KCI',
+        terminal: 'CNSHKT02',
+        eta: '08/03 22:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHP2628E',
+        lane: 'ST3',
+        terminal: 'CNSHKT07',
+        eta: '08/04 02:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'KWGB2632N',
+        lane: 'TH3',
+        terminal: 'CNSHKT02',
+        eta: '08/05 16:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MODS2631S',
+        lane: 'NSX',
+        terminal: 'CNSHKT07',
+        eta: '08/05 16:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MMRN2631S',
+        lane: 'CST',
+        terminal: 'CNSHKT07',
+        eta: '08/06 16:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'LDWG2627N',
+        lane: 'JCT',
+        terminal: 'CNSHKT01',
+        eta: '08/06 20:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PDPC2634S',
+        lane: 'BDX',
+        terminal: 'CNSHKT07',
+        eta: '08/07 01:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HMBM2628W',
+        lane: 'KCI',
+        terminal: 'CNSHKT02',
+        eta: '08/07 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352631W',
+        lane: 'PRD',
+        terminal: 'CNSHKT07',
+        eta: '08/08 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'DJVS2628N',
+        lane: 'IQH',
+        terminal: 'CNSHKT02',
+        eta: '08/08 17:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHA2630E',
+        lane: 'ST1',
+        terminal: 'CNSHKT07',
+        eta: '08/08 19:30',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK3: []
+    },
     cargoSplitData: [],
-                    nawBookingByWeek: {'WK0': {'20GP':405,'40HC':952,vessels:[{vessel:'HPEC2628S','20GP':105,'40HC':200},{vessel:'CUHP2626E','20GP':62,'40HC':159},{vessel:'MODS2629S','20GP':80,'40HC':148},{vessel:'HUJQ0385W','20GP':0,'40HC':1},{vessel:'MMRN2629S','20GP':134,'40HC':307},{vessel:'PDPC2632S','20GP':10,'40HC':22},{vessel:'DJVS2627N','20GP':7,'40HC':11},{vessel:'PEHE2627N','20GP':1,'40HC':0},{vessel:'MBBG2627W','20GP':6,'40HC':104}]}, 'WK1': {'20GP':99,'40HC':333,vessels:[{vessel:'CUHA2628E','20GP':56,'40HC':160},{vessel:'HAXG2628N','20GP':0,'40HC':49},{vessel:'CUHP2627E','20GP':43,'40HC':109},{vessel:'FUYU2630W','20GP':0,'40HC':15}]}, 'WK2': {'20GP':8,'40HC':106,vessels:[{vessel:'CUHA2629E','20GP':0,'40HC':3},{vessel:'BZCF2627W','20GP':7,'40HC':80},{vessel:'JRBM2629W','20GP':0,'40HC':1},{vessel:'CUHP2628E','20GP':1,'40HC':0},{vessel:'KWGB2632N','20GP':0,'40HC':2},{vessel:'MODS2631S','20GP':0,'40HC':1},{vessel:'HMBM2628W','20GP':0,'40HC':7},{vessel:'CUHA2630E','20GP':0,'40HC':12}]}},
-allocationTarget: {'WK0': {cal_week:30,target:210,bsa:210,by_lane:{'CST':210}}, 'WK2': {cal_week:32,target:700,bsa:700,by_lane:{'CST':700}}},
-        pickupVolumeByWeek: {WK0: {'20GP':446,'40HC':1094}, WK1: {'20GP':0,'40HC':0}, WK2: {'20GP':0,'40HC':0}},
-    allocationVessels: {'CST': [{lane:'CST', vessel:'CUHA2627W', cal_week:30, report_wk:'WK0', target:0, bsa:0, port:'CNSHK', direction:'出口1'}, {lane:'CST', vessel:'CUHA2629W', cal_week:32, report_wk:'WK2', target:0, bsa:0, port:'CNSHK', direction:'出口1'}, {lane:'CST', vessel:'CUHP2626W', cal_week:30, report_wk:'WK0', target:210, bsa:210, port:'CNSHK', direction:'出口1'}, {lane:'CST', vessel:'CUHP2628W', cal_week:32, report_wk:'WK2', target:700, bsa:700, port:'CNSHK', direction:'出口1'}]},
+    nawBookingByWeek: {
+      WK0: {
+        '20GP': 405,
+        '40HC': 952,
+        vessels: [{
+          vessel: 'HPEC2628S',
+          '20GP': 105,
+          '40HC': 200
+        },{
+          vessel: 'CUHP2626E',
+          '20GP': 62,
+          '40HC': 159
+        },{
+          vessel: 'MODS2629S',
+          '20GP': 80,
+          '40HC': 148
+        },{
+          vessel: 'HUJQ0385W',
+          '20GP': 0,
+          '40HC': 1
+        },{
+          vessel: 'MMRN2629S',
+          '20GP': 134,
+          '40HC': 307
+        },{
+          vessel: 'PDPC2632S',
+          '20GP': 10,
+          '40HC': 22
+        },{
+          vessel: 'DJVS2627N',
+          '20GP': 7,
+          '40HC': 11
+        },{
+          vessel: 'PEHE2627N',
+          '20GP': 1,
+          '40HC': 0
+        },{
+          vessel: 'MBBG2627W',
+          '20GP': 6,
+          '40HC': 104
+        }]
+      },
+      WK1: {
+        '20GP': 99,
+        '40HC': 333,
+        vessels: [{
+          vessel: 'CUHA2628E',
+          '20GP': 56,
+          '40HC': 160
+        },{
+          vessel: 'HAXG2628N',
+          '20GP': 0,
+          '40HC': 49
+        },{
+          vessel: 'CUHP2627E',
+          '20GP': 43,
+          '40HC': 109
+        },{
+          vessel: 'FUYU2630W',
+          '20GP': 0,
+          '40HC': 15
+        }]
+      },
+      WK2: {
+        '20GP': 8,
+        '40HC': 106,
+        vessels: [{
+          vessel: 'CUHA2629E',
+          '20GP': 0,
+          '40HC': 3
+        },{
+          vessel: 'BZCF2627W',
+          '20GP': 7,
+          '40HC': 80
+        },{
+          vessel: 'JRBM2629W',
+          '20GP': 0,
+          '40HC': 1
+        },{
+          vessel: 'CUHP2628E',
+          '20GP': 1,
+          '40HC': 0
+        },{
+          vessel: 'KWGB2632N',
+          '20GP': 0,
+          '40HC': 2
+        },{
+          vessel: 'MODS2631S',
+          '20GP': 0,
+          '40HC': 1
+        },{
+          vessel: 'HMBM2628W',
+          '20GP': 0,
+          '40HC': 7
+        },{
+          vessel: 'CUHA2630E',
+          '20GP': 0,
+          '40HC': 12
+        }]
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0,
+        vessels: []
+      }
+    },
+    allocationTarget: {
+      WK0: {
+        cal_week: 30,
+        target: 210,
+        bsa: 210,
+        by_lane: {
+          CST: 210
+        }
+      },
+      WK2: {
+        cal_week: 32,
+        target: 700,
+        bsa: 700,
+        by_lane: {
+          CST: 700
+        }
+      }
+    },
+    pickupVolumeByWeek: {
+      WK0: {
+        '20GP': 446,
+        '40HC': 1094
+      },
+      WK1: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK2: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0
+      }
+    },
+    allocationVessels: {
+      CST: [{
+        lane: 'CST',
+        vessel: 'CUHA2627W',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 0,
+        bsa: 0,
+        port: 'CNSHK',
+        direction: '出口1'
+      },{
+        lane: 'CST',
+        vessel: 'CUHA2629W',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 0,
+        bsa: 0,
+        port: 'CNSHK',
+        direction: '出口1'
+      },{
+        lane: 'CST',
+        vessel: 'CUHP2626W',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 210,
+        bsa: 210,
+        port: 'CNSHK',
+        direction: '出口1'
+      },{
+        lane: 'CST',
+        vessel: 'CUHP2628W',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 700,
+        bsa: 700,
+        port: 'CNSHK',
+        direction: '出口1'
+      }]
+    }
   },
-
-
-  // ============================================================
-  // ===== CNNAS - 南沙/广州 (LIVE) =====
-  // ============================================================
   CNNAS: {
-    forecastData: {'Start Empty': {'0': [2045,311,0,0,0,0,1734,0], '1': [1473,0,0,0,0,0,0,0], '2': [456,0,0,0,0,0,0,0]}, 'Inbound Generation': {'0': [195,15,0,0,0,0,180,0], '1': [195,15,0,0,0,0,180,0], '2': [195,15,0,0,0,0,180,0]}, 'Reposition In': {'0': [433,149,0,0,0,0,284,0], '1': [88,0,0,0,0,0,88,0], '2': [260,0,0,0,0,0,243,0]}, 'OW & On-hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '+ Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Outbound Pick-up': {'0': [1200,300,0,0,0,0,900,0], '1': [1300,300,0,0,0,0,1000,0], '2': [1300,0,0,0,0,0,1000,0]}, 'Reposition out': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'OneWay & Off Hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '- Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Balance(Forecast)': {'0': [1473,0,0,0,0,0,0,0], '1': [456,0,0,0,0,0,0,0], '2': [-389,0,0,0,0,0,0,0]}},
-    bookingByVessel: {'BZCF2627W': {alloc:840,current:217,ft20:167,ft40:25}, 'CSQC2625W': {alloc:700,current:573,ft20:105,ft40:234}, 'DFMH2627W': {alloc:320,current:599,ft20:103,ft40:248}, 'GFPS2627W': {alloc:445,current:644,ft20:20,ft40:312}, 'NHZY2624W': {alloc:100,current:0,ft20:0,ft40:0}, 'RACE2628W': {alloc:730,current:534,ft20:90,ft40:222}, 'ZGNC2628W': {alloc:955,current:220,ft20:6,ft40:107}},
-    vesselsByWeek: {WK0: [{voyage:'THTP2627W',lane:'PRD',terminal:'CNNAST05',eta:'07/19 01:00',dis20:0,dis40:0},{voyage:'CSQC2625W',lane:'SGX',terminal:'CNNAST04',eta:'07/19 14:30',dis20:0,dis40:0},{voyage:'HUJQ0384W',lane:'PRD',terminal:'CNNAST04',eta:'07/19 18:00',dis20:0,dis40:0},{voyage:'CUHP2626E',lane:'ST3',terminal:'CNNAST04',eta:'07/20 07:30',dis20:0,dis40:0},{voyage:'TOSF2628W',lane:'PRD',terminal:'CNNAST01',eta:'07/20 12:00',dis20:0,dis40:0},{voyage:'EMFT2629N',lane:'SHT',terminal:'CNNAST01',eta:'07/20 16:00',dis20:0,dis40:0},{voyage:'WFNE2629E',lane:'PRD',terminal:'CNNAST04',eta:'07/21 10:00',dis20:0,dis40:0},{voyage:'GSNE2629E',lane:'PRD',terminal:'CNNAST04',eta:'07/22 10:00',dis20:0,dis40:0},{voyage:'GSNF2629E',lane:'PRD',terminal:'CNNAST04',eta:'07/22 10:00',dis20:0,dis40:0},{voyage:'MODS2629S',lane:'NSX',terminal:'CNNAST04',eta:'07/22 15:00',dis20:0,dis40:0},{voyage:'XSAS2628W',lane:'MFX',terminal:'CNNAST04',eta:'07/22 18:00',dis20:0,dis40:0},{voyage:'MMRN2629S',lane:'CST',terminal:'CNNAST04',eta:'07/22 21:00',dis20:0,dis40:0},{voyage:'ZGZH2627W',lane:'RES',terminal:'CNNAST05',eta:'07/22 21:00',dis20:0,dis40:0},{voyage:'ZGU92629W',lane:'RES',terminal:'CNNAST05',eta:'07/23 03:00',dis20:0,dis40:0},{voyage:'YAFZ2630W',lane:'PRD',terminal:'CNNAST04',eta:'07/23 08:00',dis20:0,dis40:0},{voyage:'EVVR2627W',lane:'MFX',terminal:'CNNAST04',eta:'07/23 17:00',dis20:0,dis40:0},{voyage:'PDPC2632S',lane:'BDX',terminal:'CNNAST04',eta:'07/23 17:30',dis20:0,dis40:0},{voyage:'CUHA2628E',lane:'ST1',terminal:'CNNAST04',eta:'07/24 16:30',dis20:0,dis40:0},{voyage:'HUJQ0385W',lane:'PRD',terminal:'CNNAST04',eta:'07/24 18:00',dis20:0,dis40:0},{voyage:'TBN12815N',lane:'SHT',terminal:'CNNAST01',eta:'07/25 00:00',dis20:0,dis40:0},{voyage:'MTNE2629W',lane:'PRD',terminal:'CNNAST04',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'SWNE2629W',lane:'PRD',terminal:'CNNAST04',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'SWNF2629W',lane:'PRD',terminal:'CNNAST04',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'TBNE2629W',lane:'PRD',terminal:'CNNAST04',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'TBNF2629N',lane:'TWT',terminal:'CNNAST04',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'TONE2629W',lane:'PRD',terminal:'CNNAST04',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'TONF2629W',lane:'PRD',terminal:'CNNAST05',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'WCNE2629W',lane:'PRD',terminal:'CNNAST04',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'WCNF2629N',lane:'TWT',terminal:'CNNAST04',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'WZNE2629W',lane:'PRD',terminal:'CNNAST04',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'XPNF2629E',lane:'PRD',terminal:'CNNAST04',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'ZHNE2629W',lane:'PRD',terminal:'CNNAST04',eta:'07/25 01:00',dis20:0,dis40:0},{voyage:'PTST2631W',lane:'MFX',terminal:'CNNAST04',eta:'07/25 02:00',dis20:0,dis40:0},{voyage:'LDWG2627S',lane:'JCT',terminal:'CNNAST01',eta:'07/25 03:00',dis20:0,dis40:0},{voyage:'THTP2629W',lane:'PRD',terminal:'CNNAST04',eta:'07/25 04:00',dis20:0,dis40:0}], WK1: [{voyage:'GFPS2627W',lane:'AM1',terminal:'CNNAST04',eta:'07/26 07:00',dis20:0,dis40:0},{voyage:'SHLG2631S',lane:'JCT',terminal:'CNNAST01',eta:'07/27 01:00',dis20:0,dis40:0},{voyage:'CUHP2627E',lane:'ST3',terminal:'CNNAST04',eta:'07/27 08:30',dis20:0,dis40:0},{voyage:'EMFT2630N',lane:'SHT',terminal:'CNNAST01',eta:'07/27 16:00',dis20:0,dis40:0},{voyage:'ORC12630W',lane:'MFX',terminal:'CNNAST04',eta:'07/27 19:00',dis20:0,dis40:0},{voyage:'PDPC2633S',lane:'BDX',terminal:'CNNAST04',eta:'07/28 02:30',dis20:0,dis40:0},{voyage:'HYLT2616S',lane:'SVP',terminal:'CNNAST04',eta:'07/28 07:00',dis20:0,dis40:0},{voyage:'DFMH2627W',lane:'CGS',terminal:'CNNAST04',eta:'07/29 10:00',dis20:0,dis40:0},{voyage:'ZGNC2628W',lane:'AM1',terminal:'CNNAST04',eta:'07/29 22:30',dis20:0,dis40:0},{voyage:'ZGHA2630W',lane:'RES',terminal:'CNNAST05',eta:'07/30 17:00',dis20:0,dis40:0},{voyage:'FUYU2630W',lane:'SGX',terminal:'CNNAST04',eta:'07/31 00:00',dis20:0,dis40:0},{voyage:'HPEC2630S',lane:'NSX',terminal:'CNNAST04',eta:'07/31 04:00',dis20:0,dis40:0},{voyage:'YAFZ2631W',lane:'PRD',terminal:'CNNAST01',eta:'07/31 08:00',dis20:0,dis40:0},{voyage:'CUHA2629E',lane:'ST1',terminal:'CNNAST04',eta:'07/31 10:30',dis20:0,dis40:0},{voyage:'RACE2628W',lane:'SGX',terminal:'CNNAST04',eta:'07/31 13:00',dis20:0,dis40:0},{voyage:'MTNE2630W',lane:'PRD',terminal:'CNNAST04',eta:'08/01 01:00',dis20:0,dis40:0},{voyage:'SWNE2630W',lane:'PRD',terminal:'CNNAST04',eta:'08/01 01:00',dis20:0,dis40:0},{voyage:'TBNE2630W',lane:'PRD',terminal:'CNNAST04',eta:'08/01 01:00',dis20:0,dis40:0},{voyage:'THTP2630W',lane:'PRD',terminal:'CNNAST05',eta:'08/01 01:00',dis20:0,dis40:0},{voyage:'TONE2630W',lane:'PRD',terminal:'CNNAST04',eta:'08/01 01:00',dis20:0,dis40:0},{voyage:'TONF2630W',lane:'PRD',terminal:'CNNAST04',eta:'08/01 01:00',dis20:0,dis40:0},{voyage:'WCNE2630W',lane:'PRD',terminal:'CNNAST04',eta:'08/01 01:00',dis20:0,dis40:0},{voyage:'WZNE2630W',lane:'PRD',terminal:'CNNAST04',eta:'08/01 01:00',dis20:0,dis40:0},{voyage:'XPNF2630E',lane:'PRD',terminal:'CNNAST04',eta:'08/01 01:00',dis20:0,dis40:0},{voyage:'XPNF2630W',lane:'PRD',terminal:'CNNAST04',eta:'08/01 01:00',dis20:0,dis40:0},{voyage:'ZHNE2630W',lane:'PRD',terminal:'CNNAST04',eta:'08/01 01:00',dis20:0,dis40:0}], WK2: [{voyage:'TBN12820S',lane:'BDX',terminal:'CNNAST04',eta:'08/02 00:00',dis20:0,dis40:0},{voyage:'TBN12832S',lane:'BDX',terminal:'CNNAST04',eta:'08/02 00:00',dis20:0,dis40:0},{voyage:'BZCF2627W',lane:'REX',terminal:'CNNAST04',eta:'08/02 16:00',dis20:0,dis40:0},{voyage:'CUHP2628E',lane:'ST3',terminal:'CNNAST04',eta:'08/03 08:30',dis20:0,dis40:0},{voyage:'EMFT2631N',lane:'SHT',terminal:'CNNAST01',eta:'08/03 16:00',dis20:0,dis40:0},{voyage:'MODS2631S',lane:'NSX',terminal:'CNNAST04',eta:'08/04 17:00',dis20:0,dis40:0},{voyage:'GSNF2630W',lane:'PRD',terminal:'CNNAST04',eta:'08/05 01:00',dis20:0,dis40:0},{voyage:'ZGU32628W',lane:'RES',terminal:'CNNAST05',eta:'08/05 04:00',dis20:0,dis40:0},{voyage:'MMRN2631S',lane:'CST',terminal:'CNNAST04',eta:'08/05 16:30',dis20:0,dis40:0},{voyage:'PDPC2634S',lane:'BDX',terminal:'CNNAST04',eta:'08/06 09:30',dis20:0,dis40:0},{voyage:'NHZY2624W',lane:'CGS',terminal:'CNNAST04',eta:'08/07 01:00',dis20:0,dis40:0},{voyage:'CUHA2630E',lane:'ST1',terminal:'CNNAST04',eta:'08/07 04:30',dis20:0,dis40:0},{voyage:'CSTR2631S',lane:'JCT',terminal:'CNNAST01',eta:'08/07 14:00',dis20:0,dis40:0},{voyage:'LYJE2629W',lane:'MFX',terminal:'CNNAST04',eta:'08/07 18:00',dis20:0,dis40:0},{voyage:'GSNF2631W',lane:'PRD',terminal:'CNNAST05',eta:'08/08 01:00',dis20:0,dis40:0},{voyage:'MTNE2631W',lane:'PRD',terminal:'CNNAST04',eta:'08/08 01:00',dis20:0,dis40:0},{voyage:'SWNE2631W',lane:'PRD',terminal:'CNNAST04',eta:'08/08 01:00',dis20:0,dis40:0},{voyage:'TBNE2631W',lane:'PRD',terminal:'CNNAST04',eta:'08/08 01:00',dis20:0,dis40:0},{voyage:'THTP2631W',lane:'PRD',terminal:'CNNAST04',eta:'08/08 01:00',dis20:0,dis40:0},{voyage:'TONE2631W',lane:'PRD',terminal:'CNNAST04',eta:'08/08 01:00',dis20:0,dis40:0},{voyage:'TONF2631W',lane:'PRD',terminal:'CNNAST04',eta:'08/08 01:00',dis20:0,dis40:0},{voyage:'WCNE2631W',lane:'PRD',terminal:'CNNAST04',eta:'08/08 01:00',dis20:0,dis40:0},{voyage:'WZNE2631W',lane:'PRD',terminal:'CNNAST04',eta:'08/08 01:00',dis20:0,dis40:0},{voyage:'XPNF2631E',lane:'PRD',terminal:'CNNAST04',eta:'08/08 01:00',dis20:0,dis40:0},{voyage:'ZHNE2631W',lane:'PRD',terminal:'CNNAST04',eta:'08/08 01:00',dis20:0,dis40:0},{voyage:'YAFZ2632W',lane:'PRD',terminal:'CNNAST01',eta:'08/08 08:00',dis20:0,dis40:0}]},
+    forecastData: {
+      'Start Empty': {
+        '0': [2045,311,0,0,0,0,1734,0],
+        '1': [1473,0,0,0,0,0,0,0],
+        '2': [456,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Inbound Generation': {
+        '0': [195,15,0,0,0,0,180,0],
+        '1': [195,15,0,0,0,0,180,0],
+        '2': [195,15,0,0,0,0,180,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition In': {
+        '0': [433,149,0,0,0,0,284,0],
+        '1': [88,0,0,0,0,0,88,0],
+        '2': [260,0,0,0,0,0,243,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OW & On-hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '+ Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Outbound Pick-up': {
+        '0': [1200,300,0,0,0,0,900,0],
+        '1': [1300,300,0,0,0,0,1000,0],
+        '2': [1300,0,0,0,0,0,1000,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition out': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OneWay & Off Hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '- Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Balance(Forecast)': {
+        '0': [1473,0,0,0,0,0,0,0],
+        '1': [456,0,0,0,0,0,0,0],
+        '2': [-389,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      }
+    },
+    bookingByVessel: {
+      BZCF2627W: {
+        alloc: 840,
+        current: 217,
+        ft20: 167,
+        ft40: 25
+      },
+      CSQC2625W: {
+        alloc: 700,
+        current: 573,
+        ft20: 105,
+        ft40: 234
+      },
+      DFMH2627W: {
+        alloc: 320,
+        current: 599,
+        ft20: 103,
+        ft40: 248
+      },
+      GFPS2627W: {
+        alloc: 445,
+        current: 644,
+        ft20: 20,
+        ft40: 312
+      },
+      NHZY2624W: {
+        alloc: 100,
+        current: 0,
+        ft20: 0,
+        ft40: 0
+      },
+      RACE2628W: {
+        alloc: 730,
+        current: 534,
+        ft20: 90,
+        ft40: 222
+      },
+      ZGNC2628W: {
+        alloc: 955,
+        current: 220,
+        ft20: 6,
+        ft40: 107
+      }
+    },
+    vesselsByWeek: {
+      WK0: [{
+        voyage: 'THTP2627W',
+        lane: 'PRD',
+        terminal: 'CNNAST05',
+        eta: '07/19 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CSQC2625W',
+        lane: 'SGX',
+        terminal: 'CNNAST04',
+        eta: '07/19 14:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HUJQ0384W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/19 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHP2626E',
+        lane: 'ST3',
+        terminal: 'CNNAST04',
+        eta: '07/20 07:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TOSF2628W',
+        lane: 'PRD',
+        terminal: 'CNNAST01',
+        eta: '07/20 12:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'EMFT2629N',
+        lane: 'SHT',
+        terminal: 'CNNAST01',
+        eta: '07/20 16:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'WFNE2629E',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/21 10:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GSNE2629E',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/22 10:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GSNF2629E',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/22 10:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MODS2629S',
+        lane: 'NSX',
+        terminal: 'CNNAST04',
+        eta: '07/22 15:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XSAS2628W',
+        lane: 'MFX',
+        terminal: 'CNNAST04',
+        eta: '07/22 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MMRN2629S',
+        lane: 'CST',
+        terminal: 'CNNAST04',
+        eta: '07/22 21:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGZH2627W',
+        lane: 'RES',
+        terminal: 'CNNAST05',
+        eta: '07/22 21:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGU92629W',
+        lane: 'RES',
+        terminal: 'CNNAST05',
+        eta: '07/23 03:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'YAFZ2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/23 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'EVVR2627W',
+        lane: 'MFX',
+        terminal: 'CNNAST04',
+        eta: '07/23 17:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PDPC2632S',
+        lane: 'BDX',
+        terminal: 'CNNAST04',
+        eta: '07/23 17:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHA2628E',
+        lane: 'ST1',
+        terminal: 'CNNAST04',
+        eta: '07/24 16:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HUJQ0385W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/24 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBN12815N',
+        lane: 'SHT',
+        terminal: 'CNNAST01',
+        eta: '07/25 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MTNE2629W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SWNE2629W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SWNF2629W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBNE2629W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBNF2629N',
+        lane: 'TWT',
+        terminal: 'CNNAST04',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TONE2629W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TONF2629W',
+        lane: 'PRD',
+        terminal: 'CNNAST05',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'WCNE2629W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'WCNF2629N',
+        lane: 'TWT',
+        terminal: 'CNNAST04',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'WZNE2629W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XPNF2629E',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZHNE2629W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/25 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PTST2631W',
+        lane: 'MFX',
+        terminal: 'CNNAST04',
+        eta: '07/25 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'LDWG2627S',
+        lane: 'JCT',
+        terminal: 'CNNAST01',
+        eta: '07/25 03:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'THTP2629W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '07/25 04:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK1: [{
+        voyage: 'GFPS2627W',
+        lane: 'AM1',
+        terminal: 'CNNAST04',
+        eta: '07/26 07:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SHLG2631S',
+        lane: 'JCT',
+        terminal: 'CNNAST01',
+        eta: '07/27 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHP2627E',
+        lane: 'ST3',
+        terminal: 'CNNAST04',
+        eta: '07/27 08:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'EMFT2630N',
+        lane: 'SHT',
+        terminal: 'CNNAST01',
+        eta: '07/27 16:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ORC12630W',
+        lane: 'MFX',
+        terminal: 'CNNAST04',
+        eta: '07/27 19:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PDPC2633S',
+        lane: 'BDX',
+        terminal: 'CNNAST04',
+        eta: '07/28 02:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HYLT2616S',
+        lane: 'SVP',
+        terminal: 'CNNAST04',
+        eta: '07/28 07:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'DFMH2627W',
+        lane: 'CGS',
+        terminal: 'CNNAST04',
+        eta: '07/29 10:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGNC2628W',
+        lane: 'AM1',
+        terminal: 'CNNAST04',
+        eta: '07/29 22:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGHA2630W',
+        lane: 'RES',
+        terminal: 'CNNAST05',
+        eta: '07/30 17:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FUYU2630W',
+        lane: 'SGX',
+        terminal: 'CNNAST04',
+        eta: '07/31 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HPEC2630S',
+        lane: 'NSX',
+        terminal: 'CNNAST04',
+        eta: '07/31 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'YAFZ2631W',
+        lane: 'PRD',
+        terminal: 'CNNAST01',
+        eta: '07/31 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHA2629E',
+        lane: 'ST1',
+        terminal: 'CNNAST04',
+        eta: '07/31 10:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'RACE2628W',
+        lane: 'SGX',
+        terminal: 'CNNAST04',
+        eta: '07/31 13:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MTNE2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/01 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SWNE2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/01 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBNE2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/01 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'THTP2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST05',
+        eta: '08/01 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TONE2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/01 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TONF2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/01 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'WCNE2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/01 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'WZNE2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/01 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XPNF2630E',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/01 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XPNF2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/01 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZHNE2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/01 01:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK2: [{
+        voyage: 'TBN12820S',
+        lane: 'BDX',
+        terminal: 'CNNAST04',
+        eta: '08/02 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBN12832S',
+        lane: 'BDX',
+        terminal: 'CNNAST04',
+        eta: '08/02 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'BZCF2627W',
+        lane: 'REX',
+        terminal: 'CNNAST04',
+        eta: '08/02 16:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHP2628E',
+        lane: 'ST3',
+        terminal: 'CNNAST04',
+        eta: '08/03 08:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'EMFT2631N',
+        lane: 'SHT',
+        terminal: 'CNNAST01',
+        eta: '08/03 16:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MODS2631S',
+        lane: 'NSX',
+        terminal: 'CNNAST04',
+        eta: '08/04 17:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GSNF2630W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/05 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGU32628W',
+        lane: 'RES',
+        terminal: 'CNNAST05',
+        eta: '08/05 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MMRN2631S',
+        lane: 'CST',
+        terminal: 'CNNAST04',
+        eta: '08/05 16:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PDPC2634S',
+        lane: 'BDX',
+        terminal: 'CNNAST04',
+        eta: '08/06 09:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'NHZY2624W',
+        lane: 'CGS',
+        terminal: 'CNNAST04',
+        eta: '08/07 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHA2630E',
+        lane: 'ST1',
+        terminal: 'CNNAST04',
+        eta: '08/07 04:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CSTR2631S',
+        lane: 'JCT',
+        terminal: 'CNNAST01',
+        eta: '08/07 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'LYJE2629W',
+        lane: 'MFX',
+        terminal: 'CNNAST04',
+        eta: '08/07 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'GSNF2631W',
+        lane: 'PRD',
+        terminal: 'CNNAST05',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'MTNE2631W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SWNE2631W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBNE2631W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'THTP2631W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TONE2631W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TONF2631W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'WCNE2631W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'WZNE2631W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XPNF2631E',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZHNE2631W',
+        lane: 'PRD',
+        terminal: 'CNNAST04',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'YAFZ2632W',
+        lane: 'PRD',
+        terminal: 'CNNAST01',
+        eta: '08/08 08:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK3: []
+    },
     cargoSplitData: [],
-                    nawBookingByWeek: {'WK0': {'20GP':336,'40HC':1002,vessels:[{vessel:'CUHP2626E','20GP':46,'40HC':53},{vessel:'MODS2629S','20GP':52,'40HC':241},{vessel:'MMRN2629S','20GP':68,'40HC':320},{vessel:'ZGZH2627W','20GP':103,'40HC':147},{vessel:'ZGU92629W','20GP':8,'40HC':31},{vessel:'EVVR2627W','20GP':1,'40HC':22},{vessel:'PDPC2632S','20GP':15,'40HC':48},{vessel:'CUHA2628E','20GP':43,'40HC':59},{vessel:'PTST2631W','20GP':0,'40HC':12},{vessel:'LDWG2627S','20GP':0,'40HC':69}]}, 'WK1': {'20GP':109,'40HC':207,vessels:[{vessel:'CUHP2627E','20GP':50,'40HC':34},{vessel:'HYLT2616S','20GP':12,'40HC':22},{vessel:'FUYU2630W','20GP':32,'40HC':112},{vessel:'HPEC2630S','20GP':1,'40HC':32},{vessel:'CUHA2629E','20GP':14,'40HC':7}]}, 'WK2': {'20GP':12,'40HC':3,vessels:[{vessel:'CUHP2628E','20GP':12,'40HC':3}]}},
-allocationTarget: {'WK0': {cal_week:30,target:0,bsa:0,by_lane:{'CST':0}}, 'WK1': {cal_week:31,target:1280,bsa:1280,by_lane:{'CST':1280}}},
-        pickupVolumeByWeek: {WK0: {'20GP':731,'40HC':1378}, WK1: {'20GP':0,'40HC':0}, WK2: {'20GP':0,'40HC':0}},
-    allocationVessels: {'CST': [{lane:'CST', vessel:'CUHA2627W', cal_week:30, report_wk:'WK0', target:0, bsa:0, port:'CNNAS', direction:'出口1'}, {lane:'CST', vessel:'CUHA2628W', cal_week:31, report_wk:'WK1', target:580, bsa:580, port:'CNNAS', direction:'出口1'}, {lane:'CST', vessel:'CUHP2626W', cal_week:30, report_wk:'WK0', target:0, bsa:0, port:'CNNAS', direction:'出口1'}, {lane:'CST', vessel:'CUHP2627W', cal_week:31, report_wk:'WK1', target:700, bsa:700, port:'CNNAS', direction:'出口1'}]},
+    nawBookingByWeek: {
+      WK0: {
+        '20GP': 336,
+        '40HC': 1002,
+        vessels: [{
+          vessel: 'CUHP2626E',
+          '20GP': 46,
+          '40HC': 53
+        },{
+          vessel: 'MODS2629S',
+          '20GP': 52,
+          '40HC': 241
+        },{
+          vessel: 'MMRN2629S',
+          '20GP': 68,
+          '40HC': 320
+        },{
+          vessel: 'ZGZH2627W',
+          '20GP': 103,
+          '40HC': 147
+        },{
+          vessel: 'ZGU92629W',
+          '20GP': 8,
+          '40HC': 31
+        },{
+          vessel: 'EVVR2627W',
+          '20GP': 1,
+          '40HC': 22
+        },{
+          vessel: 'PDPC2632S',
+          '20GP': 15,
+          '40HC': 48
+        },{
+          vessel: 'CUHA2628E',
+          '20GP': 43,
+          '40HC': 59
+        },{
+          vessel: 'PTST2631W',
+          '20GP': 0,
+          '40HC': 12
+        },{
+          vessel: 'LDWG2627S',
+          '20GP': 0,
+          '40HC': 69
+        }]
+      },
+      WK1: {
+        '20GP': 109,
+        '40HC': 207,
+        vessels: [{
+          vessel: 'CUHP2627E',
+          '20GP': 50,
+          '40HC': 34
+        },{
+          vessel: 'HYLT2616S',
+          '20GP': 12,
+          '40HC': 22
+        },{
+          vessel: 'FUYU2630W',
+          '20GP': 32,
+          '40HC': 112
+        },{
+          vessel: 'HPEC2630S',
+          '20GP': 1,
+          '40HC': 32
+        },{
+          vessel: 'CUHA2629E',
+          '20GP': 14,
+          '40HC': 7
+        }]
+      },
+      WK2: {
+        '20GP': 12,
+        '40HC': 3,
+        vessels: [{
+          vessel: 'CUHP2628E',
+          '20GP': 12,
+          '40HC': 3
+        }]
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0,
+        vessels: []
+      }
+    },
+    allocationTarget: {
+      WK0: {
+        cal_week: 30,
+        target: 0,
+        bsa: 0,
+        by_lane: {
+          CST: 0
+        }
+      },
+      WK1: {
+        cal_week: 31,
+        target: 1280,
+        bsa: 1280,
+        by_lane: {
+          CST: 1280
+        }
+      }
+    },
+    pickupVolumeByWeek: {
+      WK0: {
+        '20GP': 731,
+        '40HC': 1378
+      },
+      WK1: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK2: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0
+      }
+    },
+    allocationVessels: {
+      CST: [{
+        lane: 'CST',
+        vessel: 'CUHA2627W',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 0,
+        bsa: 0,
+        port: 'CNNAS',
+        direction: '出口1'
+      },{
+        lane: 'CST',
+        vessel: 'CUHA2628W',
+        cal_week: 31,
+        report_wk: 'WK1',
+        target: 580,
+        bsa: 580,
+        port: 'CNNAS',
+        direction: '出口1'
+      },{
+        lane: 'CST',
+        vessel: 'CUHP2626W',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 0,
+        bsa: 0,
+        port: 'CNNAS',
+        direction: '出口1'
+      },{
+        lane: 'CST',
+        vessel: 'CUHP2627W',
+        cal_week: 31,
+        report_wk: 'WK1',
+        target: 700,
+        bsa: 700,
+        port: 'CNNAS',
+        direction: '出口1'
+      }]
+    }
   },
-
-
-  // ============================================================
-  // ===== CNTAO - 青岛 (LIVE) =====
-  // ============================================================
   CNTAO: {
-    forecastData: {'Start Empty': {'0': [1471,684,0,0,0,0,787,0], '1': [1169,0,0,0,0,0,0,0], '2': [343,0,0,0,0,0,0,0]}, 'Inbound Generation': {'0': [40,20,0,0,0,0,20,0], '1': [40,20,0,0,0,0,20,0], '2': [40,20,0,0,0,0,20,0]}, 'Reposition In': {'0': [468,92,0,0,0,0,376,0], '1': [142,97,0,0,0,0,45,0], '2': [0,0,0,0,0,0,0,0]}, 'OW & On-hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '+ Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Outbound Pick-up': {'0': [810,310,0,0,0,0,500,0], '1': [1008,356,0,0,0,0,652,0], '2': [135,60,0,0,0,0,75,0]}, 'Reposition out': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'OneWay & Off Hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '- Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Balance(Forecast)': {'0': [1169,0,0,0,0,0,0,0], '1': [343,0,0,0,0,0,0,0], '2': [248,0,0,0,0,0,0,0]}},
-    bookingByVessel: {'BZCF2627W': {alloc:1000,current:1566,ft20:428,ft40:569}, 'ZGNC2628W': {alloc:675,current:685,ft20:237,ft40:224}},
-    vesselsByWeek: {WK0: [{voyage:'XFJH2626S',lane:'NP2',terminal:'CNTAOT01',eta:'07/19 17:00',dis20:0,dis40:0},{voyage:'ORC12630W',lane:'MFX',terminal:'CNTAOT01',eta:'07/20 09:00',dis20:0,dis40:0},{voyage:'SEPC2628S',lane:'SHT',terminal:'CNTAOT03',eta:'07/21 05:00',dis20:0,dis40:0},{voyage:'HAJE2629S',lane:'SHT',terminal:'CNTAOT03',eta:'07/22 00:00',dis20:0,dis40:0},{voyage:'HAJE2628S',lane:'SHT',terminal:'CNTAOT03',eta:'07/22 18:00',dis20:0,dis40:0},{voyage:'CSLB2624E',lane:'LHT',terminal:'CNTAOT03',eta:'07/23 00:00',dis20:0,dis40:0},{voyage:'ZGNC2628W',lane:'AM1',terminal:'CNTAOT03',eta:'07/23 01:30',dis20:0,dis40:0},{voyage:'PNVY2629S',lane:'SHT',terminal:'CNTAOT01',eta:'07/24 00:00',dis20:0,dis40:0},{voyage:'TBN12699E',lane:'IMR',terminal:'CNTAOT01',eta:'07/25 10:00',dis20:0,dis40:0}], WK1: [{voyage:'SEPC2629S',lane:'SHT',terminal:'CNTAOT03',eta:'07/26 00:00',dis20:0,dis40:0},{voyage:'BZCF2627W',lane:'REX',terminal:'CNTAOT01',eta:'07/27 14:00',dis20:0,dis40:0},{voyage:'HAJE2630S',lane:'SHT',terminal:'CNTAOT03',eta:'07/28 00:00',dis20:0,dis40:0},{voyage:'PNVY2630S',lane:'SHT',terminal:'CNTAOT01',eta:'07/31 00:00',dis20:0,dis40:0},{voyage:'LYJE2629W',lane:'MFX',terminal:'CNTAOT01',eta:'07/31 09:00',dis20:0,dis40:0},{voyage:'KWBP2627E',lane:'LHT',terminal:'CNTAOT01',eta:'08/01 02:00',dis20:0,dis40:0},{voyage:'DJVS2628S',lane:'IQH',terminal:'CNTAOT03',eta:'08/01 08:00',dis20:0,dis40:0},{voyage:'H8112627S',lane:'NP2',terminal:'CNTAOT01',eta:'08/01 20:30',dis20:0,dis40:0}], WK2: [{voyage:'SEPC2630S',lane:'SHT',terminal:'CNTAOT03',eta:'08/02 00:00',dis20:0,dis40:0},{voyage:'HAJE2631S',lane:'SHT',terminal:'CNTAOT03',eta:'08/03 00:00',dis20:0,dis40:0},{voyage:'XFJH2628S',lane:'NP2',terminal:'CNTAOT01',eta:'08/03 21:00',dis20:0,dis40:0},{voyage:'PETH2629W',lane:'AM1',terminal:'CNTAOT02',eta:'08/04 10:00',dis20:0,dis40:0},{voyage:'CSQC2630W',lane:'SGX',terminal:'CNTAOT01',eta:'08/05 06:00',dis20:0,dis40:0},{voyage:'CUHC2631W',lane:'AM1',terminal:'CNTAOT02',eta:'08/06 07:00',dis20:0,dis40:0},{voyage:'TBN12676N',lane:'FDR',terminal:'CNTAOT02',eta:'08/06 08:00',dis20:0,dis40:0},{voyage:'PEHE2631S',lane:'IQH',terminal:'CNTAOT03',eta:'08/06 19:00',dis20:0,dis40:0},{voyage:'TBN12677N',lane:'SHT',terminal:'CNTAOT02',eta:'08/07 08:00',dis20:0,dis40:0},{voyage:'XFJH2630S',lane:'NP2',terminal:'CNTAOT01',eta:'08/08 01:00',dis20:0,dis40:0}]},
+    forecastData: {
+      'Start Empty': {
+        '0': [1471,684,0,0,0,0,787,0],
+        '1': [1169,0,0,0,0,0,0,0],
+        '2': [343,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Inbound Generation': {
+        '0': [40,20,0,0,0,0,20,0],
+        '1': [40,20,0,0,0,0,20,0],
+        '2': [40,20,0,0,0,0,20,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition In': {
+        '0': [468,92,0,0,0,0,376,0],
+        '1': [142,97,0,0,0,0,45,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OW & On-hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '+ Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Outbound Pick-up': {
+        '0': [810,310,0,0,0,0,500,0],
+        '1': [1008,356,0,0,0,0,652,0],
+        '2': [135,60,0,0,0,0,75,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition out': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OneWay & Off Hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '- Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Balance(Forecast)': {
+        '0': [1169,0,0,0,0,0,0,0],
+        '1': [343,0,0,0,0,0,0,0],
+        '2': [248,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      }
+    },
+    bookingByVessel: {
+      BZCF2627W: {
+        alloc: 1000,
+        current: 1566,
+        ft20: 428,
+        ft40: 569
+      },
+      ZGNC2628W: {
+        alloc: 675,
+        current: 685,
+        ft20: 237,
+        ft40: 224
+      }
+    },
+    vesselsByWeek: {
+      WK0: [{
+        voyage: 'XFJH2626S',
+        lane: 'NP2',
+        terminal: 'CNTAOT01',
+        eta: '07/19 17:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ORC12630W',
+        lane: 'MFX',
+        terminal: 'CNTAOT01',
+        eta: '07/20 09:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SEPC2628S',
+        lane: 'SHT',
+        terminal: 'CNTAOT03',
+        eta: '07/21 05:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HAJE2629S',
+        lane: 'SHT',
+        terminal: 'CNTAOT03',
+        eta: '07/22 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HAJE2628S',
+        lane: 'SHT',
+        terminal: 'CNTAOT03',
+        eta: '07/22 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CSLB2624E',
+        lane: 'LHT',
+        terminal: 'CNTAOT03',
+        eta: '07/23 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'ZGNC2628W',
+        lane: 'AM1',
+        terminal: 'CNTAOT03',
+        eta: '07/23 01:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PNVY2629S',
+        lane: 'SHT',
+        terminal: 'CNTAOT01',
+        eta: '07/24 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBN12699E',
+        lane: 'IMR',
+        terminal: 'CNTAOT01',
+        eta: '07/25 10:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK1: [{
+        voyage: 'SEPC2629S',
+        lane: 'SHT',
+        terminal: 'CNTAOT03',
+        eta: '07/26 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'BZCF2627W',
+        lane: 'REX',
+        terminal: 'CNTAOT01',
+        eta: '07/27 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HAJE2630S',
+        lane: 'SHT',
+        terminal: 'CNTAOT03',
+        eta: '07/28 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PNVY2630S',
+        lane: 'SHT',
+        terminal: 'CNTAOT01',
+        eta: '07/31 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'LYJE2629W',
+        lane: 'MFX',
+        terminal: 'CNTAOT01',
+        eta: '07/31 09:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'KWBP2627E',
+        lane: 'LHT',
+        terminal: 'CNTAOT01',
+        eta: '08/01 02:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'DJVS2628S',
+        lane: 'IQH',
+        terminal: 'CNTAOT03',
+        eta: '08/01 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'H8112627S',
+        lane: 'NP2',
+        terminal: 'CNTAOT01',
+        eta: '08/01 20:30',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK2: [{
+        voyage: 'SEPC2630S',
+        lane: 'SHT',
+        terminal: 'CNTAOT03',
+        eta: '08/02 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HAJE2631S',
+        lane: 'SHT',
+        terminal: 'CNTAOT03',
+        eta: '08/03 00:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XFJH2628S',
+        lane: 'NP2',
+        terminal: 'CNTAOT01',
+        eta: '08/03 21:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PETH2629W',
+        lane: 'AM1',
+        terminal: 'CNTAOT02',
+        eta: '08/04 10:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CSQC2630W',
+        lane: 'SGX',
+        terminal: 'CNTAOT01',
+        eta: '08/05 06:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'CUHC2631W',
+        lane: 'AM1',
+        terminal: 'CNTAOT02',
+        eta: '08/06 07:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBN12676N',
+        lane: 'FDR',
+        terminal: 'CNTAOT02',
+        eta: '08/06 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'PEHE2631S',
+        lane: 'IQH',
+        terminal: 'CNTAOT03',
+        eta: '08/06 19:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'TBN12677N',
+        lane: 'SHT',
+        terminal: 'CNTAOT02',
+        eta: '08/07 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XFJH2630S',
+        lane: 'NP2',
+        terminal: 'CNTAOT01',
+        eta: '08/08 01:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK3: []
+    },
     cargoSplitData: [],
-                    nawBookingByWeek: {'WK0': {'20GP':108,'40HC':170,vessels:[{vessel:'XFJH2626S','20GP':63,'40HC':85},{vessel:'ORC12630W','20GP':15,'40HC':33},{vessel:'TBN12699E','20GP':30,'40HC':52}]}, 'WK1': {'20GP':13,'40HC':26,vessels:[{vessel:'LYJE2629W','20GP':10,'40HC':14},{vessel:'DJVS2628S','20GP':3,'40HC':12}]}, 'WK2': {'20GP':2,'40HC':11,vessels:[{vessel:'XFJH2628S','20GP':0,'40HC':2},{vessel:'PETH2629W','20GP':0,'40HC':5},{vessel:'CUHC2631W','20GP':2,'40HC':4}]}},
-allocationTarget: {'WK0': {cal_week:30,target:45,bsa:45,by_lane:{'KHX':45}}, 'WK2': {cal_week:32,target:15,bsa:15,by_lane:{'KHX':15}}},
-        pickupVolumeByWeek: {WK0: {'20GP':287,'40HC':275}, WK1: {'20GP':0,'40HC':0}, WK2: {'20GP':0,'40HC':0}},
-    allocationVessels: {'KHX': [{lane:'KHX', vessel:'SKTA2625S', cal_week:30, report_wk:'WK0', target:30, bsa:30, port:'CNTAO', direction:'出口1'}, {lane:'KHX', vessel:'SKTA2627S', cal_week:32, report_wk:'WK2', target:0, bsa:0, port:'CNTAO', direction:'出口1'}, {lane:'KHX', vessel:'KWGB2629S', cal_week:30, report_wk:'WK0', target:15, bsa:15, port:'CNTAO', direction:'出口1'}, {lane:'KHX', vessel:'KWGB2631S', cal_week:32, report_wk:'WK2', target:15, bsa:15, port:'CNTAO', direction:'出口1'}]}},
-
-  // ============================================================
-  // ===== CNSWA - 汕头 (LIVE) =====
-  // ============================================================
-  CNSWA: {
-    forecastData: {'Start Empty': {'0': [359,58,0,0,0,0,301,0], '1': [329,0,0,0,0,0,0,0], '2': [205,0,0,0,0,0,0,0]}, 'Inbound Generation': {'0': [1,0,0,0,0,0,1,0], '1': [1,0,0,0,0,0,1,0], '2': [1,0,0,0,0,0,1,0]}, 'Reposition In': {'0': [87,6,0,0,0,0,81,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'OW & On-hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '+ Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Outbound Pick-up': {'0': [118,28,0,0,0,0,90,0], '1': [125,40,0,0,0,0,85,0], '2': [125,35,0,0,0,0,90,0]}, 'Reposition out': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'OneWay & Off Hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '- Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Balance(Forecast)': {'0': [329,0,0,0,0,0,0,0], '1': [205,0,0,0,0,0,0,0], '2': [81,0,0,0,0,0,0,0]}},
-    bookingByVessel: {},
-    vesselsByWeek: {WK0: [{voyage:'CUHP2626E',lane:'ST3',terminal:'CNSWAT02',eta:'07/19 09:30',dis20:0,dis40:0},{voyage:'THTP2627W',lane:'PRD',terminal:'CNSWAT02',eta:'07/22 04:00',dis20:0,dis40:0},{voyage:'FZ352628W',lane:'PRD',terminal:'CNSWAT01',eta:'07/22 11:00',dis20:0,dis40:0},{voyage:'THTP2629W',lane:'PRD',terminal:'CNSWAT02',eta:'07/25 10:00',dis20:0,dis40:0},{voyage:'FZ352628E',lane:'PRD',terminal:'CNSWAT01',eta:'07/25 23:00',dis20:0,dis40:0}], WK1: [{voyage:'CUHP2627E',lane:'ST3',terminal:'CNSWAT02',eta:'07/26 05:30',dis20:0,dis40:0},{voyage:'FZ352629E',lane:'PRD',terminal:'CNSWAT01',eta:'07/28 11:00',dis20:0,dis40:0},{voyage:'FZ352629W',lane:'PRD',terminal:'CNSWAT01',eta:'07/29 23:00',dis20:0,dis40:0},{voyage:'FZ352630W',lane:'PRD',terminal:'CNSWAT01',eta:'07/31 11:00',dis20:0,dis40:0},{voyage:'THTP2630W',lane:'PRD',terminal:'CNSWAT02',eta:'08/01 04:00',dis20:0,dis40:0}], WK2: [{voyage:'CUHP2628E',lane:'ST3',terminal:'CNSWAT02',eta:'08/02 05:30',dis20:0,dis40:0},{voyage:'FZ352630E',lane:'PRD',terminal:'CNSWAT01',eta:'08/03 23:00',dis20:0,dis40:0},{voyage:'FZ352631W',lane:'PRD',terminal:'CNSWAT01',eta:'08/06 23:00',dis20:0,dis40:0},{voyage:'THTP2631W',lane:'PRD',terminal:'CNSWAT02',eta:'08/08 04:00',dis20:0,dis40:0}]},
-    cargoSplitData: [],
-                    nawBookingByWeek: {'WK0': {'20GP':27,'40HC':96,vessels:[{vessel:'CUHP2626E','20GP':27,'40HC':96}]}, 'WK1': {'20GP':26,'40HC':86,vessels:[{vessel:'CUHP2627E','20GP':26,'40HC':86}]}, 'WK2': {'20GP':0,'40HC':0,vessels:[]}},
-allocationTarget: {'WK0': {cal_week:30,target:320,bsa:320,by_lane:{'CST':320}}, 'WK2': {cal_week:32,target:870,bsa:870,by_lane:{'CST':870}}},
-        pickupVolumeByWeek: {WK0: {'20GP':63,'40HC':190}, WK1: {'20GP':0,'40HC':0}, WK2: {'20GP':0,'40HC':0}},
-    allocationVessels: {'CST': [{lane:'CST', vessel:'CUHA2627W', cal_week:30, report_wk:'WK0', target:30, bsa:30, port:'CNSWA', direction:'出口1'}, {lane:'CST', vessel:'CUHA2629W', cal_week:32, report_wk:'WK2', target:580, bsa:580, port:'CNSWA', direction:'出口1'}, {lane:'CST', vessel:'CUHP2626W', cal_week:30, report_wk:'WK0', target:290, bsa:290, port:'CNSWA', direction:'出口1'}, {lane:'CST', vessel:'CUHP2628W', cal_week:32, report_wk:'WK2', target:290, bsa:290, port:'CNSWA', direction:'出口1'}]},
+    nawBookingByWeek: {
+      WK0: {
+        '20GP': 108,
+        '40HC': 170,
+        vessels: [{
+          vessel: 'XFJH2626S',
+          '20GP': 63,
+          '40HC': 85
+        },{
+          vessel: 'ORC12630W',
+          '20GP': 15,
+          '40HC': 33
+        },{
+          vessel: 'TBN12699E',
+          '20GP': 30,
+          '40HC': 52
+        }]
+      },
+      WK1: {
+        '20GP': 13,
+        '40HC': 26,
+        vessels: [{
+          vessel: 'LYJE2629W',
+          '20GP': 10,
+          '40HC': 14
+        },{
+          vessel: 'DJVS2628S',
+          '20GP': 3,
+          '40HC': 12
+        }]
+      },
+      WK2: {
+        '20GP': 2,
+        '40HC': 11,
+        vessels: [{
+          vessel: 'XFJH2628S',
+          '20GP': 0,
+          '40HC': 2
+        },{
+          vessel: 'PETH2629W',
+          '20GP': 0,
+          '40HC': 5
+        },{
+          vessel: 'CUHC2631W',
+          '20GP': 2,
+          '40HC': 4
+        }]
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0,
+        vessels: []
+      }
+    },
+    allocationTarget: {
+      WK0: {
+        cal_week: 30,
+        target: 45,
+        bsa: 45,
+        by_lane: {
+          KHX: 45
+        }
+      },
+      WK2: {
+        cal_week: 32,
+        target: 15,
+        bsa: 15,
+        by_lane: {
+          KHX: 15
+        }
+      }
+    },
+    pickupVolumeByWeek: {
+      WK0: {
+        '20GP': 287,
+        '40HC': 275
+      },
+      WK1: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK2: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0
+      }
+    },
+    allocationVessels: {
+      KHX: [{
+        lane: 'KHX',
+        vessel: 'SKTA2625S',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 30,
+        bsa: 30,
+        port: 'CNTAO',
+        direction: '出口1'
+      },{
+        lane: 'KHX',
+        vessel: 'SKTA2627S',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 0,
+        bsa: 0,
+        port: 'CNTAO',
+        direction: '出口1'
+      },{
+        lane: 'KHX',
+        vessel: 'KWGB2629S',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 15,
+        bsa: 15,
+        port: 'CNTAO',
+        direction: '出口1'
+      },{
+        lane: 'KHX',
+        vessel: 'KWGB2631S',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 15,
+        bsa: 15,
+        port: 'CNTAO',
+        direction: '出口1'
+      }]
+    }
   },
-
-
-  // ============================================================
-  // ===== CNXMN - 厦门 (LIVE) =====
-  CNXMN: {
-    forecastData: {'Start Empty': {'0': [262,133,0,0,0,0,129,0], '1': [412,0,0,0,0,0,0,0], '2': [412,0,0,0,0,0,0,0]}, 'Inbound Generation': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Reposition In': {'0': [259,70,0,0,0,0,189,0], '1': [150,0,0,0,0,0,150,0], '2': [0,0,0,0,0,0,0,0]}, 'OW & On-hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '+ Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Outbound Pick-up': {'0': [109,50,0,0,0,0,59,0], '1': [150,70,0,0,0,0,80,0], '2': [100,50,0,0,0,0,50,0]}, 'Reposition out': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'OneWay & Off Hire': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, '- Other': {'0': [0,0,0,0,0,0,0,0], '1': [0,0,0,0,0,0,0,0], '2': [0,0,0,0,0,0,0,0]}, 'Balance(Forecast)': {'0': [412,0,0,0,0,0,0,0], '1': [412,0,0,0,0,0,0,0], '2': [312,0,0,0,0,0,0,0]}},
+  CNSWA: {
+    forecastData: {
+      'Start Empty': {
+        '0': [359,58,0,0,0,0,301,0],
+        '1': [329,0,0,0,0,0,0,0],
+        '2': [205,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Inbound Generation': {
+        '0': [1,0,0,0,0,0,1,0],
+        '1': [1,0,0,0,0,0,1,0],
+        '2': [1,0,0,0,0,0,1,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition In': {
+        '0': [87,6,0,0,0,0,81,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OW & On-hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '+ Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Outbound Pick-up': {
+        '0': [118,28,0,0,0,0,90,0],
+        '1': [125,40,0,0,0,0,85,0],
+        '2': [125,35,0,0,0,0,90,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition out': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OneWay & Off Hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '- Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Balance(Forecast)': {
+        '0': [329,0,0,0,0,0,0,0],
+        '1': [205,0,0,0,0,0,0,0],
+        '2': [81,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      }
+    },
     bookingByVessel: {},
-    vesselsByWeek: {WK0: [{voyage:'HHG32629N',lane:'TWT',terminal:'CNXMNT01',eta:'07/20 23:30',dis20:0,dis40:0},{voyage:'FZ352628W',lane:'PRD',terminal:'CNXMNT01',eta:'07/21 11:00',dis20:0,dis40:0},{voyage:'H8112625S',lane:'NP2',terminal:'CNXMNT01',eta:'07/21 11:30',dis20:0,dis40:0},{voyage:'YAFZ2630W',lane:'PRD',terminal:'CNXMNT01',eta:'07/22 08:00',dis20:0,dis40:0},{voyage:'XFJH2626S',lane:'NP2',terminal:'CNXMNT01',eta:'07/23 14:00',dis20:0,dis40:0},{voyage:'XPNF2629E',lane:'PRD',terminal:'CNXMNT01',eta:'07/25 04:00',dis20:0,dis40:0},{voyage:'HYLT2616S',lane:'SVP',terminal:'CNXMNT01',eta:'07/25 21:00',dis20:0,dis40:0}], WK1: [{voyage:'STHN2619N',lane:'SHT',terminal:'CNXMNT01',eta:'07/27 14:00',dis20:0,dis40:0},{voyage:'FZ352628E',lane:'PRD',terminal:'CNXMNT01',eta:'07/27 23:00',dis20:0,dis40:0},{voyage:'YAFZ2631W',lane:'PRD',terminal:'CNXMNT01',eta:'07/28 08:00',dis20:0,dis40:0},{voyage:'FZ352629W',lane:'PRD',terminal:'CNXMNT01',eta:'07/28 23:00',dis20:0,dis40:0},{voyage:'SKTA2625N',lane:'KHX',terminal:'CNXMNT01',eta:'07/29 02:30',dis20:0,dis40:0},{voyage:'SKMN2626N',lane:'KHX',terminal:'CNXMNT01',eta:'07/29 21:30',dis20:0,dis40:0},{voyage:'FZ352629E',lane:'PRD',terminal:'CNXMNT01',eta:'07/30 11:00',dis20:0,dis40:0},{voyage:'FZ352630W',lane:'PRD',terminal:'CNXMNT01',eta:'07/30 11:00',dis20:0,dis40:0},{voyage:'XPNF2630E',lane:'PRD',terminal:'CNXMNT01',eta:'08/01 04:00',dis20:0,dis40:0},{voyage:'XPNF2630W',lane:'PRD',terminal:'CNXMNT01',eta:'08/01 04:00',dis20:0,dis40:0}], WK2: [{voyage:'YAFZ2632W',lane:'PRD',terminal:'CNXMNT01',eta:'08/05 08:00',dis20:0,dis40:0},{voyage:'FZ352630E',lane:'PRD',terminal:'CNXMNT01',eta:'08/05 23:00',dis20:0,dis40:0},{voyage:'FZ352631W',lane:'PRD',terminal:'CNXMNT01',eta:'08/05 23:00',dis20:0,dis40:0},{voyage:'H8112627S',lane:'NP2',terminal:'CNXMNT01',eta:'08/07 17:30',dis20:0,dis40:0},{voyage:'XFJH2628S',lane:'NP2',terminal:'CNXMNT01',eta:'08/07 18:00',dis20:0,dis40:0},{voyage:'XPNF2631E',lane:'PRD',terminal:'CNXMNT01',eta:'08/08 04:00',dis20:0,dis40:0}]},
+    vesselsByWeek: {
+      WK0: [{
+        voyage: 'CUHP2626E',
+        lane: 'ST3',
+        terminal: 'CNSWAT02',
+        eta: '07/19 09:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'THTP2627W',
+        lane: 'PRD',
+        terminal: 'CNSWAT02',
+        eta: '07/22 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352628W',
+        lane: 'PRD',
+        terminal: 'CNSWAT01',
+        eta: '07/22 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'THTP2629W',
+        lane: 'PRD',
+        terminal: 'CNSWAT02',
+        eta: '07/25 10:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352628E',
+        lane: 'PRD',
+        terminal: 'CNSWAT01',
+        eta: '07/25 23:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK1: [{
+        voyage: 'CUHP2627E',
+        lane: 'ST3',
+        terminal: 'CNSWAT02',
+        eta: '07/26 05:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352629E',
+        lane: 'PRD',
+        terminal: 'CNSWAT01',
+        eta: '07/28 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352629W',
+        lane: 'PRD',
+        terminal: 'CNSWAT01',
+        eta: '07/29 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352630W',
+        lane: 'PRD',
+        terminal: 'CNSWAT01',
+        eta: '07/31 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'THTP2630W',
+        lane: 'PRD',
+        terminal: 'CNSWAT02',
+        eta: '08/01 04:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK2: [{
+        voyage: 'CUHP2628E',
+        lane: 'ST3',
+        terminal: 'CNSWAT02',
+        eta: '08/02 05:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352630E',
+        lane: 'PRD',
+        terminal: 'CNSWAT01',
+        eta: '08/03 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352631W',
+        lane: 'PRD',
+        terminal: 'CNSWAT01',
+        eta: '08/06 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'THTP2631W',
+        lane: 'PRD',
+        terminal: 'CNSWAT02',
+        eta: '08/08 04:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK3: []
+    },
     cargoSplitData: [],
-                    nawBookingByWeek: {'WK0': {'20GP':65,'40HC':199,vessels:[{vessel:'FZ352628W','20GP':58,'40HC':22},{vessel:'H8112625S','20GP':1,'40HC':70},{vessel:'YAFZ2630W','20GP':4,'40HC':51},{vessel:'XFJH2626S','20GP':2,'40HC':56}]}, 'WK1': {'20GP':16,'40HC':23,vessels:[{vessel:'FZ352629W','20GP':16,'40HC':13},{vessel:'SKTA2625N','20GP':0,'40HC':10}]}, 'WK2': {'20GP':0,'40HC':0,vessels:[]}},
-    pickupVolumeByWeek: {WK0: {'20GP':34,'40HC':112}, WK1: {'20GP':0,'40HC':0}, WK2: {'20GP':0,'40HC':0}},
-    allocationTarget: {'WK0': {cal_week:30,target:80,bsa:80,by_lane:{'KHX':80}}, 'WK2': {cal_week:32,target:30,bsa:30,by_lane:{'KHX':30}}},
-    allocationVessels: {'KHX': [{lane:'KHX', vessel:'SKTA2625S', cal_week:30, report_wk:'WK0', target:50, bsa:50, port:'CNXMN', direction:'出口1'}, {lane:'KHX', vessel:'SKTA2627S', cal_week:32, report_wk:'WK2', target:0, bsa:0, port:'CNXMN', direction:'出口1'}, {lane:'KHX', vessel:'KWGB2629S', cal_week:30, report_wk:'WK0', target:30, bsa:30, port:'CNXMN', direction:'出口1'}, {lane:'KHX', vessel:'KWGB2631S', cal_week:32, report_wk:'WK2', target:30, bsa:30, port:'CNXMN', direction:'出口1'}]}
+    nawBookingByWeek: {
+      WK0: {
+        '20GP': 27,
+        '40HC': 96,
+        vessels: [{
+          vessel: 'CUHP2626E',
+          '20GP': 27,
+          '40HC': 96
+        }]
+      },
+      WK1: {
+        '20GP': 26,
+        '40HC': 86,
+        vessels: [{
+          vessel: 'CUHP2627E',
+          '20GP': 26,
+          '40HC': 86
+        }]
+      },
+      WK2: {
+        '20GP': 0,
+        '40HC': 0,
+        vessels: []
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0,
+        vessels: []
+      }
+    },
+    allocationTarget: {
+      WK0: {
+        cal_week: 30,
+        target: 320,
+        bsa: 320,
+        by_lane: {
+          CST: 320
+        }
+      },
+      WK2: {
+        cal_week: 32,
+        target: 870,
+        bsa: 870,
+        by_lane: {
+          CST: 870
+        }
+      }
+    },
+    pickupVolumeByWeek: {
+      WK0: {
+        '20GP': 63,
+        '40HC': 190
+      },
+      WK1: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK2: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0
+      }
+    },
+    allocationVessels: {
+      CST: [{
+        lane: 'CST',
+        vessel: 'CUHA2627W',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 30,
+        bsa: 30,
+        port: 'CNSWA',
+        direction: '出口1'
+      },{
+        lane: 'CST',
+        vessel: 'CUHA2629W',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 580,
+        bsa: 580,
+        port: 'CNSWA',
+        direction: '出口1'
+      },{
+        lane: 'CST',
+        vessel: 'CUHP2626W',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 290,
+        bsa: 290,
+        port: 'CNSWA',
+        direction: '出口1'
+      },{
+        lane: 'CST',
+        vessel: 'CUHP2628W',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 290,
+        bsa: 290,
+        port: 'CNSWA',
+        direction: '出口1'
+      }]
+    }
+  },
+  CNXMN: {
+    forecastData: {
+      'Start Empty': {
+        '0': [262,133,0,0,0,0,129,0],
+        '1': [412,0,0,0,0,0,0,0],
+        '2': [412,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Inbound Generation': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition In': {
+        '0': [259,70,0,0,0,0,189,0],
+        '1': [150,0,0,0,0,0,150,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OW & On-hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '+ Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Outbound Pick-up': {
+        '0': [109,50,0,0,0,0,59,0],
+        '1': [150,70,0,0,0,0,80,0],
+        '2': [100,50,0,0,0,0,50,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Reposition out': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'OneWay & Off Hire': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      '- Other': {
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [0,0,0,0,0,0,0,0],
+        '2': [0,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      },
+      'Balance(Forecast)': {
+        '0': [412,0,0,0,0,0,0,0],
+        '1': [412,0,0,0,0,0,0,0],
+        '2': [312,0,0,0,0,0,0,0],
+        '3': [0,0,0,0,0,0,0,0]
+      }
+    },
+    bookingByVessel: {},
+    vesselsByWeek: {
+      WK0: [{
+        voyage: 'HHG32629N',
+        lane: 'TWT',
+        terminal: 'CNXMNT01',
+        eta: '07/20 23:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352628W',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '07/21 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'H8112625S',
+        lane: 'NP2',
+        terminal: 'CNXMNT01',
+        eta: '07/21 11:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'YAFZ2630W',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '07/22 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XFJH2626S',
+        lane: 'NP2',
+        terminal: 'CNXMNT01',
+        eta: '07/23 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XPNF2629E',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '07/25 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'HYLT2616S',
+        lane: 'SVP',
+        terminal: 'CNXMNT01',
+        eta: '07/25 21:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK1: [{
+        voyage: 'STHN2619N',
+        lane: 'SHT',
+        terminal: 'CNXMNT01',
+        eta: '07/27 14:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352628E',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '07/27 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'YAFZ2631W',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '07/28 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352629W',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '07/28 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SKTA2625N',
+        lane: 'KHX',
+        terminal: 'CNXMNT01',
+        eta: '07/29 02:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'SKMN2626N',
+        lane: 'KHX',
+        terminal: 'CNXMNT01',
+        eta: '07/29 21:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352629E',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '07/30 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352630W',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '07/30 11:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XPNF2630E',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '08/01 04:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XPNF2630W',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '08/01 04:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK2: [{
+        voyage: 'YAFZ2632W',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '08/05 08:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352630E',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '08/05 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'FZ352631W',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '08/05 23:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'H8112627S',
+        lane: 'NP2',
+        terminal: 'CNXMNT01',
+        eta: '08/07 17:30',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XFJH2628S',
+        lane: 'NP2',
+        terminal: 'CNXMNT01',
+        eta: '08/07 18:00',
+        dis20: 0,
+        dis40: 0
+      },{
+        voyage: 'XPNF2631E',
+        lane: 'PRD',
+        terminal: 'CNXMNT01',
+        eta: '08/08 04:00',
+        dis20: 0,
+        dis40: 0
+      }],
+      WK3: []
+    },
+    cargoSplitData: [],
+    nawBookingByWeek: {
+      WK0: {
+        '20GP': 65,
+        '40HC': 199,
+        vessels: [{
+          vessel: 'FZ352628W',
+          '20GP': 58,
+          '40HC': 22
+        },{
+          vessel: 'H8112625S',
+          '20GP': 1,
+          '40HC': 70
+        },{
+          vessel: 'YAFZ2630W',
+          '20GP': 4,
+          '40HC': 51
+        },{
+          vessel: 'XFJH2626S',
+          '20GP': 2,
+          '40HC': 56
+        }]
+      },
+      WK1: {
+        '20GP': 16,
+        '40HC': 23,
+        vessels: [{
+          vessel: 'FZ352629W',
+          '20GP': 16,
+          '40HC': 13
+        },{
+          vessel: 'SKTA2625N',
+          '20GP': 0,
+          '40HC': 10
+        }]
+      },
+      WK2: {
+        '20GP': 0,
+        '40HC': 0,
+        vessels: []
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0,
+        vessels: []
+      }
+    },
+    pickupVolumeByWeek: {
+      WK0: {
+        '20GP': 34,
+        '40HC': 112
+      },
+      WK1: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK2: {
+        '20GP': 0,
+        '40HC': 0
+      },
+      WK3: {
+        '20GP': 0,
+        '40HC': 0
+      }
+    },
+    allocationTarget: {
+      WK0: {
+        cal_week: 30,
+        target: 80,
+        bsa: 80,
+        by_lane: {
+          KHX: 80
+        }
+      },
+      WK2: {
+        cal_week: 32,
+        target: 30,
+        bsa: 30,
+        by_lane: {
+          KHX: 30
+        }
+      }
+    },
+    allocationVessels: {
+      KHX: [{
+        lane: 'KHX',
+        vessel: 'SKTA2625S',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 50,
+        bsa: 50,
+        port: 'CNXMN',
+        direction: '出口1'
+      },{
+        lane: 'KHX',
+        vessel: 'SKTA2627S',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 0,
+        bsa: 0,
+        port: 'CNXMN',
+        direction: '出口1'
+      },{
+        lane: 'KHX',
+        vessel: 'KWGB2629S',
+        cal_week: 30,
+        report_wk: 'WK0',
+        target: 30,
+        bsa: 30,
+        port: 'CNXMN',
+        direction: '出口1'
+      },{
+        lane: 'KHX',
+        vessel: 'KWGB2631S',
+        cal_week: 32,
+        report_wk: 'WK2',
+        target: 30,
+        bsa: 30,
+        port: 'CNXMN',
+        direction: '出口1'
+      }]
+    }
   }
 };
 
@@ -542,8 +4584,11 @@ function showPendingOverlay(containerId) {
 // ============================================================
 function renderSummaryCards() {
   const el = document.getElementById('summaryCards');
+  const weekCount = pc().wkLabels.length;
   if (isPending()) {
-    el.innerHTML = ['WK0 Balance(Forecast)','WK0 Start Empty','WK0 Outbound Pick-up','WK0 Inbound (CDL Actual)','WK1 Balance','WK2 Balance'].map(t => `
+    const pendingTitles = ['WK0 Balance(Forecast)','WK0 Start Empty','WK0 Outbound Pick-up','WK0 Inbound (CDL Actual)']
+      .concat(Array.from({length: weekCount - 1}, (_, i) => `WK${i+1} Balance`));
+    el.innerHTML = pendingTitles.map(t => `
       <div class="card pending">
         <div class="card-icon">—</div>
         <div class="card-title">${t}</div>
@@ -553,12 +4598,11 @@ function renderSummaryCards() {
     return;
   }
   const data = pd();
+  const fmt = (val, total) => (val === 0 && total !== 0) ? '—' : val;
+
+  // WK0 core metrics
   const d0 = data.forecastData["Balance(Forecast)"]["0"];
-  const d1 = data.forecastData["Balance(Forecast)"]["1"];
-  const d2 = data.forecastData["Balance(Forecast)"]["2"];
   const bal0 = getBalanceBreakdown(0);
-  const bal1 = getBalanceBreakdown(1);
-  const bal2 = getBalanceBreakdown(2);
   const start0 = data.forecastData["Start Empty"]["0"];
   const startBreakdown0 = getStartEmptyBreakdown(0);
   const out0 = data.forecastData["Outbound Pick-up"]["0"];
@@ -567,15 +4611,12 @@ function renderSummaryCards() {
   const wk0Vessels = data.vesselsByWeek['WK0'] || [];
   const ibTotal20 = wk0Vessels.reduce((s,v) => s + (v.dis20||0), 0);
   const ibTotal40 = wk0Vessels.reduce((s,v) => s + (v.dis40||0), 0);
-  // I/B Total fallback for summary cards
   const ibFallback20 = inbound0[1] + repo0[1];
   const ibFallback40 = inbound0[6] + repo0[6];
   const ibSum20 = (ibTotal20 + ibTotal40 > 0) ? ibTotal20 : ibFallback20;
   const ibSum40 = (ibTotal20 + ibTotal40 > 0) ? ibTotal40 : ibFallback40;
-  // Display helper: show '—' when breakdown is 0 but Total is non-zero
-  const fmt = (val, total) => (val === 0 && total !== 0) ? '—' : val;
 
-  el.innerHTML = `
+  let html = `
     <div class="card ${d0[0] >= 0 ? 'positive' : 'negative'}">
       <div class="card-icon">BAL</div>
       <div class="card-title">WK0 Balance(Forecast)</div>
@@ -600,19 +4641,23 @@ function renderSummaryCards() {
       <div class="card-value">${(inbound0[0] + repo0[0]).toLocaleString()}</div>
       <div class="card-sub">${(ibTotal20+ibTotal40 > 0) ? '<span class="tag tag-cdl">CDL</span>' : '<span class="tag tag-forecast">Forecast</span>'} ${ibSum20+ibSum40} (20GP:${ibSum20} / 40HC:${ibSum40})</div>
     </div>
-    <div class="card ${d1[0] >= 0 ? 'positive' : 'negative'}">
-      <div class="card-icon">WK1</div>
-      <div class="card-title">WK1 Balance</div>
-      <div class="card-value">${d1[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${fmt(bal1[0],d1[0])} | 40HC: ${fmt(bal1[1],d1[0])}</div>
-    </div>
-    <div class="card ${d2[0] >= 0 ? 'positive' : 'negative'}">
-      <div class="card-icon">WK2</div>
-      <div class="card-title">WK2 Balance</div>
-      <div class="card-value">${d2[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${fmt(bal2[0],d2[0])} | 40HC: ${fmt(bal2[1],d2[0])}</div>
-    </div>
   `;
+
+  // Balance cards for WK1..WK(N-1)
+  for (let wk = 1; wk < weekCount; wk++) {
+    const balRow = data.forecastData["Balance(Forecast)"][String(wk)];
+    const bal = getBalanceBreakdown(wk);
+    html += `
+      <div class="card ${balRow[0] >= 0 ? 'positive' : 'negative'}">
+        <div class="card-icon">WK${wk}</div>
+        <div class="card-title">WK${wk} Balance</div>
+        <div class="card-value">${balRow[0].toLocaleString()}</div>
+        <div class="card-sub">20GP: ${fmt(bal[0],balRow[0])} | 40HC: ${fmt(bal[1],balRow[0])}</div>
+      </div>
+    `;
+  }
+
+  el.innerHTML = html;
 }
 
 // ============================================================
@@ -824,9 +4869,9 @@ function renderBookingTable(wk) {
   const vesselLookup = {};
   vessels.forEach(v => { vesselLookup[v.voyage] = v; });
   // Also check all weeks for vessels not in current week
-  [0, 1, 2].forEach(w => {
+  for (let w = 0; w < pc().wkLabels.length; w++) {
     (data.vesselsByWeek['WK' + w] || []).forEach(v => { if (!vesselLookup[v.voyage]) vesselLookup[v.voyage] = v; });
-  });
+  }
 
   const bsaVessels = allocVessels
     .filter(av => av.report_wk === allocTgtKey && av.bsa > 0)
@@ -1327,19 +5372,19 @@ function initCharts() {
   if (!isPending()) {
     const ctx1 = document.getElementById('trendChart').getContext('2d');
     const data = pd();
-    const b0 = getBalanceBreakdown(0);
-    const b1 = getBalanceBreakdown(1);
-    const b2 = getBalanceBreakdown(2);
+    const weekCount = pc().wkLabels.length;
+    const labels = Array.from({length: weekCount}, (_, i) => `WK${i}`);
+    const balances = Array.from({length: weekCount}, (_, i) => getBalanceBreakdown(i));
     trendChart = new Chart(ctx1, {
       type: 'line',
       data: {
-        labels: ['WK0', 'WK1', 'WK2'],
+        labels: labels,
         datasets: [
           { label: '20GP Balance',
-            data: [b0[0], b1[0], b2[0]],
+            data: balances.map(b => b[0]),
             borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,0.1)', tension: 0.3, fill: true },
           { label: '40HC Balance',
-            data: [b0[1], b1[1], b2[1]],
+            data: balances.map(b => b[1]),
             borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,0.1)', tension: 0.3, fill: true }
         ]
       },
