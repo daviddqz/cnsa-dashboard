@@ -136,6 +136,41 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 .vessel-chip.has-discharge { border-left: 3px solid var(--accent); }
 .vessel-chip.has-booking { border-left: 3px solid var(--warning); }
 
+/* Collapsible Sections */
+.collapsible-card { overflow: hidden; }
+.table-card.collapsible-card { padding: 0; }
+.collapsible-header {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0;
+  padding: 20px 20px 14px 20px;
+  transition: background 0.15s;
+}
+.collapsible-header:hover { background: #f8fafc; }
+.collapsible-header::after {
+  content: '▼';
+  font-size: 11px;
+  color: var(--text-muted);
+  transition: transform 0.2s;
+}
+.collapsible-header.collapsed::after { content: '▶'; }
+.collapsible-content {
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
+  max-height: 3000px;
+  opacity: 1;
+  padding: 0 20px 20px 20px;
+}
+.collapsible-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 /* Pending Overlay */
 .pending-overlay { text-align: center; padding: 60px 20px; color: var(--text-muted); background: var(--bg); border-radius: var(--radius); }
 .pending-overlay .icon { font-size: 40px; margin-bottom: 12px; opacity: 0.5; }
@@ -239,9 +274,9 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
   <div class="vessel-section" id="vesselSection"></div>
 
   <!-- Cargo Split Detail -->
-  <div class="table-card" id="cargoSplitCard">
-    <h3 id="cargoSplitTitle">WK0 Cargo Split Detail (CDL Actual)</h3>
-    <div style="overflow-x:auto;">
+  <div class="table-card collapsible-card" id="cargoSplitCard">
+    <h3 id="cargoSplitTitle" class="collapsible-header" data-section="cargoSplit">WK0 Cargo Split Detail (CDL Actual)</h3>
+    <div class="collapsible-content" style="overflow-x:auto;">
       <table class="data-table" id="cargoSplitTable">
         <thead>
           <tr><th>Vessel</th><th>Inbound(F) 20GP</th><th>Inbound(F) 40HC</th><th>Repo(P) 20GP</th><th>Repo(P) 40HC</th><th>outVvdCd</th><th>Match</th></tr>
@@ -251,9 +286,9 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
     </div>
   </div>
 
-  <div class="table-card" id="allocationCard">
-    <h3 id="allocationTitle">Allocation Target by Lane (CNSHA)</h3>
-    <div style="overflow-x:auto;">
+  <div class="table-card collapsible-card" id="allocationCard">
+    <h3 id="allocationTitle" class="collapsible-header" data-section="allocation">Allocation Target by Lane (CNSHA)</h3>
+    <div class="collapsible-content" style="overflow-x:auto;">
       <table class="data-table" id="allocationTable">
         <thead>
           <tr><th>Report WK</th><th>Cal Week</th><th>CCT</th><th>CH1</th><th>CP8</th><th>HDT</th><th>NP2</th><th style="background:#e3f2fd;">Total Target</th></tr>
@@ -1170,7 +1205,9 @@ function renderVesselSection(wk) {
   }
   const data = pd();
   const vessels = data.vesselsByWeek['WK' + wk] || [];
-  let html = `<div class="table-card"><h3>WK${wk} Vessel Schedule - ${currentPort} (${vessels.length} vessels)</h3><div class="vessel-grid">`;
+  let html = `<div class="table-card collapsible-card">
+    <h3 class="collapsible-header" data-section="vesselSchedule">WK${wk} Vessel Schedule - ${currentPort} (${vessels.length} vessels)</h3>
+    <div class="collapsible-content"><div class="vessel-grid">`;
   if (vessels.length === 0) {
     html += `<div style="color:#bbb;padding:20px;grid-column:1/-1;">No vessels scheduled for this week.</div>`;
   }
@@ -1190,7 +1227,7 @@ function renderVesselSection(wk) {
       ${extra}
     </div>`;
   });
-  html += '</div></div>';
+  html += '</div></div></div>';
   section.innerHTML = html;
 }
 
@@ -1204,8 +1241,8 @@ function renderCargoSplitTable() {
 
   if (isPending()) { showPendingOverlay('cargoSplitCard'); return; }
 
-  card.innerHTML = `<h3 id="cargoSplitTitle">WK0 Cargo Split Detail - ${currentPort} (CDL Actual)</h3>
-    <div style="overflow-x:auto;"><table class="data-table" id="cargoSplitTable">
+  card.innerHTML = `<h3 id="cargoSplitTitle" class="collapsible-header" data-section="cargoSplit">WK0 Cargo Split Detail - ${currentPort} (CDL Actual)</h3>
+    <div class="collapsible-content" style="overflow-x:auto;"><table class="data-table" id="cargoSplitTable">
     <thead><tr><th>Vessel</th><th>Inbound(F) 20GP</th><th>Inbound(F) 40HC</th><th>Repo(P) 20GP</th><th>Repo(P) 40HC</th><th>outVvdCd</th><th>Match</th></tr></thead>
     <tbody></tbody></table></div>`;
 
@@ -1362,6 +1399,43 @@ function renderAll() {
   renderVesselSection(currentWeek);
   renderCargoSplitTable();
   renderAllocationTable();
+  refreshCollapsibleStates();
+}
+
+// ============================================================
+// ===== COLLAPSIBLE SECTIONS =====
+// ============================================================
+function initCollapsible() {
+  document.addEventListener('click', function(e) {
+    const header = e.target.closest('.collapsible-header');
+    if (!header) return;
+    const content = header.nextElementSibling;
+    if (!content) return;
+    const isCollapsed = content.classList.toggle('collapsed');
+    header.classList.toggle('collapsed', isCollapsed);
+    const section = header.dataset.section;
+    if (section) {
+      localStorage.setItem('cnsa_collapsed_' + section + '_' + currentPort, isCollapsed ? '1' : '0');
+    }
+  });
+}
+
+function restoreCollapsible(header) {
+  const section = header.dataset.section;
+  if (!section) return;
+  const key = 'cnsa_collapsed_' + section + '_' + currentPort;
+  const val = localStorage.getItem(key);
+  if (val === '1') {
+    const content = header.nextElementSibling;
+    if (content) {
+      content.classList.add('collapsed');
+      header.classList.add('collapsed');
+    }
+  }
+}
+
+function refreshCollapsibleStates() {
+  document.querySelectorAll('.collapsible-header').forEach(restoreCollapsible);
 }
 
 // ============================================================
@@ -1371,6 +1445,7 @@ function init() {
   renderPortNav();
   renderWeekTabs();
   updateHeaderMeta();
+  initCollapsible();
   renderAll();
   initCharts();
 }
