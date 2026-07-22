@@ -979,19 +979,63 @@ function renderBookingTable(wk) {
 
     // BSA vessel rows: same format as booking, showing VVD / ETA / Lane / BSA
     if (bsaVessels.length > 0) {
-      let bsaTotal = 0;
+      let bsaTotal = 0, bsaTotalBooked = 0, bsaTotal20 = 0, bsaTotal40 = 0;
       let bsaHtml = '';
+      // Build NAW booking lookup for this week (exact + prefix fallback)
+      const nawWkKey = 'WK' + wk;
+      const naw = data.nawBookingByWeek && data.nawBookingByWeek[nawWkKey];
+      const nawExact = {}, nawPrefix = {};
+      if (naw && naw.vessels) {
+        naw.vessels.forEach(nv => {
+          nawExact[nv.vessel] = nv;
+          const prefix = nv.vessel.substring(0, 4);
+          if (!nawPrefix[prefix]) nawPrefix[prefix] = [];
+          nawPrefix[prefix].push(nv);
+        });
+      }
       bsaVessels.forEach(av => {
         bsaTotal += av.bsa;
-        const booked = data.bookingByVessel[av.voyage];
-        const bookedStr = booked ? `<td>${booked.current.toLocaleString()}</td><td>${booked.ft20.toLocaleString()}</td><td>${booked.ft40.toLocaleString()}</td>` : '<td>-</td><td>-</td><td>-</td>';
+        let booked = data.bookingByVessel[av.voyage];
+        let bookedSource = '';
+        if (!booked) {
+          // Fallback to NAW booking data (exact, then prefix)
+          let nawV = nawExact[av.voyage];
+          if (!nawV) {
+            const prefix = av.voyage.substring(0, 4);
+            const candidates = nawPrefix[prefix];
+            if (candidates && candidates.length === 1) nawV = candidates[0];
+          }
+          if (nawV) {
+            booked = { current: (nawV['20GP'] || 0) * 1 + (nawV['40HC'] || 0) * 2, ft20: nawV['20GP'] || 0, ft40: nawV['40HC'] || 0 };
+            bookedSource = 'naw';
+          }
+        }
+        if (booked) {
+          bsaTotalBooked += booked.current;
+          bsaTotal20 += booked.ft20;
+          bsaTotal40 += booked.ft40;
+        }
+        const gap = booked ? booked.current - av.bsa : null;
+        const pct = booked && av.bsa > 0 ? (booked.current / av.bsa * 100).toFixed(1) : null;
+        const bookedStr = booked
+          ? `<td>${booked.current.toLocaleString()}</td><td>${booked.ft20.toLocaleString()}</td><td>${booked.ft40.toLocaleString()}</td>`
+          : '<td>-</td><td>-</td><td>-</td>';
+        const gapStr = booked
+          ? `<td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${gap >= 0 ? '+' : ''}${gap.toLocaleString()}</td>`
+          : '<td>-</td>';
+        const pctStr = booked
+          ? `<td>${pct}%</td>`
+          : '<td>-</td>';
+        const sourceTag = bookedSource === 'naw' ? ' <span style="color:#e65100;font-size:10px;">(NAW)</span>' : '';
         bsaHtml += `<tr style="background:#e8eaf6;">
           <td><strong>${av.voyage}</strong></td><td>${av.eta}</td><td>${av.lane}</td>
           <td>-</td><td style="font-weight:700;color:#1565c0;">${av.bsa.toLocaleString()}</td>
           ${bookedStr}
-          <td>-</td><td>-</td><td>${av.terminal}</td>
+          ${gapStr}${pctStr}<td>${av.terminal}${sourceTag}</td>
         </tr>`;
       });
+      const totalGap = bsaTotalBooked - bsaTotal;
+      const totalPct = bsaTotal > 0 ? (bsaTotalBooked / bsaTotal * 100).toFixed(1) : 'N/A';
       html += `<tr style="background:#e3f2fd;border-top:3px solid #1565c0;">
         <td colspan="11" style="padding:8px 16px;font-weight:700;color:#1565c0;text-align:left;">
           BSA Vessel Details (${allocTgtKey} · ${allocTgt && allocTgt.cal_week ? 'CW' + allocTgt.cal_week : 'current'} · Total BSA: ${bsaTotal.toLocaleString()} TEU)
@@ -1001,7 +1045,11 @@ function renderBookingTable(wk) {
       html += `<tr style="font-weight:700;background:#e3f2fd;">
         <td><strong>TOTAL BSA</strong></td><td>-</td><td>${bsaVessels.length} vessels</td>
         <td>-</td><td style="color:#1565c0;">${bsaTotal.toLocaleString()}</td>
-        <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+        <td>${bsaTotalBooked > 0 ? bsaTotalBooked.toLocaleString() : '-'}</td>
+        <td>${bsaTotal20 > 0 ? bsaTotal20.toLocaleString() : '-'}</td>
+        <td>${bsaTotal40 > 0 ? bsaTotal40.toLocaleString() : '-'}</td>
+        <td style="color:${totalGap >= 0 ? '#c62828' : '#2e7d32'}">${bsaTotalBooked > 0 ? (totalGap >= 0 ? '+' : '') + totalGap.toLocaleString() : '-'}</td>
+        <td>${bsaTotalBooked > 0 ? totalPct + '%' : '-'}</td><td>-</td>
       </tr>`;
     } else if (allocTgtTotal > 0) {
       // Fallback: show lane summary if no vessel-level data
