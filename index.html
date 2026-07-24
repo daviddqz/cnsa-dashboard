@@ -2611,19 +2611,25 @@ function renderVesselSection(wk) {
 // ============================================================
 function renderCargoSplitTable() {
   const card = document.getElementById('cargoSplitCard');
-  card.style.display = currentWeek === 0 ? 'block' : 'none';
-  if (currentWeek !== 0) return;
+  const wkLabel = pc().wkLabels[currentWeek] || 'WK' + currentWeek;
 
   if (isPending()) { showPendingOverlay('cargoSplitCard'); return; }
 
-  card.innerHTML = `<h3 id="cargoSplitTitle" class="collapsible-header" data-section="cargoSplit">WK0 Cargo Split Detail - ${currentPort} (CDL Actual)</h3>
+  card.style.display = 'block';
+  card.innerHTML = `<h3 id="cargoSplitTitle" class="collapsible-header" data-section="cargoSplit">${wkLabel} Cargo Split Detail - ${currentPort} (CDL Actual)</h3>
     <div class="collapsible-content" style="overflow-x:auto;"><table class="data-table" id="cargoSplitTable">
     <thead><tr><th>Vessel</th><th>Inbound(F) 20GP</th><th>Inbound(F) 40HC</th><th>Repo(P) 20GP</th><th>Repo(P) 40HC</th><th>outVvdCd</th><th>Match</th></tr></thead>
     <tbody></tbody></table></div>`;
 
+  // Cargo split data is currently only collected for CNSHA WK0.
+  // For other weeks/ports, show an informational message instead of hiding the section.
   const csd = pd().cargoSplitData;
-  if (!Array.isArray(csd) || csd.length === 0) {
-    document.querySelector('#cargoSplitTable tbody').innerHTML = `<tr><td colspan="7" style="color:#999;padding:20px;">No cargo split data. Run _refresh_all.py for ${currentPort}.</td></tr>`;
+  const isEmpty = !Array.isArray(csd) || csd.length === 0;
+  if (currentWeek !== 0 || isEmpty) {
+    const msg = (currentWeek !== 0)
+      ? `Cargo split (CDL actual) is currently only available for ${pc().wkLabels[0]}. Switch back to ${pc().wkLabels[0]} to view it.`
+      : `No cargo split data. Run BKD_M6501 scrape for ${currentPort}.`;
+    document.querySelector('#cargoSplitTable tbody').innerHTML = `<tr><td colspan="7" style="color:#999;padding:20px;">${msg}</td></tr>`;
     return;
   }
   let totalF20=0,totalF40=0,totalP20=0,totalP40=0, html='';
