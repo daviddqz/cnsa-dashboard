@@ -2035,11 +2035,26 @@ function renderForecastTable(wk) {
 
   const data = pd();
   const vessels = data.vesselsByWeek['WK' + wk] || [];
+
+  // Compute Cargo Split summary for the current week (if available)
+  const csd = data.cargoSplitData ? data.cargoSplitData['WK' + wk] : null;
+  let repoInOverride = null;
+  let repoInHasCDL = false;
+  if (csd && csd.length > 0) {
+    const repoP20 = csd.reduce((s, v) => s + (v.p20 || 0), 0);
+    const repoP40 = csd.reduce((s, v) => s + (v.p40 || 0), 0);
+    if (repoP20 + repoP40 > 0) {
+      repoInOverride = [repoP20 + repoP40, repoP20, 0, 0, 0, 0, repoP40, 0];
+      repoInHasCDL = true;
+    }
+  }
+  const getRepoInRow = () => repoInOverride || data.forecastData['Reposition In'][String(wk)];
+
   const ibTotal20 = vessels.reduce((s,v) => s + (v.dis20||0), 0);
   const ibTotal40 = vessels.reduce((s,v) => s + (v.dis40||0), 0);
   // I/B Total fallback: if no discharge data, use Inbound Generation + Reposition In from forecast
   const ibGenRow = data.forecastData['Inbound Generation'][String(wk)];
-  const repoInRow = data.forecastData['Reposition In'][String(wk)];
+  const repoInRow = getRepoInRow();
   const ibFallback20 = ibGenRow[1] + repoInRow[1];
   const ibFallback40 = ibGenRow[6] + repoInRow[6];
   const ibDisplay20 = (ibTotal20 + ibTotal40 > 0) ? ibTotal20 : ibFallback20;
@@ -2071,7 +2086,7 @@ function renderForecastTable(wk) {
 
   // Pre-compute supply/demand totals for Balance breakdown calculation
   const supplyTotal = indicators.filter((ind2,j) => signs[j]==='+').reduce((sum,ind2,j) => {
-    const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
+    const r = (ind2 === 'Reposition In') ? getRepoInRow() : data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
   }, [0,0,0,0,0,0,0,0]);
   const demandTotal = indicators.filter((ind2,j) => signs[j]==='-').reduce((sum,ind2,j) => {
     const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
@@ -2098,8 +2113,8 @@ function renderForecastTable(wk) {
           detail = '<span class="tag tag-forecast">Turn Time 拆空</span>';
         }
       }
-    } else if (ind === 'Reposition In' && wk === 0) {
-      detail = `<span class="tag tag-cdl">CDL Actual (${pc().cdlVessels} vessels)</span>`;
+    } else if (ind === 'Reposition In' && repoInHasCDL) {
+      detail = `<span class="tag tag-cdl">CDL Actual (${csd.length} vessels)</span>`;
     } else if (ind !== '+ Other' && ind !== '- Other') {
       detail = '<span class="tag tag-forecast">Forecast</span>';
     }
@@ -2108,7 +2123,7 @@ function renderForecastTable(wk) {
 
     // Display cell: show '—' when breakdown is 0 but Total is non-zero (NAW WK1/WK2 limitation)
     const cell = (val, total) => (val === 0 && total !== 0) ? '<span style="color:#999;">—</span>' : val;
-    let displayRow = row;
+    let displayRow = (ind === 'Reposition In' && repoInOverride) ? repoInOverride : row;
     // For Start Empty row: if breakdown is missing, use previous week's Balance breakdown
     if (ind === 'Start Empty' && row[1] === 0 && row[6] === 0 && row[0] !== 0 && wk > 0) {
       const [se20, se40] = getBalanceBreakdown(wk - 1);
@@ -2116,7 +2131,7 @@ function renderForecastTable(wk) {
     }
     html += `<tr class="${cls}">
       <td>${rowNum}</td><td>${ind}</td><td>${tag}</td>
-      <td><strong>${row[0].toLocaleString()}</strong></td>
+      <td><strong>${displayRow[0].toLocaleString()}</strong></td>
       <td>${cell(displayRow[1],displayRow[0])}</td><td>${cell(displayRow[6],displayRow[0])}</td>
       <td>${vesselCount}</td>
       <td style="text-align:left;font-size:11px;">${vesselDetail}${detail}</td>
@@ -2133,7 +2148,7 @@ function renderForecastTable(wk) {
         <td style="text-align:left;font-size:11px;">${ibLabel}</td></tr>`;
       // Supply Subtotal row (sum of all + rows, with Start Empty display override)
       const supplyTotal = indicators.filter((ind2,j) => signs[j]==='+').reduce((sum,ind2,j) => {
-        const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
+        const r = (ind2 === 'Reposition In') ? getRepoInRow() : data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
       }, [0,0,0,0,0,0,0,0]);
       const startEmptyRowSub = data.forecastData['Start Empty'][String(wk)];
       const startEmptyDisplaySub = getStartEmptyBreakdown(wk);
