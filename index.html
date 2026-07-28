@@ -2372,7 +2372,7 @@ function renderBookingTable(wk) {
   // Build per-week allocation lookup for NAW vessels: vessel -> report_wk -> {target, bsa}
   // Include prefix-based fallback: same ship's inbound (E) and outbound (W) voyages share BSA
   const allocVesselLookup = {};
-  const allocPrefixLookup = {};  // vessel_prefix -> {wk: {target, bsa, lane}}
+  const allocPrefixLookup = {};  // vessel_prefix -> lane -> wk -> {target, bsa}
   allocVessels.forEach(av => {
     if (!av.vessel) return;
     if (!allocVesselLookup[av.vessel]) allocVesselLookup[av.vessel] = {};
@@ -2385,30 +2385,95 @@ function renderBookingTable(wk) {
     allocPrefixLookup[prefix][av.lane][av.report_wk] = { target: av.target || 0, bsa: av.bsa || 0 };
   });
 
+  // Unified allocation/BSA resolver with multiple fallback levels
+  function resolveAllocEntry(vvd, svcLane, currentWkKey) {
+    if (!vvd) return { target: 0, bsa: 0, source: null };
+    const normLane = (svcLane && svcLane !== '-') ? svcLane : '';
+
+    // 1. Exact vessel + current week
+    const exactWk = allocVesselLookup[vvd] && allocVesselLookup[vvd][currentWkKey];
+    if (exactWk && exactWk.bsa > 0) {
+      return { target: exactWk.target, bsa: exactWk.bsa, source: 'vessel' };
+    }
+
+    const prefix = vvd.substring(0, 4);
+    const prefixLanes = allocPrefixLookup[prefix];
+
+    // 2. Prefix + same lane + current week
+    if (prefixLanes && prefixLanes[normLane]) {
+      const e = prefixLanes[normLane][currentWkKey];
+      if (e && e.bsa > 0) return { target: e.target, bsa: e.bsa, source: 'prefix-lane' };
+    }
+
+    // 3. Prefix + any lane + current week (highest BSA)
+    if (prefixLanes) {
+      let best = null;
+      Object.values(prefixLanes).forEach(laneMap => {
+        const e = laneMap[currentWkKey];
+        if (e && e.bsa > 0 && (!best || e.bsa > best.bsa)) best = e;
+      });
+      if (best) return { target: best.target, bsa: best.bsa, source: 'prefix-any' };
+    }
+
+    // 4. Exact vessel + any week (highest BSA)
+    const vesselAll = allocVesselLookup[vvd];
+    if (vesselAll) {
+      let best = null;
+      Object.values(vesselAll).forEach(e => {
+        if (e.bsa > 0 && (!best || e.bsa > best.bsa)) best = e;
+      });
+      if (best) return { target: best.target, bsa: best.bsa, source: 'vessel-other-wk' };
+    }
+
+    // 5. Prefix + same lane + any week (highest BSA)
+    if (prefixLanes && prefixLanes[normLane]) {
+      let best = null;
+      Object.values(prefixLanes[normLane]).forEach(e => {
+        if (e.bsa > 0 && (!best || e.bsa > best.bsa)) best = e;
+      });
+      if (best) return { target: best.target, bsa: best.bsa, source: 'prefix-lane-other-wk' };
+    }
+
+    // 6. Prefix + any lane + any week (highest BSA)
+    if (prefixLanes) {
+      let best = null;
+      Object.values(prefixLanes).forEach(laneMap => {
+        Object.values(laneMap).forEach(e => {
+          if (e.bsa > 0 && (!best || e.bsa > best.bsa)) best = e;
+        });
+      });
+      if (best) return { target: best.target, bsa: best.bsa, source: 'prefix-any-other-wk' };
+    }
+
+    return { target: exactWk ? exactWk.target : 0, bsa: 0, source: null };
+  }
+
+  function formatBsa(bsa, source) {
+    if (!bsa || bsa <= 0) return '-';
+    const tips = {
+      'vessel': 'Vessel-level BSA (exact match)',
+      'prefix-lane': 'BSA from same vessel prefix + lane',
+      'prefix-any': 'BSA from same vessel prefix (any lane)',
+      'vessel-other-wk': 'BSA from same vessel in another week',
+      'prefix-lane-other-wk': 'BSA from prefix + lane in another week',
+      'prefix-any-other-wk': 'BSA from prefix in another week'
+    };
+    const title = tips[source] || '';
+    const mark = source && source !== 'vessel' ? '<span style="color:#f59e0b;font-size:10px;vertical-align:super;margin-left:2px;" title="' + title + '">*</span>' : '';
+    return `<span title="${title}">${bsa.toLocaleString()}${mark}</span>`;
+  }
+
   bookingVessels.forEach(v => {
     const bk = data.bookingByVessel[v.voyage];
     const gap = bk.current - bk.alloc;
     const pct = bk.alloc > 0 ? (bk.current / bk.alloc * 100).toFixed(1) : 'N/A';
-    let vesselBsa = bsaLookup[v.voyage];
-    // Prefix fallback for BSA: if exact match fails, try vessel prefix
-    if (!vesselBsa) {
-      const prefix = v.voyage.substring(0, 4);
-      if (allocPrefixLookup[prefix]) {
-        // Find max bsa across all lanes and weeks for this prefix
-        let maxBsa = 0;
-        Object.values(allocPrefixLookup[prefix]).forEach(laneMap => {
-          Object.values(laneMap).forEach(wkEntry => {
-            if (wkEntry.bsa > maxBsa) maxBsa = wkEntry.bsa;
-          });
-        });
-        if (maxBsa > 0) vesselBsa = maxBsa;
-      }
-    }
+    const allocEntry = resolveAllocEntry(v.voyage, v.lane, allocTgtKey);
+    const vesselBsa = allocEntry.bsa;
     totalAlloc += bk.alloc; totalCurrent += bk.current;
     totalFt20 += bk.ft20; totalFt40 += bk.ft40;
     html += `<tr>
       <td><strong>${v.voyage}</strong></td><td>${v.eta}</td><td>${v.lane}</td>
-      <td>${bk.alloc.toLocaleString()}</td><td>${vesselBsa ? vesselBsa.toLocaleString() : '-'}</td><td>${bk.current.toLocaleString()}</td>
+      <td>${bk.alloc.toLocaleString()}</td><td>${formatBsa(vesselBsa, allocEntry.source)}</td><td>${bk.current.toLocaleString()}</td>
       <td>${bk.ft20.toLocaleString()}</td><td>${bk.ft40.toLocaleString()}</td>
       <td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${gap >= 0 ? '+' : ''}${gap.toLocaleString()}</td>
       <td>${pct}%</td><td>${v.terminal}</td>
@@ -2452,28 +2517,8 @@ function renderBookingTable(wk) {
         const eta = vInfo ? vInfo.eta : '-';
         const svc = vInfo ? vInfo.lane : '-';
         const term = vInfo ? vInfo.terminal : '-';
-        // BSA lookup: exact match first, then prefix-based fallback (E/W voyage mismatch)
-        let allocEntry = (allocVesselLookup[vvd] && allocVesselLookup[vvd][currentWkKey]) || null;
-        if (!allocEntry) {
-          const prefix = vvd.substring(0, 4);
-          const svcLane = svc !== '-' ? svc : '';
-          // Try prefix match: first by same lane, then all lanes
-          if (allocPrefixLookup[prefix]) {
-            const laneEntries = allocPrefixLookup[prefix][svcLane];
-            if (laneEntries && laneEntries[currentWkKey]) {
-              allocEntry = laneEntries[currentWkKey];
-            } else {
-              // Try all lanes for this prefix, pick the one with highest bsa in currentWK
-              let bestBsa = 0, bestTarget = 0;
-              Object.values(allocPrefixLookup[prefix]).forEach(laneMap => {
-                const wkEntry = laneMap[currentWkKey];
-                if (wkEntry && wkEntry.bsa > bestBsa) { bestBsa = wkEntry.bsa; bestTarget = wkEntry.target; }
-              });
-              if (bestBsa > 0) allocEntry = { target: bestTarget, bsa: bestBsa };
-            }
-          }
-        }
-        if (!allocEntry) allocEntry = { target: 0, bsa: 0 };
+        // Unified allocation/BSA resolver with cross-week prefix fallback
+        const allocEntry = resolveAllocEntry(vvd, svc, currentWkKey);
         const allocVal = allocEntry.target || 0;
         const bsa = allocEntry.bsa || 0;
         const booked = (nv['20GP'] || 0) * 1 + (nv['40HC'] || 0) * 2;
@@ -2487,7 +2532,7 @@ function renderBookingTable(wk) {
         html += `<tr style="background:#fff8e1;">
           <td><strong>${vvd}</strong></td><td>${eta}</td><td>${svc}</td>
           <td>${allocVal > 0 ? allocVal.toLocaleString() : '-'}</td>
-          <td>${bsa > 0 ? bsa.toLocaleString() : '-'}</td>
+          <td>${formatBsa(bsa, allocEntry.source)}</td>
           <td>${booked.toLocaleString()}</td>
           <td>${(nv['20GP'] || 0).toLocaleString()}</td><td>${(nv['40HC'] || 0).toLocaleString()}</td>
           <td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${allocVal > 0 ? (gap >= 0 ? '+' : '') + gap.toLocaleString() : '-'}</td>
@@ -2821,7 +2866,18 @@ function renderAllocationTable() {
     grandTotal += total;
 
     const laneCells = lanes.map(l => {
-      const v = (d.by_lane && d.by_lane[l]) || 0;
+      // Support lane keys with direction suffix, e.g. "HDT/出口2"
+      let v = 0;
+      if (d.by_lane) {
+        if (d.by_lane[l] !== undefined) {
+          v = d.by_lane[l];
+        } else {
+          const prefix = l + '/';
+          v = Object.keys(d.by_lane)
+            .filter(k => k === l || k.startsWith(prefix))
+            .reduce((sum, k) => sum + (d.by_lane[k] || 0), 0);
+        }
+      }
       laneTotals[l] += v;
       const cls = v > 0 ? 'style="font-weight:600;"' : 'style="color:#bbb;"';
       return `<td ${cls}>${v}</td>`;
