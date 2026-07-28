@@ -11,75 +11,87 @@
 <style>
 :root {
   --primary: #0f172a;
-  --primary-light: #1e293b;
-  --accent: #2563eb;
+  --primary-grad: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+  --accent: #3b82f6;
   --accent-light: #eff6ff;
   --accent-soft: #dbeafe;
-  --success: #059669;
+  --success: #10b981;
   --success-soft: #d1fae5;
-  --danger: #dc2626;
+  --danger: #ef4444;
   --danger-soft: #fee2e2;
-  --warning: #d97706;
+  --warning: #f59e0b;
   --warning-soft: #fef3c7;
-  --bg: #f8fafc;
+  --bg: #f1f5f9;
   --surface: #ffffff;
   --border: #e2e8f0;
-  --text: #334155;
+  --border-light: #f1f5f9;
+  --text: #1e293b;
   --text-muted: #64748b;
   --text-light: #94a3b8;
-  --radius: 8px;
-  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
-  --shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.08);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.08);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 1px 2px 0 rgba(15,23,42,0.04);
+  --shadow: 0 2px 8px -2px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 24px -4px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-card: 0 2px 8px -2px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; }
 
 /* Header */
-.header { background: var(--primary); color: #fff; padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; }
-.header-left { display: flex; align-items: center; gap: 16px; }
-.header .logo { width: 36px; height: 36px; background: rgba(255,255,255,0.12); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; }
-.header h1 { font-size: 20px; font-weight: 600; letter-spacing: 0.2px; }
-.header .meta { font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 3px; }
-.header .status-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; background: rgba(255,255,255,0.1); border-radius: 999px; font-size: 12px; font-weight: 500; }
-.header .status-chip::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #34d399; }
+.header { background: var(--primary-grad); color: #fff; padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; }
+.header-left { display: flex; align-items: center; gap: 18px; }
+.header .logo { width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700; backdrop-filter: blur(8px); }
+.header h1 { font-size: 22px; font-weight: 600; letter-spacing: 0.3px; }
+.header .meta { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 4px; display: flex; gap: 12px; flex-wrap: wrap; }
+.header .meta-item { display: inline-flex; align-items: center; gap: 4px; }
+.header .meta-item::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.4); }
+.header .meta-item:first-child::before { display: none; }
+.header .status-chip { display: inline-flex; align-items: center; gap: 7px; padding: 6px 14px; background: rgba(255,255,255,0.12); border-radius: 999px; font-size: 12px; font-weight: 600; backdrop-filter: blur(8px); }
+.header .status-chip::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #34d399; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
 /* Port Navigation */
-.port-nav { background: var(--surface); padding: 0 30px; display: flex; gap: 4px; align-items: center; overflow-x: auto; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-.port-tab { padding: 12px 22px; cursor: pointer; border-bottom: 2px solid transparent; font-size: 13px; font-weight: 600; color: var(--text-muted); white-space: nowrap; transition: all 0.2s; letter-spacing: 0.3px; }
+.port-nav { background: var(--surface); padding: 0 32px; display: flex; gap: 2px; align-items: center; overflow-x: auto; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; }
+.port-tab { padding: 14px 22px; cursor: pointer; border-bottom: 3px solid transparent; font-size: 13px; font-weight: 600; color: var(--text-muted); white-space: nowrap; transition: all 0.2s; letter-spacing: 0.3px; position: relative; display: flex; align-items: center; gap: 8px; }
 .port-tab:hover { color: var(--text); background: #f8fafc; }
 .port-tab.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--accent-light); }
 .port-tab .port-label { font-size: 10px; display: block; color: var(--text-muted); margin-top: 2px; text-align: center; font-weight: 500; }
 .port-tab.active .port-label { color: var(--accent); }
-.port-status { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 5px; }
+.port-tab .port-color-bar { width: 3px; height: 24px; border-radius: 2px; flex-shrink: 0; }
+.port-tab.all-ports { padding: 14px 20px; }
+.port-tab.all-ports .port-color-bar { background: linear-gradient(180deg, #3b82f6, #10b981, #f59e0b, #ef4444); }
+.port-status { display: inline-block; width: 6px; height: 6px; border-radius: 50%; }
 .port-status.live { background: var(--success); }
 .port-status.pending { background: var(--warning); }
 
 /* Container */
-.container { max-width: 1480px; margin: 0 auto; padding: 24px 30px; }
+.container { max-width: 1480px; margin: 0 auto; padding: 24px 32px; }
 
 /* Section Title */
-.section-title { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.section-title { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 .section-title::before { content: ''; width: 3px; height: 16px; background: var(--accent); border-radius: 2px; }
 
 /* Summary Cards */
-.summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 28px; }
-.card { background: var(--surface); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--border); transition: transform 0.15s, box-shadow 0.15s; }
-.card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-.card-title { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; font-weight: 600; }
-.card-value { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
-.card-sub { font-size: 12px; color: var(--text-muted); margin-top: 6px; display: flex; align-items: center; gap: 8px; }
-.card.positive { border-top: 3px solid var(--success); }
+.summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.card { background: var(--surface); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-card); border: 1px solid var(--border); transition: transform 0.15s, box-shadow 0.15s; position: relative; overflow: hidden; }
+.card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+.card.positive::before { background: var(--success); }
+.card.negative::before { background: var(--danger); }
+.card.warning::before { background: var(--warning); }
+.card.info::before { background: var(--accent); }
+.card.pending::before { background: var(--text-light); }
+.card-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; font-weight: 600; }
+.card-value { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; font-variant-numeric: tabular-nums; }
+.card-sub { font-size: 12px; color: var(--text-muted); margin-top: 8px; display: flex; align-items: center; gap: 8px; }
 .card.positive .card-value { color: var(--success); }
-.card.negative { border-top: 3px solid var(--danger); }
 .card.negative .card-value { color: var(--danger); }
-.card.warning { border-top: 3px solid var(--warning); }
 .card.warning .card-value { color: var(--warning); }
-.card.info { border-top: 3px solid var(--accent); }
 .card.info .card-value { color: var(--accent); }
-.card.pending { opacity: 0.55; border-top: 3px solid var(--text-light); }
+.card.pending { opacity: 0.55; }
 .card.pending .card-value { color: var(--text-muted); font-size: 18px; }
-.card-icon { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-bottom: 10px; }
+.card-icon { width: 34px; height: 34px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.5px; }
 .card.positive .card-icon { background: var(--success-soft); color: var(--success); }
 .card.negative .card-icon { background: var(--danger-soft); color: var(--danger); }
 .card.warning .card-icon { background: var(--warning-soft); color: var(--warning); }
@@ -88,31 +100,33 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 /* Controls */
 .controls-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
 .controls-row .section-title { margin-bottom: 0; color: var(--text-muted); font-weight: 500; }
-.week-tabs { display: flex; gap: 6px; background: var(--surface); padding: 5px; border-radius: 999px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-.week-tab { padding: 7px 18px; border-radius: 999px; cursor: pointer; border: none; background: transparent; font-size: 13px; font-weight: 500; color: var(--text-muted); transition: all 0.2s; }
+.week-tabs { display: flex; gap: 4px; background: var(--surface); padding: 5px; border-radius: 999px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+.week-tab { padding: 8px 20px; border-radius: 999px; cursor: pointer; border: none; background: transparent; font-size: 13px; font-weight: 500; color: var(--text-muted); transition: all 0.2s; }
 .week-tab:hover:not(.active) { background: #f1f5f9; color: var(--text); }
 .week-tab.active { background: var(--primary); color: #fff; box-shadow: var(--shadow-sm); }
 
 /* Charts */
 .charts-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px; margin-bottom: 20px; }
-.chart-card { background: var(--surface); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-.chart-card h3 { font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.chart-card { background: var(--surface); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border); }
+.chart-card h3 { font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 .chart-card h3::before { content: ''; width: 3px; height: 14px; background: var(--accent); border-radius: 2px; }
-.chart-container { position: relative; height: 240px; width: 100%; }
+.chart-container { position: relative; height: 260px; width: 100%; }
 
 /* Tables */
-.table-card { background: var(--surface); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 24px; }
-.table-card h3 { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.table-card { background: var(--surface); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-card); border: 1px solid var(--border); margin-bottom: 24px; }
+.table-card h3 { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 .table-card h3::before { content: ''; width: 3px; height: 14px; background: var(--accent); border-radius: 2px; }
-.data-table { width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.data-table th { background: #f1f5f9; padding: 10px 12px; text-align: center; font-weight: 600; color: var(--primary); border-bottom: 1px solid var(--border); }
-.data-table td { padding: 9px 12px; text-align: center; border-bottom: 1px solid var(--border); color: var(--text); }
+.data-table { width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+.data-table th { background: #f1f5f9; padding: 11px 12px; text-align: center; font-weight: 600; color: var(--primary); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 5; }
+.data-table td { padding: 10px 12px; text-align: center; border-bottom: 1px solid var(--border-light); color: var(--text); }
+.data-table tbody tr:nth-child(odd) td { background: #fafbfc; }
 .data-table tr:last-child td { border-bottom: none; }
-.data-table tr:hover td { background: #f8fafc; }
+.data-table tr:hover td { background: #f0f7ff; }
 .data-table .supply td:first-child { color: var(--success); font-weight: 600; }
 .data-table .demand td:first-child { color: var(--danger); font-weight: 600; }
-.data-table .balance td { background: var(--accent-soft); font-weight: 700; }
-.data-table .ibob td { background: #f1f5f9; font-weight: 700; color: var(--primary); }
+.data-table .balance td { background: var(--accent-soft) !important; font-weight: 700; }
+.data-table .ibob td { background: #f1f5f9 !important; font-weight: 700; color: var(--primary); }
+.data-table .pickup-row td { background: var(--success-soft) !important; font-weight: 700; border-left: 3px solid var(--success); }
 
 /* Tags */
 .tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
@@ -124,52 +138,35 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 .tag-ibo { background: #e2e8f0; color: var(--primary); }
 .tag-pending { background: #fef9c3; color: #854d0e; }
 
-/* Vessel Section */
+/* Vessel Table */
 .vessel-section { margin-bottom: 24px; }
 .vessel-section h3 { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
 .vessel-section h3::before { content: ''; width: 3px; height: 14px; background: var(--accent); border-radius: 2px; }
-.vessel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
-.vessel-chip { background: var(--surface); border-radius: var(--radius); padding: 12px 14px; box-shadow: var(--shadow); border: 1px solid var(--border); font-size: 12px; transition: box-shadow 0.15s; }
-.vessel-chip:hover { box-shadow: var(--shadow-md); }
-.vessel-chip .voyage { font-weight: 700; color: var(--primary); font-size: 13px; }
-.vessel-chip .detail { color: var(--text-muted); font-size: 11px; margin-top: 4px; line-height: 1.4; }
-.vessel-chip.has-discharge { border-left: 3px solid var(--accent); }
-.vessel-chip.has-booking { border-left: 3px solid var(--warning); }
+.vessel-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.vessel-table th { background: #f1f5f9; padding: 9px 10px; text-align: left; font-weight: 600; color: var(--primary); border-bottom: 1px solid var(--border); }
+.vessel-table td { padding: 9px 10px; border-bottom: 1px solid var(--border-light); }
+.vessel-table tr:hover td { background: #f8fafc; }
+.vessel-table tr.has-discharge { border-left: 3px solid var(--success); }
+.vessel-table tr.has-booking { border-left: 3px solid var(--warning); }
+
+/* All Ports View */
+.all-ports-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.port-mini-card { background: var(--surface); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-card); border: 1px solid var(--border); text-align: center; transition: transform 0.15s; }
+.port-mini-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.port-mini-card .port-code { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
+.port-mini-card .port-name { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+.port-mini-card .port-balance { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.port-mini-card .port-breakdown { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
 
 /* Collapsible Sections */
 .collapsible-card { overflow: hidden; }
 .table-card.collapsible-card { padding: 0; }
-.collapsible-header {
-  cursor: pointer;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0;
-  padding: 20px 20px 14px 20px;
-  transition: background 0.15s;
-}
+.collapsible-header { cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0; padding: 22px 22px 16px 22px; transition: background 0.15s; }
 .collapsible-header:hover { background: #f8fafc; }
-.collapsible-header::after {
-  content: '▼';
-  font-size: 11px;
-  color: var(--text-muted);
-  transition: transform 0.2s;
-}
-.collapsible-header.collapsed::after { content: '▶'; }
-.collapsible-content {
-  overflow: hidden;
-  transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
-  max-height: 3000px;
-  opacity: 1;
-  padding: 0 20px 20px 20px;
-}
-.collapsible-content.collapsed {
-  max-height: 0;
-  opacity: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-}
+.collapsible-header::after { content: '\25BC'; font-size: 11px; color: var(--text-muted); transition: transform 0.2s; }
+.collapsible-header.collapsed::after { content: '\25B6'; }
+.collapsible-content { overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease; max-height: 3000px; opacity: 1; padding: 0 22px 22px 22px; }
+.collapsible-content.collapsed { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
 
 /* Pending Overlay */
 .pending-overlay { text-align: center; padding: 60px 20px; color: var(--text-muted); background: var(--bg); border-radius: var(--radius); }
@@ -178,7 +175,15 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 .pending-overlay p { font-size: 13px; color: var(--text-muted); }
 
 /* Footer */
-.footer { text-align: center; padding: 18px; color: var(--text-muted); font-size: 11px; border-top: 1px solid var(--border); margin-top: 8px; }
+.footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 11px; border-top: 1px solid var(--border); margin-top: 8px; }
+
+/* Print */
+@media print {
+  .port-nav, .controls-row, .charts-row { display: none !important; }
+  .collapsible-content { max-height: none !important; opacity: 1 !important; }
+  .card, .table-card { box-shadow: none; border: 1px solid #ccc; }
+  body { background: white; }
+}
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -188,6 +193,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
   .container { padding: 16px; }
   .port-nav { padding: 0 16px; }
   .port-tab { padding: 10px 14px; }
+  .card-value { font-size: 26px; }
 }
 </style>
 </head>
@@ -198,7 +204,12 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
     <div class="logo">SML</div>
     <div>
       <h1 id="dashTitle">Empty Forecast &amp; Vessel Schedule Dashboard</h1>
-      <div class="meta" id="dashMeta">Location: SMD | Type: Dry | Refreshed: 2026-07-06 10:00 | Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking</div>
+      <div class="meta" id="dashMeta">
+        <span class="meta-item">Location: SMD</span>
+        <span class="meta-item">Type: Dry</span>
+        <span class="meta-item">Refreshed: 2026-07-28</span>
+        <span class="meta-item">Data: NAW + CDL + SKD + Live Booking</span>
+      </div>
     </div>
   </div>
   <div class="status-chip" id="headerStatus">LIVE</div>
@@ -208,99 +219,128 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 <div class="port-nav" id="portNav"></div>
 
 <div class="container">
-  <!-- Summary Cards -->
-  <div class="summary-cards" id="summaryCards"></div>
-
-  <!-- Controls -->
-  <div class="controls-row">
-    <div class="week-tabs" id="weekTabs">
-      <div class="week-tab active" onclick="switchWeek(0)">WK0 (07/19-07/25)</div>
-      <div class="week-tab" onclick="switchWeek(1)">WK1 (07/26-08/01)</div>
-      <div class="week-tab" onclick="switchWeek(2)">WK2 (08/02-08/08)</div>
-      <div class="week-tab" onclick="switchWeek(3)">WK3 (08/09-08/15)</div>
-    </div>
-    <div class="section-title">Weekly Detail</div>
-  </div>
-
-  <!-- Charts Row -->
-  <div class="charts-row">
-    <div class="chart-card">
-      <h3>20GP vs 40HC 预测趋势</h3>
-      <div class="chart-container">
-        <canvas id="trendChart"></canvas>
+  <!-- All Ports Overview (hidden by default) -->
+  <div id="allPortsView" style="display:none;">
+    <div class="section-title">7 Port Overview - Balance Comparison</div>
+    <div class="charts-row">
+      <div class="chart-card">
+        <h3>Balance by Port (20GP vs 40HC)</h3>
+        <div class="chart-container"><canvas id="allPortsBarChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>Inbound vs Outbound by Port</h3>
+        <div class="chart-container"><canvas id="allPortsIOChart"></canvas></div>
       </div>
     </div>
-    <div class="chart-card">
-      <h3 id="weekPieTitle">WK0 Flow Breakdown</h3>
-      <div class="chart-container">
-        <canvas id="pieChart"></canvas>
+    <div class="table-card">
+      <h3>7 Port Summary - WK0</h3>
+      <div style="overflow-x:auto;">
+        <table class="data-table" id="allPortsTable">
+          <thead><tr><th>Port</th><th>Start Empty</th><th>Inbound Total</th><th>Outbound Total</th><th>Pickup Volume</th><th>Balance</th><th>20GP</th><th>40HC</th></tr></thead>
+          <tbody></tbody>
+        </table>
       </div>
     </div>
+    <div class="section-title">Pickup Volume by Port</div>
+    <div class="all-ports-grid" id="allPortsPickupGrid"></div>
   </div>
 
-  <!-- Main Forecast Table -->
-  <div class="table-card" id="forecastCard">
-    <h3 id="tableTitle">WK0 空箱预测明细</h3>
-    <div style="overflow-x:auto;">
-      <table class="data-table" id="forecastTable">
-        <thead>
-          <tr>
-            <th>No.</th><th>Division</th><th>Sign</th><th>Total</th>
-            <th>20GP</th><th>20HC</th><th>40GP</th><th>53HC</th><th>45HW</th><th>40HC</th><th>45HC</th>
-            <th>Vessel Count</th><th>Detail</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+  <!-- Single Port View (default) -->
+  <div id="singlePortView">
+    <!-- Summary Cards -->
+    <div class="summary-cards" id="summaryCards"></div>
+
+    <!-- Controls -->
+    <div class="controls-row">
+      <div class="week-tabs" id="weekTabs">
+        <div class="week-tab active" onclick="switchWeek(0)">WK0 (07/27-08/02)</div>
+        <div class="week-tab" onclick="switchWeek(1)">WK1 (08/03-08/09)</div>
+        <div class="week-tab" onclick="switchWeek(2)">WK2 (08/10-08/16)</div>
+        <div class="week-tab" onclick="switchWeek(3)">WK3 (08/17-08/23)</div>
+      </div>
+      <div class="section-title">Weekly Detail</div>
     </div>
-  </div>
 
-  <!-- Booking Table -->
-  <div class="table-card" id="bookingCard">
-    <h3 id="bookingTitle">WK0 Booking Details</h3>
-    <div style="overflow-x:auto;">
-      <table class="data-table" id="bookingTable">
-        <thead>
-          <tr>
-            <th>VVD</th><th>ETA</th><th>Service</th><th>Alloc (TEU)</th><th>Booked (TEU)</th>
-            <th>20GP</th><th>40HC</th><th>Gap</th><th>Completion</th><th>Terminal</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <!-- Charts Row -->
+    <div class="charts-row">
+      <div class="chart-card">
+        <h3>Balance Trend (20GP / 40HC / Total)</h3>
+        <div class="chart-container">
+          <canvas id="trendChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3 id="weekPieTitle">WK0 Supply vs Demand</h3>
+        <div class="chart-container">
+          <canvas id="pieChart"></canvas>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- Vessel Schedule -->
-  <div class="vessel-section" id="vesselSection"></div>
-
-  <!-- Cargo Split Detail -->
-  <div class="table-card collapsible-card" id="cargoSplitCard">
-    <h3 id="cargoSplitTitle" class="collapsible-header" data-section="cargoSplit">WK0 Cargo Split Detail (CDL Actual)</h3>
-    <div class="collapsible-content" style="overflow-x:auto;">
-      <table class="data-table" id="cargoSplitTable">
-        <thead>
-          <tr><th>Vessel</th><th>Inbound(F) 20GP</th><th>Inbound(F) 40HC</th><th>Repo(P) 20GP</th><th>Repo(P) 40HC</th><th>outVvdCd</th><th>Match</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <!-- Main Forecast Table -->
+    <div class="table-card" id="forecastCard">
+      <h3 id="tableTitle">WK0 空箱预测明细</h3>
+      <div style="overflow-x:auto;">
+        <table class="data-table" id="forecastTable">
+          <thead>
+            <tr>
+              <th>No.</th><th>Division</th><th>Sign</th><th>Total</th>
+              <th>20GP</th><th>20HC</th><th>40GP</th><th>53HC</th><th>45HW</th><th>40HC</th><th>45HC</th>
+              <th>Vessel Count</th><th>Detail</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
-  </div>
 
-  <div class="table-card collapsible-card" id="allocationCard">
-    <h3 id="allocationTitle" class="collapsible-header" data-section="allocation">Allocation Target by Lane (CNSHA)</h3>
-    <div class="collapsible-content" style="overflow-x:auto;">
-      <table class="data-table" id="allocationTable">
-        <thead>
-          <tr><th>Report WK</th><th>Cal Week</th><th>CCT</th><th>CH1</th><th>CP8</th><th>HDT</th><th>NP2</th><th style="background:#e3f2fd;">Total Target</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <!-- Booking Table -->
+    <div class="table-card" id="bookingCard">
+      <h3 id="bookingTitle">WK0 Booking Details</h3>
+      <div style="overflow-x:auto;">
+        <table class="data-table" id="bookingTable">
+          <thead>
+            <tr>
+              <th>VVD</th><th>ETA</th><th>Service</th><th>Alloc (TEU)</th><th>Booked (TEU)</th>
+              <th>20GP</th><th>40HC</th><th>Gap</th><th>Completion</th><th>Terminal</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Vessel Schedule -->
+    <div class="vessel-section" id="vesselSection"></div>
+
+    <!-- Cargo Split Detail -->
+    <div class="table-card collapsible-card" id="cargoSplitCard">
+      <h3 id="cargoSplitTitle" class="collapsible-header" data-section="cargoSplit">WK0 Cargo Split Detail (CDL Actual)</h3>
+      <div class="collapsible-content" style="overflow-x:auto;">
+        <table class="data-table" id="cargoSplitTable">
+          <thead>
+            <tr><th>Vessel</th><th>Inbound(F) 20GP</th><th>Inbound(F) 40HC</th><th>Repo(P) 20GP</th><th>Repo(P) 40HC</th><th>outVvdCd</th><th>Match</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-card collapsible-card" id="allocationCard">
+      <h3 id="allocationTitle" class="collapsible-header" data-section="allocation">Allocation Target by Lane (CNSHA)</h3>
+      <div class="collapsible-content" style="overflow-x:auto;">
+        <table class="data-table" id="allocationTable">
+          <thead>
+            <tr><th>Report WK</th><th>Cal Week</th><th>CCT</th><th>CH1</th><th>CP8</th><th>HDT</th><th>NP2</th><th style="background:#e3f2fd;">Total Target</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
   <div class="footer" id="footerText">
-    Empty Forecast Dashboard v11 | Multi-Port | Auto-generated 2026-07-06 10:00 | Data from ops.culines.com NAW System &amp; Live Dashboard
+    Empty Forecast Dashboard v12 | Multi-Port | Auto-generated 2026-07-28 | Data from ops.culines.com NAW System &amp; Live Dashboard
   </div>
 </div>
 
@@ -1828,7 +1868,8 @@ const portData = {
 // ============================================================
 let currentPort = 'CNSHA';
 let currentWeek = 0;
-let trendChart, pieChart;
+let isAllPortsView = false;
+let trendChart, pieChart, allPortsBarChart, allPortsIOChart;
 
 const indicators = ["Start Empty","Inbound Generation","Reposition In","OW & On-hire","+ Other","Outbound Pick-up","Reposition out","OneWay & Off Hire","- Other","Balance(Forecast)"];
 const signs = ["+","+","+","+","+","-","-","-","-","="];
@@ -1878,23 +1919,47 @@ function getStartEmptyBreakdown(wk) {
 // ============================================================
 function renderPortNav() {
   const nav = document.getElementById('portNav');
-  nav.innerHTML = Object.entries(PORT_CONFIG).map(([code, cfg]) => `
-    <div class="port-tab ${code === currentPort ? 'active' : ''}" onclick="switchPort('${code}')">
-      <span class="port-status ${cfg.live ? 'live' : 'pending'}"></span>${code}
-      <span class="port-label">${cfg.name}</span>
+  let html = `<div class="port-tab all-ports ${isAllPortsView ? 'active' : ''}" onclick="switchToAllPorts()">
+    <span class="port-color-bar"></span>
+    <span>ALL PORTS</span>
+  </div>`;
+  html += Object.entries(PORT_CONFIG).map(([code, cfg]) => `
+    <div class="port-tab ${code === currentPort && !isAllPortsView ? 'active' : ''}" onclick="switchPort('${code}')">
+      <span class="port-color-bar" style="background:${cfg.color};"></span>
+      <span><span class="port-status ${cfg.live ? 'live' : 'pending'}"></span>${code}
+      <span class="port-label">${cfg.name}</span></span>
     </div>
   `).join('');
+  nav.innerHTML = html;
+}
+
+function switchToAllPorts() {
+  isAllPortsView = true;
+  currentPort = null;
+  renderPortNav();
+  document.getElementById('allPortsView').style.display = '';
+  document.getElementById('singlePortView').style.display = 'none';
+  document.getElementById('dashTitle').textContent = 'All Ports Overview - Empty Forecast Dashboard';
+  document.getElementById('dashMeta').innerHTML = '<span class="meta-item">7 Ports</span><span class="meta-item">Type: Dry</span><span class="meta-item">Refreshed: 2026-07-28</span><span class="meta-item">Data: NAW + CDL + SKD + Live Booking</span>';
+  if (trendChart) { trendChart.destroy(); trendChart = null; }
+  if (pieChart) { pieChart.destroy(); pieChart = null; }
+  renderAllPortsView();
 }
 
 function switchPort(portCode) {
+  isAllPortsView = false;
   currentPort = portCode;
   currentWeek = 0;
   renderPortNav();
+  document.getElementById('allPortsView').style.display = 'none';
+  document.getElementById('singlePortView').style.display = '';
   renderWeekTabs();
   updateHeaderMeta();
   renderAll();
   if (trendChart) trendChart.destroy();
   if (pieChart) pieChart.destroy();
+  if (allPortsBarChart) { allPortsBarChart.destroy(); allPortsBarChart = null; }
+  if (allPortsIOChart) { allPortsIOChart.destroy(); allPortsIOChart = null; }
   initCharts();
 }
 
@@ -1910,12 +1975,10 @@ function updateHeaderMeta() {
   const cfg = pc();
   const d = pd();
   document.getElementById('dashTitle').textContent = `${currentPort} (${cfg.name}) Empty Forecast & Vessel Schedule Dashboard`;
-  const status = cfg.live ? 'LIVE' : '待刷新 Pending';
-  document.getElementById('dashMeta').textContent =
-    `Location: SMD | Port: ${currentPort} | Type: Dry | Status: ${status} | Refreshed: 2026-07-06 10:00 | Data Sources: Empty Forecast + CDL Actual + SKD Schedule + Live Booking`;
+  document.getElementById('dashMeta').innerHTML = `<span class="meta-item">Port: ${currentPort}</span><span class="meta-item">Type: Dry</span><span class="meta-item">Status: ${cfg.live ? 'LIVE' : 'Pending'}</span><span class="meta-item">Refreshed: 2026-07-28</span><span class="meta-item">Data: NAW + CDL + SKD + Live Booking</span>`;
   const statusChip = document.getElementById('headerStatus');
   if (statusChip) {
-    statusChip.textContent = status;
+    statusChip.textContent = cfg.live ? 'LIVE' : 'PENDING';
     statusChip.style.background = cfg.live ? 'rgba(52,211,153,0.18)' : 'rgba(251,191,36,0.18)';
     statusChip.style.color = cfg.live ? '#34d399' : '#fbbf24';
   }
@@ -1981,7 +2044,7 @@ function renderSummaryCards() {
   let html = `
     <div class="card ${d0[0] >= 0 ? 'positive' : 'negative'}">
       <div class="card-icon">BAL</div>
-      <div class="card-title">WK0 Balance(Forecast)</div>
+      <div class="card-title">WK0 Balance (Forecast)</div>
       <div class="card-value">${d0[0].toLocaleString()}</div>
       <div class="card-sub">20GP: ${fmt(bal0[0],d0[0])} | 40HC: ${fmt(bal0[1],d0[0])}</div>
     </div>
@@ -1999,9 +2062,23 @@ function renderSummaryCards() {
     </div>
     <div class="card positive">
       <div class="card-icon">IN</div>
-      <div class="card-title">WK0 Inbound ${(ibTotal20+ibTotal40 > 0) ? '(CDL Actual)' : '(Forecast)'}</div>
+      <div class="card-title">WK0 Inbound ${(ibTotal20+ibTotal40 > 0) ? '(CDL)' : '(Forecast)'}</div>
       <div class="card-value">${(inbound0[0] + repo0[0]).toLocaleString()}</div>
-      <div class="card-sub">${(ibTotal20+ibTotal40 > 0) ? '<span class="tag tag-cdl">CDL</span>' : '<span class="tag tag-forecast">Forecast</span>'} ${ibSum20+ibSum40} (20GP:${ibSum20} / 40HC:${ibSum40})</div>
+      <div class="card-sub">${(ibTotal20+ibTotal40 > 0) ? '<span class="tag tag-cdl">CDL</span>' : '<span class="tag tag-forecast">Forecast</span>'} 20GP:${ibSum20} / 40HC:${ibSum40}</div>
+    </div>
+  `;
+
+  // Pickup Volume card
+  const pickupVol = data.pickupVolumeByWeek ? data.pickupVolumeByWeek['WK0'] : null;
+  const pickupFt20 = pickupVol ? (pickupVol['20GP'] || 0) : 0;
+  const pickupFt40 = pickupVol ? (pickupVol['40HC'] || 0) : 0;
+  const pickupTeu = pickupFt20 * 1 + pickupFt40 * 2;
+  html += `
+    <div class="card" style="border-left:none;">
+      <div class="card-icon" style="background:var(--success-soft);color:var(--success);">PKU</div>
+      <div class="card-title">WK0 Pickup Volume (CIN)</div>
+      <div class="card-value" style="color:var(--success);">${pickupTeu.toLocaleString()}</div>
+      <div class="card-sub"><span class="tag tag-cdl">CIN_M1051</span> 20GP:${pickupFt20} / 40HC:${pickupFt40}</div>
     </div>
   `;
 
@@ -2204,12 +2281,12 @@ function renderForecastTable(wk) {
         <td style="text-align:left;font-size:11px;">${obDetailHtml}</td></tr>`;
       // PICK UP VOLUME row (CIN_M1051 Movement Performance OP data)
       rowNum++;
-      html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">PICK UP VOLUME</span></td><td></td>
+      html += `<tr class="pickup-row"><td>${rowNum}</td><td><span class="tag tag-ibo">PICK UP VOLUME</span></td><td></td>
         <td><strong>${pickupTeu.toLocaleString()}</strong></td>
         <td>${pickupFt20||''}</td><td>${pickupFt40||''}</td>
         <td></td>
         <td style="text-align:left;font-size:11px;">
-          <span class="tag tag-cdl">CIN_M1051 OP Movement</span> ${pickupFt20}(20GP)/${pickupFt40}(40HC)
+          <span class="tag tag-cdl">CIN_M1051 OP</span> 20GP:${pickupFt20} / 40HC:${pickupFt40}
         </td></tr>`;
     }
   });
@@ -2629,27 +2706,31 @@ function renderVesselSection(wk) {
   const vessels = data.vesselsByWeek['WK' + wk] || [];
   let html = `<div class="table-card collapsible-card">
     <h3 class="collapsible-header" data-section="vesselSchedule">WK${wk} Vessel Schedule - ${currentPort} (${vessels.length} vessels)</h3>
-    <div class="collapsible-content"><div class="vessel-grid">`;
+    <div class="collapsible-content"><div style="overflow-x:auto;"><table class="vessel-table">
+      <thead><tr><th>Voyage</th><th>ETA</th><th>Lane</th><th>Terminal</th><th>Discharge 20GP</th><th>Discharge 40HC</th><th>Booking</th></tr></thead>
+      <tbody>`;
   if (vessels.length === 0) {
-    html += `<div style="color:#bbb;padding:20px;grid-column:1/-1;">No vessels scheduled for this week.</div>`;
+    html += `<tr><td colspan="7" style="color:#bbb;padding:20px;text-align:center;">No vessels scheduled for this week.</td></tr>`;
   }
   vessels.forEach(v => {
-    let cls = '';
-    if (v.dis20 > 0 || v.dis40 > 0) cls = 'has-discharge';
-    if (data.bookingByVessel[v.voyage]) cls = 'has-booking';
-    let extra = '';
-    if (v.dis20 > 0 || v.dis40 > 0) extra = `<div class="detail"><span class="tag tag-cdl">Dis: ${v.dis20||0}/${v.dis40||0}</span></div>`;
+    let rowCls = '';
+    if (v.dis20 > 0 || v.dis40 > 0) rowCls = 'has-discharge';
+    if (data.bookingByVessel[v.voyage]) rowCls = 'has-booking';
+    let disStr = (v.dis20 > 0 || v.dis40 > 0) ? `${v.dis20||0} / ${v.dis40||0}` : '<span style="color:#ccc;">—</span>';
+    let bookStr = '<span style="color:#ccc;">—</span>';
     if (data.bookingByVessel[v.voyage]) {
       const bk = data.bookingByVessel[v.voyage];
-      extra += `<div class="detail"><span class="tag tag-booking">Book: ${bk.alloc}/${bk.current} (${bk.ft20}/${bk.ft40})</span></div>`;
+      bookStr = `<span class="tag tag-booking">${bk.alloc} / ${bk.current}</span> <span style="font-size:10px;color:#888;">(${bk.ft20}/${bk.ft40})</span>`;
     }
-    html += `<div class="vessel-chip ${cls}">
-      <div class="voyage">${v.voyage}</div>
-      <div class="detail">${v.eta} | ${v.lane} | ${v.terminal}</div>
-      ${extra}
-    </div>`;
+    html += `<tr class="${rowCls}">
+      <td><strong>${v.voyage}</strong></td>
+      <td>${v.eta}</td><td>${v.lane}</td><td>${v.terminal}</td>
+      <td>${v.dis20||'<span style="color:#ccc;">—</span>'}</td>
+      <td>${v.dis40||'<span style="color:#ccc;">—</span>'}</td>
+      <td>${bookStr}</td>
+    </tr>`;
   });
-  html += '</div></div></div>';
+  html += '</tbody></table></div></div></div>';
   section.innerHTML = html;
 }
 
@@ -2772,13 +2853,16 @@ function initCharts() {
         datasets: [
           { label: '20GP Balance',
             data: balances.map(b => b[0]),
-            borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,0.1)', tension: 0.3, fill: true },
+            borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', tension: 0.3, fill: true, borderWidth: 2 },
           { label: '40HC Balance',
             data: balances.map(b => b[1]),
-            borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,0.1)', tension: 0.3, fill: true }
+            borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', tension: 0.3, fill: true, borderWidth: 2 },
+          { label: 'Total Balance',
+            data: balances.map(b => b[0] + b[1]),
+            borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.05)', tension: 0.3, fill: false, borderWidth: 2, borderDash: [5,5] }
         ]
       },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { title: { display: true, text: 'Units' } } } }
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } }, scales: { y: { title: { display: true, text: 'Units' } } } }
     });
     updatePieChart(0);
   } else {
@@ -2800,18 +2884,28 @@ function updatePieChart(wk) {
   const dIn = data.forecastData["Inbound Generation"][String(wk)];
   const dRepo = data.forecastData["Reposition In"][String(wk)];
   const dOut = data.forecastData["Outbound Pick-up"][String(wk)];
+  const dRepoOut = data.forecastData["Reposition out"][String(wk)];
+  const dOW = data.forecastData["OneWay & Off Hire"][String(wk)];
   if (pieChart) pieChart.destroy();
   const ctx = document.getElementById('pieChart').getContext('2d');
   pieChart = new Chart(ctx, {
-    type: 'doughnut',
+    type: 'bar',
     data: {
-      labels: ['Start Empty', 'Inbound Gen', 'Repo In', 'Outbound'],
-      datasets: [{ data: [Math.abs(dStart[0]), dIn[0], dRepo[0], dOut[0]],
-        backgroundColor: [pc().color, '#4caf50', '#81c784', '#ff7043'], borderWidth: 2, borderColor: '#fff' }]
+      labels: ['Start Empty', 'Inbound Gen', 'Repo In', 'Outbound PU', 'Repo Out', 'OW & Off'],
+      datasets: [{
+        label: 'TEU',
+        data: [dStart[0], dIn[0], dRepo[0], dOut[0], dRepoOut[0], dOW[0]],
+        backgroundColor: ['#3b82f6', '#10b981', '#34d399', '#f59e0b', '#ef4444', '#f87171'],
+        borderRadius: 4,
+      }]
     },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, title: { display: true, text: `WK${wk} Flow Breakdown` } } }
+    options: {
+      responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { display: false }, title: { display: true, text: `WK${wk} Flow Breakdown (TEU)` } },
+      scales: { x: { title: { display: true, text: 'TEU' } } }
+    }
   });
-  document.getElementById('weekPieTitle').textContent = `WK${wk} Flow Breakdown`;
+  document.getElementById('weekPieTitle').textContent = `WK${wk} Supply vs Demand`;
 }
 
 // ============================================================
@@ -2871,6 +2965,99 @@ function restoreCollapsible(header) {
 
 function refreshCollapsibleStates() {
   document.querySelectorAll('.collapsible-header').forEach(restoreCollapsible);
+}
+
+// ============================================================
+// ===== ALL PORTS VIEW =====
+// ============================================================
+function renderAllPortsView() {
+  const portCodes = Object.keys(PORT_CONFIG);
+  let tableHtml = '';
+  let pickupHtml = '';
+  const balances20 = [], balances40 = [], inbounds = [], outbounds = [];
+  const balanceLabels = portCodes.map(code => PORT_CONFIG[code].label);
+
+  portCodes.forEach(code => {
+    const d = portData[code];
+    const cfg = PORT_CONFIG[code];
+    const balRow = d.forecastData["Balance(Forecast)"]["0"];
+    const bal = (function() {
+      const wk = 0;
+      const supplyT = ["Start Empty","Inbound Generation","Reposition In","OW & On-hire","+ Other"].reduce((s,ind) => {
+        const r = d.forecastData[ind][String(wk)]; return [s[0]+r[0],s[1]+r[1],s[2]+r[2],s[3]+r[3],s[4]+r[4],s[5]+r[5],s[6]+r[6],s[7]+r[7]];
+      }, [0,0,0,0,0,0,0,0]);
+      const demandT = ["Outbound Pick-up","Reposition out","OneWay & Off Hire","- Other"].reduce((s,ind) => {
+        const r = d.forecastData[ind][String(wk)]; return [s[0]+r[0],s[1]+r[1],s[2]+r[2],s[3]+r[3],s[4]+r[4],s[5]+r[5],s[6]+r[6],s[7]+r[7]];
+      }, [0,0,0,0,0,0,0,0]);
+      return [supplyT[1] - demandT[1], supplyT[6] - demandT[6]];
+    })();
+    const start0 = d.forecastData["Start Empty"]["0"];
+    const out0 = d.forecastData["Outbound Pick-up"]["0"];
+    const inGen0 = d.forecastData["Inbound Generation"]["0"];
+    const repo0 = d.forecastData["Reposition In"]["0"];
+    const ibTotal = inGen0[0] + repo0[0];
+    const pickupVol = d.pickupVolumeByWeek ? d.pickupVolumeByWeek['WK0'] : null;
+    const p20 = pickupVol ? (pickupVol['20GP'] || 0) : 0;
+    const p40 = pickupVol ? (pickupVol['40HC'] || 0) : 0;
+    const pTeu = p20 * 1 + p40 * 2;
+
+    balances20.push(bal[0]);
+    balances40.push(bal[1]);
+    inbounds.push(ibTotal);
+    outbounds.push(out0[0]);
+
+    const balCls = balRow[0] >= 0 ? 'color:var(--success);font-weight:700;' : 'color:var(--danger);font-weight:700;';
+    tableHtml += `<tr>
+      <td><strong style="color:${cfg.color};">${code}</strong><br><span style="font-size:10px;color:var(--text-muted);">${cfg.name}</span></td>
+      <td>${start0[0].toLocaleString()}</td>
+      <td>${ibTotal.toLocaleString()}</td>
+      <td>${out0[0].toLocaleString()}</td>
+      <td>${pTeu > 0 ? pTeu.toLocaleString() : '<span style="color:#ccc;">0</span>'}</td>
+      <td style="${balCls}">${balRow[0].toLocaleString()}</td>
+      <td>${bal[0]||'<span style="color:#ccc;">—</span>'}</td>
+      <td>${bal[1]||'<span style="color:#ccc;">—</span>'}</td>
+    </tr>`;
+
+    pickupHtml += `<div class="port-mini-card" style="border-top:3px solid ${cfg.color};">
+      <div class="port-code" style="color:${cfg.color};">${code}</div>
+      <div class="port-name">${cfg.name}</div>
+      <div class="port-balance" style="color:${pTeu > 0 ? 'var(--success)' : 'var(--text-light)'};">${pTeu}</div>
+      <div class="port-breakdown">20GP: ${p20} | 40HC: ${p40}</div>
+    </div>`;
+  });
+
+  document.querySelector('#allPortsTable tbody').innerHTML = tableHtml;
+  document.getElementById('allPortsPickupGrid').innerHTML = pickupHtml;
+
+  // Balance bar chart
+  if (allPortsBarChart) allPortsBarChart.destroy();
+  const ctx1 = document.getElementById('allPortsBarChart').getContext('2d');
+  allPortsBarChart = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: balanceLabels,
+      datasets: [
+        { label: '20GP', data: balances20, backgroundColor: '#3b82f6', borderRadius: 4 },
+        { label: '40HC', data: balances40, backgroundColor: '#f59e0b', borderRadius: 4 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true } } }, scales: { y: { title: { display: true, text: 'Units' } } } }
+  });
+
+  // Inbound vs Outbound chart
+  if (allPortsIOChart) allPortsIOChart.destroy();
+  const ctx2 = document.getElementById('allPortsIOChart').getContext('2d');
+  allPortsIOChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: balanceLabels,
+      datasets: [
+        { label: 'Inbound', data: inbounds, backgroundColor: '#10b981', borderRadius: 4 },
+        { label: 'Outbound', data: outbounds, backgroundColor: '#ef4444', borderRadius: 4 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true } } }, scales: { y: { title: { display: true, text: 'TEU' } } } }
+  });
 }
 
 // ============================================================
