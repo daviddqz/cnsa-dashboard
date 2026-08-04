@@ -1852,14 +1852,26 @@ function pc() { return PORT_CONFIG[currentPort]; }
 
 // Compute Balance 20GP/40HC breakdown when original forecast breakdown is zero
 // (matches the display logic in renderForecastTable: supplyTotal - demandTotal)
+// Honors CDL cargoSplitData Reposition In override so Balance -> next week's Start Empty is consistent.
 function getBalanceBreakdown(wk) {
   const data = pd();
   const row = data.forecastData["Balance(Forecast)"][String(wk)];
   if (row[1] !== 0 || row[6] !== 0 || row[0] === 0) {
     return [row[1], row[6]];
   }
+  // CDL Reposition In override (same logic as renderForecastTable)
+  const csd = data.cargoSplitData ? data.cargoSplitData['WK' + wk] : null;
+  let repoInOverride = null;
+  if (csd && csd.length > 0) {
+    const repoP20 = csd.reduce((s, v) => s + (v.p20 || 0), 0);
+    const repoP40 = csd.reduce((s, v) => s + (v.p40 || 0), 0);
+    if (repoP20 + repoP40 > 0) {
+      repoInOverride = [repoP20 + repoP40, repoP20, 0, 0, 0, 0, repoP40, 0];
+    }
+  }
+  const getRepoInRow = () => repoInOverride || data.forecastData['Reposition In'][String(wk)];
   const supplyTotal = indicators.filter((ind, j) => signs[j] === '+').reduce((sum, ind) => {
-    const r = data.forecastData[ind][String(wk)];
+    const r = (ind === 'Reposition In') ? getRepoInRow() : data.forecastData[ind][String(wk)];
     return [sum[0] + r[0], sum[1] + r[1], sum[2] + r[2], sum[3] + r[3], sum[4] + r[4], sum[5] + r[5], sum[6] + r[6], sum[7] + r[7]];
   }, [0, 0, 0, 0, 0, 0, 0, 0]);
   const demandTotal = indicators.filter((ind, j) => signs[j] === '-').reduce((sum, ind) => {
