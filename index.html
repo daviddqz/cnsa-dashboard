@@ -2008,8 +2008,12 @@ function renderSummaryCards() {
   const fmt = (val, total) => (val === 0 && total !== 0) ? '—' : val;
 
   // WK0 core metrics
+  // Note: d0[0] is NAW's original Balance Total (uses original forecast Repo In).
+  // When CDL override is applied, the actual Balance = supply(CDL) - demand = bal0[0]+bal0[1].
+  // Display Total should match the breakdown, so use bal0 sum.
   const d0 = data.forecastData["Balance(Forecast)"]["0"];
   const bal0 = getBalanceBreakdown(0);
+  const bal0Total = bal0[0] + bal0[1];
   const start0 = data.forecastData["Start Empty"]["0"];
   const startBreakdown0 = getStartEmptyBreakdown(0);
   const out0 = data.forecastData["Outbound Pick-up"]["0"];
@@ -2030,11 +2034,11 @@ function renderSummaryCards() {
   const ibSum40 = (ibTotal20 + ibTotal40 > 0) ? ibTotal40 : ibFallback40;
 
   let html = `
-    <div class="card ${d0[0] >= 0 ? 'positive' : 'negative'}">
+    <div class="card ${bal0Total >= 0 ? 'positive' : 'negative'}">
       <div class="card-icon">BAL</div>
       <div class="card-title">WK0 Balance (Forecast)</div>
-      <div class="card-value">${d0[0].toLocaleString()}</div>
-      <div class="card-sub">20GP: ${fmt(bal0[0],d0[0])} | 40HC: ${fmt(bal0[1],d0[0])}</div>
+      <div class="card-value">${bal0Total.toLocaleString()}</div>
+      <div class="card-sub">20GP: ${fmt(bal0[0],bal0Total)} | 40HC: ${fmt(bal0[1],bal0Total)}</div>
     </div>
     <div class="card info">
       <div class="card-icon">INV</div>
@@ -2071,15 +2075,17 @@ function renderSummaryCards() {
   `;
 
   // Balance cards for WK1..WK(N-1)
+  // Total uses CDL-overridden supply-demand (bal[0]+bal[1]) to stay consistent with breakdown
   for (let wk = 1; wk < weekCount; wk++) {
     const balRow = data.forecastData["Balance(Forecast)"][String(wk)];
     const bal = getBalanceBreakdown(wk);
+    const balTotal = bal[0] + bal[1];
     html += `
-      <div class="card ${balRow[0] >= 0 ? 'positive' : 'negative'}">
+      <div class="card ${balTotal >= 0 ? 'positive' : 'negative'}">
         <div class="card-icon">WK${wk}</div>
         <div class="card-title">WK${wk} Balance</div>
-        <div class="card-value">${balRow[0].toLocaleString()}</div>
-        <div class="card-sub">20GP: ${fmt(bal[0],balRow[0])} | 40HC: ${fmt(bal[1],balRow[0])}</div>
+        <div class="card-value">${balTotal.toLocaleString()}</div>
+        <div class="card-sub">20GP: ${fmt(bal[0],balTotal)} | 40HC: ${fmt(bal[1],balTotal)}</div>
       </div>
     `;
   }
@@ -2252,14 +2258,18 @@ function renderForecastTable(wk) {
       <td>${cell(demandTotal[1],demandTotal[0])}</td><td>${cell(demandTotal[6],demandTotal[0])}</td>
         <td></td><td style="text-align:left;font-size:11px;color:#c62828;">Total Demand (Outbound+RepoOut+OWOff+Other)</td></tr>`;
       // Balance(Forecast) row (rendered manually here instead of main loop)
+      // Total uses supply-demand (with CDL override applied), NOT NAW's original row[0]
+      // because NAW's Balance Total is computed with original forecast Repo In,
+      // but display Repo In is CDL-overridden — Total must follow the same logic.
       const balRow = data.forecastData['Balance(Forecast)'][String(wk)];
+      const balComputedTotal = supplyTotal[0] - demandTotal[0];
       const balDisplayRow = (balRow[1] === 0 && balRow[6] === 0 && balRow[0] !== 0)
-        ? [balRow[0], supplyTotal[1] - demandTotal[1], balRow[2], balRow[3], balRow[4], balRow[5], supplyTotal[6] - demandTotal[6], balRow[7]]
+        ? [balComputedTotal, supplyTotal[1] - demandTotal[1], balRow[2], balRow[3], balRow[4], balRow[5], supplyTotal[6] - demandTotal[6], balRow[7]]
         : balRow;
       rowNum++;
       html += `<tr class="balance">
         <td>${rowNum}</td><td>Balance(Forecast)</td><td></td>
-        <td><strong>${balRow[0].toLocaleString()}</strong></td>
+        <td><strong>${balDisplayRow[0].toLocaleString()}</strong></td>
         <td>${cell(balDisplayRow[1], balDisplayRow[0])}</td><td>${cell(balDisplayRow[6], balDisplayRow[0])}</td>
         <td></td><td style="text-align:left;font-size:11px;"><span class="tag tag-forecast">Forecast</span></td></tr>`;
       // O/B Total row (Booking + NAW Work with Booking + Forecast fallback)
@@ -2935,7 +2945,17 @@ function updatePieChart(wk) {
   const data = pd();
   const dStart = data.forecastData["Start Empty"][String(wk)];
   const dIn = data.forecastData["Inbound Generation"][String(wk)];
-  const dRepo = data.forecastData["Reposition In"][String(wk)];
+  // Use CDL-overridden Repo In to match the table display
+  const csd = data.cargoSplitData ? data.cargoSplitData['WK' + wk] : null;
+  let repoInOverride = null;
+  if (csd && csd.length > 0) {
+    const repoP20 = csd.reduce((s, v) => s + (v.p20 || 0), 0);
+    const repoP40 = csd.reduce((s, v) => s + (v.p40 || 0), 0);
+    if (repoP20 + repoP40 > 0) {
+      repoInOverride = [repoP20 + repoP40, repoP20, 0, 0, 0, 0, repoP40, 0];
+    }
+  }
+  const dRepo = repoInOverride || data.forecastData["Reposition In"][String(wk)];
   const dOut = data.forecastData["Outbound Pick-up"][String(wk)];
   const dRepoOut = data.forecastData["Reposition out"][String(wk)];
   const dOW = data.forecastData["OneWay & Off Hire"][String(wk)];
@@ -3033,22 +3053,43 @@ function renderAllPortsView() {
   portCodes.forEach(code => {
     const d = portData[code];
     const cfg = PORT_CONFIG[code];
-    const balRow = d.forecastData["Balance(Forecast)"]["0"];
-    const bal = (function() {
-      const wk = 0;
-      const supplyT = ["Start Empty","Inbound Generation","Reposition In","OW & On-hire","+ Other"].reduce((s,ind) => {
-        const r = d.forecastData[ind][String(wk)]; return [s[0]+r[0],s[1]+r[1],s[2]+r[2],s[3]+r[3],s[4]+r[4],s[5]+r[5],s[6]+r[6],s[7]+r[7]];
-      }, [0,0,0,0,0,0,0,0]);
-      const demandT = ["Outbound Pick-up","Reposition out","OneWay & Off Hire","- Other"].reduce((s,ind) => {
-        const r = d.forecastData[ind][String(wk)]; return [s[0]+r[0],s[1]+r[1],s[2]+r[2],s[3]+r[3],s[4]+r[4],s[5]+r[5],s[6]+r[6],s[7]+r[7]];
-      }, [0,0,0,0,0,0,0,0]);
-      return [supplyT[1] - demandT[1], supplyT[6] - demandT[6]];
-    })();
+    const wk = 0;
+
+    // CDL Reposition In override (same logic as renderForecastTable / getBalanceBreakdown)
+    const csd = d.cargoSplitData ? d.cargoSplitData['WK' + wk] : null;
+    let repoInOverride = null;
+    if (csd && csd.length > 0) {
+      const repoP20 = csd.reduce((s, v) => s + (v.p20 || 0), 0);
+      const repoP40 = csd.reduce((s, v) => s + (v.p40 || 0), 0);
+      if (repoP20 + repoP40 > 0) {
+        repoInOverride = [repoP20 + repoP40, repoP20, 0, 0, 0, 0, repoP40, 0];
+      }
+    }
+    const getRepoInRow = () => repoInOverride || d.forecastData['Reposition In'][String(wk)];
+
+    // CDL I/B Total = F + P
+    const cdlF20 = csd ? csd.reduce((s,v) => s + (v.f20||0), 0) : 0;
+    const cdlF40 = csd ? csd.reduce((s,v) => s + (v.f40||0), 0) : 0;
+    const cdlP20 = csd ? csd.reduce((s,v) => s + (v.p20||0), 0) : 0;
+    const cdlP40 = csd ? csd.reduce((s,v) => s + (v.p40||0), 0) : 0;
+    const cdlHasIBData = (cdlF20 + cdlF40 + cdlP20 + cdlP40) > 0;
+
+    const supplyT = ["Start Empty","Inbound Generation","Reposition In","OW & On-hire","+ Other"].reduce((s,ind) => {
+      const r = (ind === 'Reposition In') ? getRepoInRow() : d.forecastData[ind][String(wk)];
+      return [s[0]+r[0],s[1]+r[1],s[2]+r[2],s[3]+r[3],s[4]+r[4],s[5]+r[5],s[6]+r[6],s[7]+r[7]];
+    }, [0,0,0,0,0,0,0,0]);
+    const demandT = ["Outbound Pick-up","Reposition out","OneWay & Off Hire","- Other"].reduce((s,ind) => {
+      const r = d.forecastData[ind][String(wk)]; return [s[0]+r[0],s[1]+r[1],s[2]+r[2],s[3]+r[3],s[4]+r[4],s[5]+r[5],s[6]+r[6],s[7]+r[7]];
+    }, [0,0,0,0,0,0,0,0]);
+    const bal = [supplyT[1] - demandT[1], supplyT[6] - demandT[6]];
+    const balTotal = bal[0] + bal[1];
+
     const start0 = d.forecastData["Start Empty"]["0"];
     const out0 = d.forecastData["Outbound Pick-up"]["0"];
     const inGen0 = d.forecastData["Inbound Generation"]["0"];
-    const repo0 = d.forecastData["Reposition In"]["0"];
-    const ibTotal = inGen0[0] + repo0[0];
+    const repoInRow = getRepoInRow();
+    // I/B Total: CDL (F+P) if available, else Inbound Gen + Repo In (with CDL override)
+    const ibTotal = cdlHasIBData ? (cdlF20+cdlP20+cdlF40+cdlP40) : (inGen0[0] + repoInRow[0]);
     const pickupVol = d.pickupVolumeByWeek ? d.pickupVolumeByWeek['WK0'] : null;
     const p20 = pickupVol ? (pickupVol['20GP'] || 0) : 0;
     const p40 = pickupVol ? (pickupVol['40HC'] || 0) : 0;
@@ -3059,14 +3100,14 @@ function renderAllPortsView() {
     inbounds.push(ibTotal);
     outbounds.push(out0[0]);
 
-    const balCls = balRow[0] >= 0 ? 'color:var(--success);font-weight:700;' : 'color:var(--danger);font-weight:700;';
+    const balCls = balTotal >= 0 ? 'color:var(--success);font-weight:700;' : 'color:var(--danger);font-weight:700;';
     tableHtml += `<tr>
       <td><strong style="color:${cfg.color};">${code}</strong><br><span style="font-size:10px;color:var(--text-muted);">${cfg.name}</span></td>
       <td>${start0[0].toLocaleString()}</td>
       <td>${ibTotal.toLocaleString()}</td>
       <td>${out0[0].toLocaleString()}</td>
       <td>${pTeu > 0 ? pTeu.toLocaleString() : '<span style="color:#ccc;">0</span>'}</td>
-      <td style="${balCls}">${balRow[0].toLocaleString()}</td>
+      <td style="${balCls}">${balTotal.toLocaleString()}</td>
       <td>${bal[0]||'<span style="color:#ccc;">—</span>'}</td>
       <td>${bal[1]||'<span style="color:#ccc;">—</span>'}</td>
     </tr>`;
