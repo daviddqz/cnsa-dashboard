@@ -2019,8 +2019,11 @@ function renderSummaryCards() {
   const wk0CSD = data.cargoSplitData ? data.cargoSplitData['WK0'] : null;
   const cdlF20 = wk0CSD ? wk0CSD.reduce((s,v) => s + (v.f20||0), 0) : 0;
   const cdlF40 = wk0CSD ? wk0CSD.reduce((s,v) => s + (v.f40||0), 0) : 0;
-  const ibTotal20 = (cdlF20 + cdlF40 > 0) ? cdlF20 : wk0Vessels.reduce((s,v) => s + (v.dis20||0), 0);
-  const ibTotal40 = (cdlF20 + cdlF40 > 0) ? cdlF40 : wk0Vessels.reduce((s,v) => s + (v.dis40||0), 0);
+  const cdlP20 = wk0CSD ? wk0CSD.reduce((s,v) => s + (v.p20||0), 0) : 0;
+  const cdlP40 = wk0CSD ? wk0CSD.reduce((s,v) => s + (v.p40||0), 0) : 0;
+  const cdlHasIBData = (cdlF20 + cdlF40 + cdlP20 + cdlP40) > 0;
+  const ibTotal20 = cdlHasIBData ? (cdlF20 + cdlP20) : wk0Vessels.reduce((s,v) => s + (v.dis20||0), 0);
+  const ibTotal40 = cdlHasIBData ? (cdlF40 + cdlP40) : wk0Vessels.reduce((s,v) => s + (v.dis40||0), 0);
   const ibFallback20 = inbound0[1] + repo0[1];
   const ibFallback40 = inbound0[6] + repo0[6];
   const ibSum20 = (ibTotal20 + ibTotal40 > 0) ? ibTotal20 : ibFallback20;
@@ -2112,12 +2115,18 @@ function renderForecastTable(wk) {
   }
   const getRepoInRow = () => repoInOverride || data.forecastData['Reposition In'][String(wk)];
 
-  // CDL discharge from cargoSplitData (f20/f40 = Inbound Full), fallback to vesselsByWeek.dis20/dis40
+  // CDL discharge from cargoSplitData
+  // F = Inbound Full (客户货柜), P = Reposition In (空箱回拨)
+  // I/B Total (CDL) = F_total + P_total = 全部卸货量
   const cdlF20 = csd ? csd.reduce((s,v) => s + (v.f20||0), 0) : 0;
   const cdlF40 = csd ? csd.reduce((s,v) => s + (v.f40||0), 0) : 0;
-  const ibTotal20 = (cdlF20 + cdlF40 > 0) ? cdlF20 : vessels.reduce((s,v) => s + (v.dis20||0), 0);
-  const ibTotal40 = (cdlF20 + cdlF40 > 0) ? cdlF40 : vessels.reduce((s,v) => s + (v.dis40||0), 0);
-  // I/B Total fallback: if no discharge data, use Inbound Generation + Reposition In from forecast
+  const cdlP20 = csd ? csd.reduce((s,v) => s + (v.p20||0), 0) : 0;
+  const cdlP40 = csd ? csd.reduce((s,v) => s + (v.p40||0), 0) : 0;
+  const cdlHasIBData = (cdlF20 + cdlF40 + cdlP20 + cdlP40) > 0;
+  // When CDL data present, I/B Total = F + P (full discharge)
+  const ibTotal20 = cdlHasIBData ? (cdlF20 + cdlP20) : vessels.reduce((s,v) => s + (v.dis20||0), 0);
+  const ibTotal40 = cdlHasIBData ? (cdlF40 + cdlP40) : vessels.reduce((s,v) => s + (v.dis40||0), 0);
+  // I/B Total fallback: if no CDL data, use Inbound Generation + Reposition In from forecast
   const ibGenRow = data.forecastData['Inbound Generation'][String(wk)];
   const repoInRow = getRepoInRow();
   const ibFallback20 = ibGenRow[1] + repoInRow[1];
@@ -2205,7 +2214,7 @@ function renderForecastTable(wk) {
     if (ind === '+ Other') {
       // I/B Total row (CDL Discharge actual data, or fallback to forecast Inbound Gen + Repo In)
       rowNum++;
-      const ibLabel = ibHasCDL ? '<span class="tag tag-cdl">Discharge (CDL Total)</span>' : (pc().turnTime ? `<span class="tag tag-forecast">Inbound Gen (Turn Time 20GP ${pc().turnTime.days20gp}d / 40HC ${pc().turnTime.days40hc}d) + Repo In</span>` : '<span class="tag tag-forecast">Inbound Gen (Turn Time 拆空) + Repo In (Forecast)</span>');
+      const ibLabel = ibHasCDL ? '<span class="tag tag-cdl">Discharge (F + Repo P) CDL</span>' : (pc().turnTime ? `<span class="tag tag-forecast">Inbound Gen (Turn Time 20GP ${pc().turnTime.days20gp}d / 40HC ${pc().turnTime.days40hc}d) + Repo In</span>` : '<span class="tag tag-forecast">Inbound Gen (Turn Time 拆空) + Repo In (Forecast)</span>');
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">I/B Total</span></td><td></td>
         <td><strong>${ibDisplayTotal.toLocaleString()}</strong></td>
         <td>${ibDisplay20||''}</td><td>${ibDisplay40||''}</td>
