@@ -207,7 +207,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
       <div class="meta" id="dashMeta">
         <span class="meta-item">Location: SMD</span>
         <span class="meta-item">Type: Dry</span>
-        <span class="meta-item">Refreshed: 2026-07-28</span>
+        <span class="meta-item">Refreshed: 2026-08-12</span>
         <span class="meta-item">Data: NAW + CDL + SKD + Live Booking</span>
       </div>
     </div>
@@ -340,7 +340,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
   </div>
 
   <div class="footer" id="footerText">
-    Empty Forecast Dashboard v12 | Multi-Port | Auto-generated 2026-07-28 | Data from ops.culines.com NAW System &amp; Live Dashboard
+    Empty Forecast Dashboard v12 | Multi-Port | Auto-generated 2026-08-12 | Data from ops.culines.com NAW System &amp; Live Dashboard
   </div>
 </div>
 
@@ -1959,7 +1959,7 @@ function switchToAllPorts() {
   document.getElementById('allPortsView').style.display = '';
   document.getElementById('singlePortView').style.display = 'none';
   document.getElementById('dashTitle').textContent = 'All Ports Overview - Empty Forecast Dashboard';
-  document.getElementById('dashMeta').innerHTML = '<span class="meta-item">7 Ports</span><span class="meta-item">Type: Dry</span><span class="meta-item">Refreshed: 2026-07-28</span><span class="meta-item">Data: NAW + CDL + SKD + Live Booking</span>';
+  document.getElementById('dashMeta').innerHTML = '<span class="meta-item">7 Ports</span><span class="meta-item">Type: Dry</span><span class="meta-item">Refreshed: 2026-08-12</span><span class="meta-item">Data: NAW + CDL + SKD + Live Booking</span>';
   if (trendChart) { trendChart.destroy(); trendChart = null; }
   if (pieChart) { pieChart.destroy(); pieChart = null; }
   renderAllPortsView();
@@ -1994,7 +1994,7 @@ function updateHeaderMeta() {
   const cfg = pc();
   const d = pd();
   document.getElementById('dashTitle').textContent = `${currentPort} (${cfg.name}) Empty Forecast & Vessel Schedule Dashboard`;
-  document.getElementById('dashMeta').innerHTML = `<span class="meta-item">Port: ${currentPort}</span><span class="meta-item">Type: Dry</span><span class="meta-item">Status: ${cfg.live ? 'LIVE' : 'Pending'}</span><span class="meta-item">Refreshed: 2026-07-28</span><span class="meta-item">Data: NAW + CDL + SKD + Live Booking</span>`;
+  document.getElementById('dashMeta').innerHTML = `<span class="meta-item">Port: ${currentPort}</span><span class="meta-item">Type: Dry</span><span class="meta-item">Status: ${cfg.live ? 'LIVE' : 'Pending'}</span><span class="meta-item">Refreshed: 2026-08-12</span><span class="meta-item">Data: NAW + CDL + SKD + Live Booking</span>`;
   const statusChip = document.getElementById('headerStatus');
   if (statusChip) {
     statusChip.textContent = cfg.live ? 'LIVE' : 'PENDING';
