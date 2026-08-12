@@ -2183,7 +2183,7 @@ function renderForecastTable(wk) {
   const ibTotal40 = cdlHasIBData ? (cdlF40 + cdlP40) : vessels.reduce((s,v) => s + (v.dis40||0), 0);
   // I/B Total fallback: if no CDL data, use Inbound Generation + Reposition In from forecast
   const ibGenRow = data.forecastData['Inbound Generation'][String(wk)];
-  const repoInRow = getRepoInRow();
+  const repoInRow = getSupplyRow('Reposition In');
   const ibFallback20 = ibGenRow[1] + repoInRow[1];
   const ibFallback40 = ibGenRow[6] + repoInRow[6];
   const ibDisplay20 = (ibTotal20 + ibTotal40 > 0) ? ibTotal20 : ibFallback20;
@@ -3157,7 +3157,7 @@ function renderAllPortsView() {
     const start0 = d.forecastData["Start Empty"]["0"];
     const out0 = d.forecastData["Outbound Pick-up"]["0"];
     const inGen0 = d.forecastData["Inbound Generation"]["0"];
-    const repoInRow = getRepoInRow();
+    const repoInRow = getSupplyRow('Reposition In');
     // I/B Total: CDL (F+P) if available, else Inbound Gen + Repo In (with CDL override)
     const ibTotal = cdlHasIBData ? (cdlF20+cdlP20+cdlF40+cdlP40) : (inGen0[0] + repoInRow[0]);
     const pickupVol = d.pickupVolumeByWeek ? d.pickupVolumeByWeek['WK0'] : null;
