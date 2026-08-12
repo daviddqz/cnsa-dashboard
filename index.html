@@ -349,23 +349,23 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
 // ===== MULTI-PORT DATA STORE =====
 // ============================================================
 const PORT_CONFIG = {
-  CNSHA: { label: 'SHA', name: '上海', live: true, color: '#2e75b6', wkLabels: ['WK0 (08/02-08/08)', 'WK1 (08/09-08/15)', 'WK2 (08/16-08/22)', 'WK3 (08/23-08/29)'], cdlVessels: 13, turnTime: { days20gp: 4, days40hc: 3 } },
-  CNNGB: { label: 'NGB', name: '宁波', live: true, color: '#388e3c', wkLabels: ['WK0 (08/02-08/08)', 'WK1 (08/09-08/15)', 'WK2 (08/16-08/22)', 'WK3 (08/23-08/29)'], cdlVessels: 18 },
-  CNSHK: { label: 'SHK', name: '蛇口/深圳', live: true, color: '#7b1fa2', wkLabels: ['WK0 (08/02-08/08)', 'WK1 (08/09-08/15)', 'WK2 (08/16-08/22)', 'WK3 (08/23-08/29)'], cdlVessels: 21 },
-  CNNAS: { label: 'NAS', name: '南沙/广州', live: true, color: '#e65100', wkLabels: ['WK0 (08/02-08/08)', 'WK1 (08/09-08/15)', 'WK2 (08/16-08/22)', 'WK3 (08/23-08/29)'], cdlVessels: 45 },
-  CNTAO: { label: 'TAO', name: '青岛', live: true, color: '#00695c', wkLabels: ['WK0 (08/02-08/08)', 'WK1 (08/09-08/15)', 'WK2 (08/16-08/22)', 'WK3 (08/23-08/29)'], cdlVessels: 12 },
-  CNSWA: { label: 'SWA', name: '汕头', live: true, color: '#d84315', wkLabels: ['WK0 (08/02-08/08)', 'WK1 (08/09-08/15)', 'WK2 (08/16-08/22)', 'WK3 (08/23-08/29)'], cdlVessels: 6 },
-  CNXMN: { label: 'XMN', name: '厦门', live: true, color: '#00838f', wkLabels: ['WK0 (08/02-08/08)', 'WK1 (08/09-08/15)', 'WK2 (08/16-08/22)', 'WK3 (08/23-08/29)'], cdlVessels: 6 }
+  CNSHA: { label: 'SHA', name: '上海', live: true, color: '#2e75b6', wkLabels: ['WK0 (08/09-08/15)', 'WK1 (08/16-08/22)', 'WK2 (08/23-08/29)', 'WK3 (08/30-09/05)'], cdlVessels: 13, turnTime: { days20gp: 4, days40hc: 3 } },
+  CNNGB: { label: 'NGB', name: '宁波', live: true, color: '#388e3c', wkLabels: ['WK0 (08/09-08/15)', 'WK1 (08/16-08/22)', 'WK2 (08/23-08/29)', 'WK3 (08/30-09/05)'], cdlVessels: 18 },
+  CNSHK: { label: 'SHK', name: '蛇口/深圳', live: true, color: '#7b1fa2', wkLabels: ['WK0 (08/09-08/15)', 'WK1 (08/16-08/22)', 'WK2 (08/23-08/29)', 'WK3 (08/30-09/05)'], cdlVessels: 21 },
+  CNNAS: { label: 'NAS', name: '南沙/广州', live: true, color: '#e65100', wkLabels: ['WK0 (08/09-08/15)', 'WK1 (08/16-08/22)', 'WK2 (08/23-08/29)', 'WK3 (08/30-09/05)'], cdlVessels: 45 },
+  CNTAO: { label: 'TAO', name: '青岛', live: true, color: '#00695c', wkLabels: ['WK0 (08/09-08/15)', 'WK1 (08/16-08/22)', 'WK2 (08/23-08/29)', 'WK3 (08/30-09/05)'], cdlVessels: 12 },
+  CNSWA: { label: 'SWA', name: '汕头', live: true, color: '#d84315', wkLabels: ['WK0 (08/09-08/15)', 'WK1 (08/16-08/22)', 'WK2 (08/23-08/29)', 'WK3 (08/30-09/05)'], cdlVessels: 6 },
+  CNXMN: { label: 'XMN', name: '厦门', live: true, color: '#00838f', wkLabels: ['WK0 (08/09-08/15)', 'WK1 (08/16-08/22)', 'WK2 (08/23-08/29)', 'WK3 (08/30-09/05)'], cdlVessels: 6 }
 };
 
 const portData = {
   CNSHA: {
     forecastData: {
       'Start Empty': {
-        '0': [2303,815,0,0,0,0,1488,0],
-        '1': [1355,0,0,0,0,0,0,0],
-        '2': [75,0,0,0,0,0,0,0],
-        '3': [-788,0,0,0,0,0,0,0],
+        '0': [2119,755,0,0,0,0,1364,0],
+        '1': [1341,0,0,0,0,0,0,0],
+        '2': [221,0,0,0,0,0,0,0],
+        '3': [-688,0,0,0,0,0,0,0],
       },
       'Inbound Generation': {
         '0': [30,15,0,0,0,0,15,0],
@@ -374,10 +374,10 @@ const portData = {
         '3': [30,15,0,0,0,0,15,0],
       },
       'Reposition In': {
-        '0': [441,111,0,0,0,0,330,0],
-        '1': [90,1,0,0,0,0,89,0],
-        '2': [507,336,0,0,0,0,171,0],
-        '3': [54,50,0,0,0,0,4,0],
+        '0': [180,55,0,0,0,0,125,0],
+        '1': [250,36,0,0,0,0,214,0],
+        '2': [461,360,0,0,0,0,101,0],
+        '3': [0,0,0,0,0,0,0,0],
       },
       'OW & On-hire': {
         '0': [0,0,0,0,0,0,0,0],
@@ -392,7 +392,7 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Outbound Pick-up': {
-        '0': [1419,418,0,0,0,0,1001,0],
+        '0': [988,348,0,0,0,0,640,0],
         '1': [1400,500,0,0,0,0,900,0],
         '2': [1400,500,0,0,0,0,900,0],
         '3': [1400,500,0,0,0,0,900,0],
@@ -416,163 +416,182 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Balance(Forecast)': {
-        '0': [1355,0,0,0,0,0,0,0],
-        '1': [75,0,0,0,0,0,0,0],
-        '2': [-788,0,0,0,0,0,0,0],
-        '3': [-2104,0,0,0,0,0,0,0],
+        '0': [1341,0,0,0,0,0,0,0],
+        '1': [221,0,0,0,0,0,0,0],
+        '2': [-688,0,0,0,0,0,0,0],
+        '3': [-2058,0,0,0,0,0,0,0],
       },
     },
     bookingByVessel: {},
     vesselsByWeek: {
       'WK0': [
-        {voyage: 'LYJE2629W', lane: 'MFX', terminal: 'CNSHAT02', eta: '08/02 18:00', dis20: 0, dis40: 0},
-        {voyage: 'XIHG2628S', lane: 'SHT', terminal: 'CNSHAT01', eta: '08/03 01:30', dis20: 0, dis40: 0},
-        {voyage: 'NHZY2602E', lane: 'CGS', terminal: 'CNSHAT02', eta: '08/03 02:00', dis20: 0, dis40: 0},
-        {voyage: 'H8112631W', lane: 'SGX', terminal: 'CNSHAT02', eta: '08/03 09:00', dis20: 0, dis40: 0},
-        {voyage: 'GLSH2629S', lane: 'SHT', terminal: 'CNSHAT03', eta: '08/03 13:30', dis20: 0, dis40: 0},
-        {voyage: 'H8112625N', lane: 'NP2', terminal: 'CNSHAT02', eta: '08/03 17:00', dis20: 0, dis40: 0},
-        {voyage: 'HMBM2628W', lane: 'KCI', terminal: 'CNSHAT03', eta: '08/04 08:00', dis20: 0, dis40: 0},
-        {voyage: 'JHT92637W', lane: 'YRD', terminal: 'CNSHAT04', eta: '08/04 12:00', dis20: 0, dis40: 0},
-        {voyage: 'GLZD2629S', lane: 'SHT', terminal: 'CNSHAT01', eta: '08/04 16:00', dis20: 0, dis40: 0},
-        {voyage: 'JJTY2630S', lane: 'SHT', terminal: 'CNSHAT02', eta: '08/04 17:00', dis20: 0, dis40: 0},
-        {voyage: 'DFMH2627W', lane: 'CGS', terminal: 'CNSHAT02', eta: '08/05 12:00', dis20: 0, dis40: 0},
-        {voyage: 'APCR2621S', lane: 'CP8', terminal: 'CNSHAT02', eta: '08/05 18:00', dis20: 0, dis40: 0},
-        {voyage: 'GLZD2631S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/06 00:00', dis20: 0, dis40: 0},
-        {voyage: 'VRYB2623E', lane: 'CI3', terminal: 'CNSHAT03', eta: '08/06 18:00', dis20: 0, dis40: 0},
-        {voyage: 'CUNS2629S', lane: 'CCT', terminal: 'CNSHAT04', eta: '08/06 21:00', dis20: 0, dis40: 0},
-        {voyage: 'RNSH2630S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/06 21:00', dis20: 0, dis40: 0},
-        {voyage: 'XIHG2630S', lane: 'SHT', terminal: 'CNSHAT01', eta: '08/07 00:00', dis20: 0, dis40: 0},
-        {voyage: 'CUXM2623E', lane: 'HDT', terminal: 'CNSHAT01', eta: '08/07 05:00', dis20: 0, dis40: 0},
-        {voyage: 'HRRR2631S', lane: 'SHT', terminal: 'CNSHAT03', eta: '08/07 20:15', dis20: 0, dis40: 0},
-        {voyage: 'CUYP2632W', lane: 'REX', terminal: 'CNSHAT02', eta: '08/08 09:00', dis20: 0, dis40: 0},
-      ],
-      'WK1': [
-        {voyage: 'GLGD2630S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/09 00:00', dis20: 0, dis40: 0},
-        {voyage: 'MDTN2632S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/09 00:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHC2631W', lane: 'AM1', terminal: 'CNSHAT02', eta: '08/09 22:00', dis20: 0, dis40: 0},
+        {voyage: 'EVLM2633W', lane: 'LHT', terminal: 'CNSHAT03', eta: '08/10 00:00', dis20: 0, dis40: 0},
         {voyage: 'TBN12632W', lane: 'LHT', terminal: 'CNSHAT02', eta: '08/10 01:00', dis20: 0, dis40: 0},
-        {voyage: 'JJSN2632S', lane: 'SHT', terminal: 'CNSHAT03', eta: '08/10 02:00', dis20: 0, dis40: 0},
-        {voyage: 'FH862628S', lane: 'CH1', terminal: 'CNSHAT02', eta: '08/10 05:00', dis20: 0, dis40: 0},
-        {voyage: 'CAOE2660E', lane: 'LHT', terminal: 'CNSHAT07', eta: '08/10 10:00', dis20: 0, dis40: 0},
         {voyage: 'JHT92638W', lane: 'YRD', terminal: 'CNSHAT04', eta: '08/10 11:00', dis20: 0, dis40: 0},
+        {voyage: 'HRRR2631S', lane: 'SHT', terminal: 'CNSHAT03', eta: '08/10 12:00', dis20: 0, dis40: 0},
         {voyage: 'KTPM2624E', lane: 'CI3', terminal: 'CNSHAT03', eta: '08/10 18:00', dis20: 0, dis40: 0},
-        {voyage: 'ZGHZ2630W', lane: 'KCI', terminal: 'CNSHAT03', eta: '08/11 08:00', dis20: 0, dis40: 0},
-        {voyage: 'JJTY2632S', lane: 'SHT', terminal: 'CNSHAT02', eta: '08/12 00:00', dis20: 0, dis40: 0},
+        {voyage: 'HMBM2628W', lane: 'KCI', terminal: 'CNSHAT03', eta: '08/10 19:00', dis20: 0, dis40: 0},
+        {voyage: 'LYJE2629W', lane: 'MFX', terminal: 'CNSHAT02', eta: '08/10 20:00', dis20: 0, dis40: 0},
+        {voyage: 'XIHG2630S', lane: 'SHT', terminal: 'CNSHAT01', eta: '08/11 00:00', dis20: 0, dis40: 0},
+        {voyage: 'GLGD2630S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/11 03:30', dis20: 0, dis40: 0},
+        {voyage: 'CUHC2631W', lane: 'AM1', terminal: 'CNSHAT02', eta: '08/11 05:00', dis20: 0, dis40: 0},
+        {voyage: 'ZGHZ2630W', lane: 'KCI', terminal: 'CNSHAT04', eta: '08/11 06:00', dis20: 0, dis40: 0},
+        {voyage: 'KPBG2621E', lane: 'CI3', terminal: 'CNSHAT03', eta: '08/11 10:00', dis20: 0, dis40: 0},
+        {voyage: 'VRYB2623E', lane: 'CI3', terminal: 'CNSHAT03', eta: '08/11 12:00', dis20: 0, dis40: 0},
+        {voyage: 'APCR2621S', lane: 'CP8', terminal: 'CNSHAT02', eta: '08/11 19:00', dis20: 0, dis40: 0},
         {voyage: 'SPND2633W', lane: 'MFX', terminal: 'CNSHAT02', eta: '08/12 02:00', dis20: 0, dis40: 0},
-        {voyage: 'SPNT2622S', lane: 'CP8', terminal: 'CNSHAT02', eta: '08/12 18:00', dis20: 0, dis40: 0},
         {voyage: 'ZG162631W', lane: 'RES', terminal: 'CNSHAT02', eta: '08/12 22:00', dis20: 0, dis40: 0},
-        {voyage: 'GLGD2632S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/13 02:00', dis20: 0, dis40: 0},
         {voyage: 'XIHG2631S', lane: 'SHT', terminal: 'CNSHAT01', eta: '08/13 02:00', dis20: 0, dis40: 0},
-        {voyage: 'XFJH2628S', lane: 'NP2', terminal: 'CNSHAT02', eta: '08/13 09:30', dis20: 0, dis40: 0},
-        {voyage: 'YMWL2616E', lane: 'LHT', terminal: 'CNSHAT07', eta: '08/13 17:00', dis20: 0, dis40: 0},
-        {voyage: 'CUXM2624E', lane: 'HDT', terminal: 'CNSHAT01', eta: '08/14 05:00', dis20: 0, dis40: 0},
+        {voyage: 'RNSH2630S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/13 10:30', dis20: 0, dis40: 0},
+        {voyage: 'CUXM2623E', lane: 'HDT', terminal: 'CNSHAT01', eta: '08/13 16:00', dis20: 0, dis40: 0},
+        {voyage: 'GLZD2631S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/14 00:00', dis20: 0, dis40: 0},
+        {voyage: 'SPNT2622S', lane: 'CP8', terminal: 'CNSHAT02', eta: '08/14 07:00', dis20: 0, dis40: 0},
+        {voyage: 'CUNS2629S', lane: 'CCT', terminal: 'CNSHAT04', eta: '08/14 08:00', dis20: 0, dis40: 0},
+        {voyage: 'CAOE2660E', lane: 'LHT', terminal: 'CNSHAT07', eta: '08/14 10:00', dis20: 0, dis40: 0},
+        {voyage: 'JJTY2632S', lane: 'SHT', terminal: 'CNSHAT02', eta: '08/14 15:00', dis20: 0, dis40: 0},
         {voyage: 'KNBM2630S', lane: 'CCT', terminal: 'CNSHAT04', eta: '08/14 17:00', dis20: 0, dis40: 0},
+        {voyage: 'MDTN2632S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/15 00:00', dis20: 0, dis40: 0},
         {voyage: 'CSCC2633S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/15 02:00', dis20: 0, dis40: 0},
+        {voyage: 'FH862628S', lane: 'CH1', terminal: 'CNSHAT02', eta: '08/15 06:00', dis20: 0, dis40: 0},
         {voyage: 'ZG182632W', lane: 'RES', terminal: 'CNSHAT02', eta: '08/15 20:00', dis20: 0, dis40: 0},
       ],
-      'WK2': [
+      'WK1': [
         {voyage: 'JHT92639W', lane: 'YRD', terminal: 'CNSHAT04', eta: '08/16 10:00', dis20: 0, dis40: 0},
         {voyage: 'MEBB2631W', lane: 'KCI', terminal: 'CNSHAT03', eta: '08/16 17:00', dis20: 0, dis40: 0},
         {voyage: 'GLSH2633S', lane: 'SHT', terminal: 'CNSHAT03', eta: '08/17 02:00', dis20: 0, dis40: 0},
-        {voyage: 'PETH2629W', lane: 'AM1', terminal: 'CNSHAT02', eta: '08/17 09:00', dis20: 0, dis40: 0},
-        {voyage: 'RACE2632W', lane: 'KCI', terminal: 'CNSHAT03', eta: '08/18 15:30', dis20: 0, dis40: 0},
-        {voyage: 'JJTY2633S', lane: 'SHT', terminal: 'CNSHAT02', eta: '08/19 00:00', dis20: 0, dis40: 0},
+        {voyage: 'FXD92621N', lane: 'NP2', terminal: 'CNSHAT02', eta: '08/17 03:00', dis20: 0, dis40: 0},
+        {voyage: 'YMWL2616E', lane: 'LHT', terminal: 'CNSHAT07', eta: '08/17 07:30', dis20: 0, dis40: 0},
+        {voyage: 'JJSN2632S', lane: 'SHT', terminal: 'CNSHAT03', eta: '08/18 13:00', dis20: 0, dis40: 0},
         {voyage: 'KTSM0522E', lane: 'LHT', terminal: 'CNSHAT06', eta: '08/19 00:00', dis20: 0, dis40: 0},
-        {voyage: 'APCR2623S', lane: 'CP8', terminal: 'CNSHAT02', eta: '08/19 18:00', dis20: 0, dis40: 0},
+        {voyage: 'XIHG2636S', lane: 'SHT', terminal: 'CNSHAT01', eta: '08/19 00:00', dis20: 0, dis40: 0},
+        {voyage: 'XFJH2628S', lane: 'NP2', terminal: 'CNSHAT02', eta: '08/19 02:30', dis20: 0, dis40: 0},
         {voyage: 'TRCT2631E', lane: 'LHT', terminal: 'CNSHAT02', eta: '08/20 00:00', dis20: 0, dis40: 0},
+        {voyage: 'GLGD2632S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/20 02:00', dis20: 0, dis40: 0},
         {voyage: 'GLZD2634S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/20 02:00', dis20: 0, dis40: 0},
         {voyage: 'YODO2617E', lane: 'LHT', terminal: 'CNSHAT07', eta: '08/20 17:00', dis20: 0, dis40: 0},
-        {voyage: 'CAOK2634S', lane: 'CH1', terminal: 'CNSHAT02', eta: '08/20 19:00', dis20: 0, dis40: 0},
-        {voyage: 'CUSK2634W', lane: 'AM1', terminal: 'CNSHAT02', eta: '08/20 19:00', dis20: 0, dis40: 0},
-        {voyage: 'CUXM2625E', lane: 'HDT', terminal: 'CNSHAT01', eta: '08/21 05:00', dis20: 0, dis40: 0},
-        {voyage: 'ZYHS2631S', lane: 'NP2', terminal: 'CNSHAT02', eta: '08/21 12:00', dis20: 0, dis40: 0},
+        {voyage: 'RNSH2633S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/21 00:00', dis20: 0, dis40: 0},
+        {voyage: 'DFMH2627W', lane: 'CGS', terminal: 'CNSHAT02', eta: '08/21 12:00', dis20: 0, dis40: 0},
+        {voyage: 'RACE2632W', lane: 'KCI', terminal: 'CNSHAT03', eta: '08/21 16:00', dis20: 0, dis40: 0},
         {voyage: 'JUBM2631S', lane: 'CCT', terminal: 'CNSHAT04', eta: '08/21 18:00', dis20: 0, dis40: 0},
         {voyage: 'CSRO2634S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/22 02:00', dis20: 0, dis40: 0},
         {voyage: 'JJTY2634S', lane: 'SHT', terminal: 'CNSHAT02', eta: '08/22 02:00', dis20: 0, dis40: 0},
-        {voyage: 'EVVR2634W', lane: 'MFX', terminal: 'CNSHAT02', eta: '08/22 08:00', dis20: 0, dis40: 0},
+        {voyage: 'ZYHS2631S', lane: 'NP2', terminal: 'CNSHAT02', eta: '08/22 05:30', dis20: 0, dis40: 0},
         {voyage: 'JHT92640W', lane: 'YRD', terminal: 'CNSHAT04', eta: '08/22 09:00', dis20: 0, dis40: 0},
-        {voyage: 'CUNS2632S', lane: 'CCT', terminal: 'CNSHAT04', eta: '08/22 23:00', dis20: 0, dis40: 0},
         {voyage: 'HYBM2624E', lane: 'LHT', terminal: 'CNSHAT02', eta: '08/22 23:00', dis20: 0, dis40: 0},
       ],
-      'WK3': [
+      'WK2': [
         {voyage: 'ZGU82634W', lane: 'RES', terminal: 'CNSHAT02', eta: '08/23 11:00', dis20: 0, dis40: 0},
-        {voyage: 'HRRR2634S', lane: 'SHT', terminal: 'CNSHAT03', eta: '08/24 02:00', dis20: 0, dis40: 0},
+        {voyage: 'CUSK2634W', lane: 'AM1', terminal: 'CNSHAT02', eta: '08/23 15:00', dis20: 0, dis40: 0},
+        {voyage: 'GLSH2634S', lane: 'SHT', terminal: 'CNSHAT03', eta: '08/24 02:00', dis20: 0, dis40: 0},
+        {voyage: 'STEC2635W', lane: 'MFX', terminal: 'CNSHAT02', eta: '08/24 09:00', dis20: 0, dis40: 0},
         {voyage: 'AROA2624E', lane: 'MFX', terminal: 'CNSHAT02', eta: '08/24 17:30', dis20: 0, dis40: 0},
-        {voyage: 'FH862629S', lane: 'CH1', terminal: 'CNSHAT02', eta: '08/26 15:00', dis20: 0, dis40: 0},
+        {voyage: 'CUXM2624E', lane: 'HDT', terminal: 'CNSHAT01', eta: '08/26 03:00', dis20: 0, dis40: 0},
         {voyage: 'SPNT2624S', lane: 'CP8', terminal: 'CNSHAT02', eta: '08/26 18:00', dis20: 0, dis40: 0},
         {voyage: 'XIHG2633S', lane: 'SHT', terminal: 'CNSHAT01', eta: '08/27 00:00', dis20: 0, dis40: 0},
         {voyage: 'GLGD2634S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/27 02:00', dis20: 0, dis40: 0},
-        {voyage: 'XFJH2630S', lane: 'NP2', terminal: 'CNSHAT02', eta: '08/27 18:30', dis20: 0, dis40: 0},
-        {voyage: 'CUXM2626E', lane: 'HDT', terminal: 'CNSHAT01', eta: '08/28 04:00', dis20: 0, dis40: 0},
+        {voyage: 'CANY2633S', lane: 'CH1', terminal: 'CNSHAT02', eta: '08/27 04:00', dis20: 0, dis40: 0},
+        {voyage: 'FH862629S', lane: 'CH1', terminal: 'CNSHAT02', eta: '08/27 04:00', dis20: 0, dis40: 0},
         {voyage: 'JHT92641W', lane: 'YRD', terminal: 'CNSHAT04', eta: '08/28 08:00', dis20: 0, dis40: 0},
-        {voyage: 'XSAS2635W', lane: 'MFX', terminal: 'CNSHAT02', eta: '08/28 19:00', dis20: 0, dis40: 0},
+        {voyage: 'APCR2623S', lane: 'CP8', terminal: 'CNSHAT02', eta: '08/28 21:00', dis20: 0, dis40: 0},
+        {voyage: 'CUNS2632S', lane: 'CCT', terminal: 'CNSHAT04', eta: '08/28 22:00', dis20: 0, dis40: 0},
         {voyage: 'JJTY2635S', lane: 'SHT', terminal: 'CNSHAT02', eta: '08/29 02:00', dis20: 0, dis40: 0},
+      ],
+      'WK3': [
+        {voyage: 'CSRO2635S', lane: 'SHT', terminal: 'CNSHAT04', eta: '08/30 00:00', dis20: 0, dis40: 0},
+        {voyage: 'HRRR2635S', lane: 'SHT', terminal: 'CNSHAT03', eta: '08/31 02:00', dis20: 0, dis40: 0},
+        {voyage: 'H8112634W', lane: 'SGX', terminal: 'CNSHAT02', eta: '08/31 06:00', dis20: 0, dis40: 0},
+        {voyage: 'PETH2629W', lane: 'AM1', terminal: 'CNSHAT02', eta: '09/02 09:00', dis20: 0, dis40: 0},
+        {voyage: 'UABM2630E', lane: 'LHT', terminal: 'CNSHAT03', eta: '09/02 22:00', dis20: 0, dis40: 0},
+        {voyage: 'XIHG2634S', lane: 'SHT', terminal: 'CNSHAT01', eta: '09/03 00:00', dis20: 0, dis40: 0},
+        {voyage: 'JHT92642W', lane: 'YRD', terminal: 'CNSHAT04', eta: '09/03 07:00', dis20: 0, dis40: 0},
+        {voyage: 'XFJH2630S', lane: 'NP2', terminal: 'CNSHAT02', eta: '09/03 22:30', dis20: 0, dis40: 0},
+        {voyage: 'KNBM2633S', lane: 'CCT', terminal: 'CNSHAT04', eta: '09/04 18:00', dis20: 0, dis40: 0},
+        {voyage: 'CUXM2625E', lane: 'HDT', terminal: 'CNSHAT01', eta: '09/05 10:00', dis20: 0, dis40: 0},
+        {voyage: 'XSAS2635W', lane: 'MFX', terminal: 'CNSHAT02', eta: '09/05 10:00', dis20: 0, dis40: 0},
+        {voyage: 'FH862636S', lane: 'CH1', terminal: 'CNSHAT02', eta: '09/05 19:00', dis20: 0, dis40: 0},
       ],
     },
     cargoSplitData: {
       'WK0': [
-        {vessel: 'XIHG2628S', f20: 0, f40: 0, p20: 0, p40: 0, vvd: 'XIHG2628S', match: 'Y'},
-        {vessel: 'H8112625N', f20: 1, f40: 0, p20: 35, p40: 91, vvd: 'H8112625N', match: 'Y'},
-        {vessel: 'GLZD2629S', f20: 1, f40: 21, p20: 0, p40: 0, vvd: 'GLZD2629S', match: 'Y'},
-        {vessel: 'JJTY2630S', f20: 0, f40: 13, p20: 0, p40: 0, vvd: 'JJTY2630S', match: 'Y'},
-        {vessel: 'APCR2621S', f20: 3, f40: 19, p20: 0, p40: 0, vvd: 'APCR2621S', match: 'Y'},
-        {vessel: 'VRYB2623E', f20: 6, f40: 7, p20: 0, p40: 76, vvd: 'VRYB2623E', match: 'Y'},
-        {vessel: 'CUNS2629S', f20: 12, f40: 9, p20: 29, p40: 0, vvd: 'CUNS2629S', match: 'Y'},
-        {vessel: 'RNSH2630S', f20: 0, f40: 7, p20: 0, p40: 0, vvd: 'RNSH2630S', match: 'Y'},
+        {vessel: 'JHT92638W', f20: 0, f40: 2, p20: 0, p40: 0, vvd: 'JHT92638W', match: 'Y'},
         {vessel: 'HRRR2631S', f20: 1, f40: 23, p20: 0, p40: 0, vvd: 'HRRR2631S', match: 'Y'},
+        {vessel: 'KTPM2624E', f20: 4, f40: 1, p20: 0, p40: 97, vvd: 'KTPM2624E', match: 'Y'},
+        {vessel: 'GLGD2630S', f20: 0, f40: 3, p20: 0, p40: 0, vvd: 'GLGD2630S', match: 'Y'},
+        {vessel: 'KPBG2621E', f20: 7, f40: 8, p20: 0, p40: 83, vvd: 'KPBG2621E', match: 'Y'},
+        {vessel: 'VRYB2623E', f20: 6, f40: 7, p20: 0, p40: 76, vvd: 'VRYB2623E', match: 'Y'},
+        {vessel: 'APCR2621S', f20: 3, f40: 19, p20: 25, p40: 35, vvd: 'APCR2621S', match: 'Y'},
+        {vessel: 'ZG162631W', f20: 1, f40: 3, p20: 26, p40: 41, vvd: 'ZG162631W', match: 'Y'},
+        {vessel: 'RNSH2630S', f20: 0, f40: 7, p20: 0, p40: 0, vvd: 'RNSH2630S', match: 'Y'},
+        {vessel: 'CUXM2623E', f20: 24, f40: 4, p20: 10, p40: 0, vvd: 'CUXM2623E', match: 'Y'},
+        {vessel: 'SPNT2622S', f20: 1, f40: 12, p20: 0, p40: 0, vvd: 'SPNT2622S', match: 'Y'},
+        {vessel: 'CUNS2629S', f20: 12, f40: 9, p20: 29, p40: 0, vvd: 'CUNS2629S', match: 'Y'},
+        {vessel: 'CAOE2660E', f20: 0, f40: 0, p20: 0, p40: 199, vvd: 'CAOE2660E', match: 'Y'},
+        {vessel: 'KNBM2630S', f20: 14, f40: 10, p20: 0, p40: 12, vvd: 'KNBM2630S', match: 'Y'},
+        {vessel: 'FH862628S', f20: 6, f40: 20, p20: 1, p40: 6, vvd: 'FH862628S', match: 'Y'},
+        {vessel: 'ZG182632W', f20: 0, f40: 0, p20: 0, p40: 103, vvd: 'ZG182632W', match: 'Y'},
       ],
       'WK1': [
-        {vessel: 'GLGD2630S', f20: 0, f40: 3, p20: 0, p40: 0, vvd: 'GLGD2630S', match: 'Y'},
-        {vessel: 'JJSN2632S', f20: 0, f40: 2, p20: 0, p40: 0, vvd: 'JJSN2632S', match: 'Y'},
-        {vessel: 'SPNT2622S', f20: 1, f40: 9, p20: 0, p40: 0, vvd: 'SPNT2622S', match: 'Y'},
-        {vessel: 'ZG162631W', f20: 1, f40: 3, p20: 26, p40: 41, vvd: 'ZG162631W', match: 'Y'},
-        {vessel: 'GLGD2632S', f20: 0, f40: 1, p20: 0, p40: 0, vvd: 'GLGD2632S', match: 'Y'},
+        {vessel: 'FXD92621N', f20: 1, f40: 0, p20: 0, p40: 0, vvd: 'FXD92621N', match: 'Y'},
+        {vessel: 'JJSN2632S', f20: 1, f40: 26, p20: 0, p40: 0, vvd: 'JJSN2632S', match: 'Y'},
+        {vessel: 'KTSM0522E', f20: 2, f40: 0, p20: 0, p40: 0, vvd: 'KTSM0522E', match: 'Y'},
         {vessel: 'XFJH2628S', f20: 1, f40: 0, p20: 0, p40: 0, vvd: 'XFJH2628S', match: 'Y'},
-        {vessel: 'CUXM2624E', f20: 1, f40: 0, p20: 0, p40: 0, vvd: 'CUXM2624E', match: 'Y'},
-        {vessel: 'KNBM2630S', f20: 14, f40: 15, p20: 0, p40: 12, vvd: 'KNBM2630S', match: 'Y'},
-        {vessel: 'ZG182632W', f20: 0, f40: 0, p20: 0, p40: 53, vvd: 'ZG182632W', match: 'Y'},
+        {vessel: 'GLGD2632S', f20: 0, f40: 2, p20: 0, p40: 0, vvd: 'GLGD2632S', match: 'Y'},
+        {vessel: 'GLZD2634S', f20: 0, f40: 3, p20: 0, p40: 0, vvd: 'GLZD2634S', match: 'Y'},
+        {vessel: 'RNSH2633S', f20: 0, f40: 4, p20: 0, p40: 0, vvd: 'RNSH2633S', match: 'Y'},
+        {vessel: 'RACE2632W', f20: 0, f40: 0, p20: 0, p40: 0, vvd: 'RACE2632W', match: 'Y'},
+        {vessel: 'ZYHS2631S', f20: 0, f40: 5, p20: 0, p40: 0, vvd: 'ZYHS2631S', match: 'Y'},
+        {vessel: 'HYBM2624E', f20: 0, f40: 0, p20: 40, p40: 0, vvd: 'HYBM2624E', match: 'Y'},
       ],
       'WK2': [
-        {vessel: 'KTSM0522E', f20: 2, f40: 0, p20: 0, p40: 0, vvd: 'KTSM0522E', match: 'Y'},
-        {vessel: 'CUSK2634W', f20: 7, f40: 129, p20: 0, p40: 0, vvd: 'CUSK2634W', match: 'Y'},
-        {vessel: 'HYBM2624E', f20: 0, f40: 0, p20: 40, p40: 0, vvd: 'HYBM2624E', match: 'Y'},
+        {vessel: 'CUSK2634W', f20: 2, f40: 117, p20: 10, p40: 0, vvd: 'CUSK2634W', match: 'Y'},
+        {vessel: 'AROA2624E', f20: 0, f40: 14, p20: 50, p40: 4, vvd: 'AROA2624E', match: 'Y'},
+        {vessel: 'CUXM2624E', f20: 9, f40: 39, p20: 0, p40: 0, vvd: 'CUXM2624E', match: 'Y'},
+        {vessel: 'FH862629S', f20: 1, f40: 8, p20: 0, p40: 0, vvd: 'FH862629S', match: 'Y'},
+        {vessel: 'APCR2623S', f20: 0, f40: 1, p20: 0, p40: 0, vvd: 'APCR2623S', match: 'Y'},
+        {vessel: 'CUNS2632S', f20: 12, f40: 4, p20: 0, p40: 0, vvd: 'CUNS2632S', match: 'Y'},
       ],
     },
     nawBookingByWeek: {
       'WK0': {
-        '20GP': 746,
-        '40HC': 2032,
+        '20GP': 701,
+        '40HC': 2024,
         vessels: [
-          {vessel: 'H8112631W', '20GP': 271, '40HC': 769},
-          {vessel: 'HMBM2628W', '20GP': 18, '40HC': 244},
-          {vessel: 'DFMH2627W', '20GP': 165, '40HC': 314},
-          {vessel: 'APCR2621S', '20GP': 4, '40HC': 22},
-          {vessel: 'CUNS2629S', '20GP': 75, '40HC': 147},
+          {vessel: 'HMBM2628W', '20GP': 16, '40HC': 270},
+          {vessel: 'CUHC2631W', '20GP': 405, '40HC': 1066},
+          {vessel: 'ZGHZ2630W', '20GP': 11, '40HC': 176},
+          {vessel: 'APCR2621S', '20GP': 13, '40HC': 54},
+          {vessel: 'ZG162631W', '20GP': 39, '40HC': 101},
           {vessel: 'CUXM2623E', '20GP': 8, '40HC': 29},
-          {vessel: 'CUYP2632W', '20GP': 205, '40HC': 507},
+          {vessel: 'SPNT2622S', '20GP': 13, '40HC': 18},
+          {vessel: 'CUNS2629S', '20GP': 78, '40HC': 151},
+          {vessel: 'KNBM2630S', '20GP': 90, '40HC': 94},
+          {vessel: 'FH862628S', '20GP': 11, '40HC': 26},
+          {vessel: 'ZG182632W', '20GP': 17, '40HC': 39},
         ]
       },
       'WK1': {
-        '20GP': 102,
-        '40HC': 295,
+        '20GP': 279,
+        '40HC': 713,
         vessels: [
-          {vessel: 'CUHC2631W', '20GP': 62, '40HC': 217},
-          {vessel: 'FH862628S', '20GP': 7, '40HC': 21},
-          {vessel: 'ZGHZ2630W', '20GP': 1, '40HC': 16},
-          {vessel: 'KNBM2630S', '20GP': 32, '40HC': 41},
+          {vessel: 'MEBB2631W', '20GP': 31, '40HC': 201},
+          {vessel: 'XFJH2628S', '20GP': 30, '40HC': 50},
+          {vessel: 'DFMH2627W', '20GP': 168, '40HC': 317},
+          {vessel: 'RACE2632W', '20GP': 50, '40HC': 142},
+          {vessel: 'ZYHS2631S', '20GP': 0, '40HC': 3},
         ]
       },
       'WK2': {
-        '20GP': 0,
-        '40HC': 2,
+        '20GP': 8,
+        '40HC': 13,
         vessels: [
-          {vessel: 'PETH2629W', '20GP': 0, '40HC': 2},
+          {vessel: 'CUSK2634W', '20GP': 6, '40HC': 9},
+          {vessel: 'CUXM2624E', '20GP': 2, '40HC': 4},
         ]
       },
     },
     allocationTarget: {
       'WK0': {
-        cal_week: 33,
+        cal_week: 32,
         target: 560,
         bsa: 560,
         by_lane: {
@@ -582,7 +601,7 @@ const portData = {
         }
       },
       'WK1': {
-        cal_week: 34,
+        cal_week: 33,
         target: 390,
         bsa: 390,
         by_lane: {
@@ -591,7 +610,7 @@ const portData = {
         }
       },
       'WK2': {
-        cal_week: 35,
+        cal_week: 34,
         target: 600,
         bsa: 600,
         by_lane: {
@@ -601,7 +620,7 @@ const portData = {
       },
     },
     pickupVolumeByWeek: {
-      'WK0': {'20GP': 15, '40HC': 34},
+      'WK0': {'20GP': 19, '40HC': 63},
       'WK1': {'20GP': 0, '40HC': 0},
       'WK2': {'20GP': 0, '40HC': 0},
     },
@@ -621,10 +640,10 @@ const portData = {
   CNNGB: {
     forecastData: {
       'Start Empty': {
-        '0': [1663,450,0,0,0,0,1213,0],
-        '1': [1968,0,0,0,0,0,0,0],
-        '2': [1734,0,0,0,0,0,0,0],
-        '3': [652,0,0,0,0,0,0,0],
+        '0': [1636,321,0,0,0,0,1315,0],
+        '1': [3188,0,0,0,0,0,0,0],
+        '2': [2696,0,0,0,0,0,0,0],
+        '3': [2069,0,0,0,0,0,0,0],
       },
       'Inbound Generation': {
         '0': [0,0,0,0,0,0,0,0],
@@ -633,10 +652,10 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Reposition In': {
-        '0': [1700,424,0,0,0,0,1276,0],
-        '1': [959,0,0,0,0,0,959,0],
-        '2': [146,32,0,0,0,0,114,0],
-        '3': [742,150,0,0,0,0,590,0],
+        '0': [2745,2,0,0,0,0,2743,0],
+        '1': [509,41,0,0,0,0,468,0],
+        '2': [854,155,0,0,0,0,697,0],
+        '3': [530,118,0,0,0,0,412,0],
       },
       'OW & On-hire': {
         '0': [0,0,0,0,0,0,0,0],
@@ -651,10 +670,10 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Outbound Pick-up': {
-        '0': [1395,294,0,0,0,0,1101,0],
-        '1': [1193,267,0,0,0,0,926,0],
-        '2': [1228,262,0,0,0,0,966,0],
-        '3': [0,0,0,0,0,0,0,0],
+        '0': [1193,267,0,0,0,0,926,0],
+        '1': [1001,229,0,0,0,0,772,0],
+        '2': [1481,334,0,0,0,0,1147,0],
+        '3': [1017,255,0,0,0,0,762,0],
       },
       'Reposition out': {
         '0': [0,0,0,0,0,0,0,0],
@@ -675,140 +694,157 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Balance(Forecast)': {
-        '0': [1968,0,0,0,0,0,0,0],
-        '1': [1734,0,0,0,0,0,0,0],
-        '2': [652,0,0,0,0,0,0,0],
-        '3': [1394,0,0,0,0,0,0,0],
+        '0': [3188,0,0,0,0,0,0,0],
+        '1': [2696,0,0,0,0,0,0,0],
+        '2': [2069,0,0,0,0,0,0,0],
+        '3': [1582,0,0,0,0,0,0,0],
       },
     },
     bookingByVessel: {},
     vesselsByWeek: {
       'WK0': [
-        {voyage: 'SPNT2620S', lane: 'CP8', terminal: 'CNNGBT02', eta: '08/02 13:00', dis20: 0, dis40: 0},
-        {voyage: 'MSCL2624W', lane: 'LHT', terminal: 'CNNGBT06', eta: '08/03 06:00', dis20: 0, dis40: 0},
-        {voyage: 'XM222629S', lane: 'SHT', terminal: 'CNNGBT05', eta: '08/03 15:30', dis20: 0, dis40: 0},
-        {voyage: 'H9682629E', lane: 'YRD', terminal: 'CNNGBT04', eta: '08/03 20:00', dis20: 0, dis40: 0},
-        {voyage: 'TBN12676N', lane: 'FDR', terminal: 'CNNGBT05', eta: '08/04 08:00', dis20: 0, dis40: 0},
-        {voyage: 'CUNS2629S', lane: 'CCT', terminal: 'CNNGBT05', eta: '08/05 04:00', dis20: 0, dis40: 0},
-        {voyage: 'TBN12677N', lane: 'SHT', terminal: 'CNNGBT05', eta: '08/05 08:00', dis20: 0, dis40: 0},
-        {voyage: 'LYJE2629W', lane: 'MFX', terminal: 'CNNGBT04', eta: '08/05 11:00', dis20: 0, dis40: 0},
-        {voyage: 'CUXM2623E', lane: 'HDT', terminal: 'CNNGBT02', eta: '08/05 15:00', dis20: 0, dis40: 0},
-        {voyage: 'NYHA2631N', lane: 'TWT', terminal: 'CNNGBT04', eta: '08/05 20:00', dis20: 0, dis40: 0},
-        {voyage: 'ZGU32628W', lane: 'RES', terminal: 'CNNGBT06', eta: '08/05 20:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHC2631W', lane: 'AM1', terminal: 'CNNGBT06', eta: '08/05 21:00', dis20: 0, dis40: 0},
-        {voyage: 'JRBM2629W', lane: 'KCI', terminal: 'CNNGBT02', eta: '08/06 19:00', dis20: 0, dis40: 0},
-        {voyage: 'CSQC2630W', lane: 'SGX', terminal: 'CNNGBT04', eta: '08/07 07:00', dis20: 0, dis40: 0},
-        {voyage: 'APCR2621S', lane: 'CP8', terminal: 'CNNGBT02', eta: '08/08 01:00', dis20: 0, dis40: 0},
-      ],
-      'WK1': [
-        {voyage: 'MST22619S', lane: 'SHT', terminal: 'CNNGBT05', eta: '08/09 01:00', dis20: 0, dis40: 0},
-        {voyage: 'FH862628S', lane: 'CH1', terminal: 'CNNGBT02', eta: '08/09 02:00', dis20: 0, dis40: 0},
-        {voyage: 'NM662630S', lane: 'SHT', terminal: 'CNNGBT02', eta: '08/09 17:15', dis20: 0, dis40: 0},
-        {voyage: 'NM682631S', lane: 'SHT', terminal: 'CNNGBT02', eta: '08/09 23:00', dis20: 0, dis40: 0},
-        {voyage: 'W2732631N', lane: 'TWT', terminal: 'CNNGBT02', eta: '08/09 23:00', dis20: 0, dis40: 0},
-        {voyage: 'H9682630E', lane: 'YRD', terminal: 'CNNGBT04', eta: '08/10 08:00', dis20: 0, dis40: 0},
-        {voyage: 'HMBM2628W', lane: 'KCI', terminal: 'CNNGBT05', eta: '08/10 23:00', dis20: 0, dis40: 0},
-        {voyage: 'YMWL2616E', lane: 'LHT', terminal: 'CNNGBT02', eta: '08/11 14:00', dis20: 0, dis40: 0},
-        {voyage: 'OCDN2616S', lane: 'SHT', terminal: 'CNNGBT05', eta: '08/11 17:00', dis20: 0, dis40: 0},
+        {voyage: 'W2732631N', lane: 'TWT', terminal: 'CNNGBT02', eta: '08/10 18:30', dis20: 0, dis40: 0},
+        {voyage: 'JRBM2629W', lane: 'KCI', terminal: 'CNNGBT02', eta: '08/10 23:00', dis20: 0, dis40: 0},
+        {voyage: 'CUNS2629S', lane: 'CCT', terminal: 'CNNGBT05', eta: '08/11 04:00', dis20: 0, dis40: 0},
+        {voyage: 'CSQC2630W', lane: 'SGX', terminal: 'CNNGBT04', eta: '08/11 06:00', dis20: 0, dis40: 0},
+        {voyage: 'FH862628S', lane: 'CH1', terminal: 'CNNGBT02', eta: '08/11 18:30', dis20: 0, dis40: 0},
+        {voyage: 'MST22619S', lane: 'SHT', terminal: 'CNNGBT05', eta: '08/11 18:30', dis20: 0, dis40: 0},
+        {voyage: 'NYHA2631N', lane: 'TWT', terminal: 'CNNGBT04', eta: '08/11 19:30', dis20: 0, dis40: 0},
         {voyage: 'TBN12632W', lane: 'LHT', terminal: 'CNNGBT05', eta: '08/11 21:00', dis20: 0, dis40: 0},
-        {voyage: 'CUXM2624E', lane: 'HDT', terminal: 'CNNGBT02', eta: '08/12 15:00', dis20: 0, dis40: 0},
-        {voyage: 'ZGHZ2630W', lane: 'KCI', terminal: 'CNNGBT05', eta: '08/12 18:00', dis20: 0, dis40: 0},
-        {voyage: 'RACE2628E', lane: 'SGX', terminal: 'CNNGBT04', eta: '08/12 22:00', dis20: 0, dis40: 0},
+        {voyage: 'NM662630S', lane: 'SHT', terminal: 'CNNGBT02', eta: '08/12 12:00', dis20: 0, dis40: 0},
         {voyage: 'KNBM2630S', lane: 'CCT', terminal: 'CNNGBT05', eta: '08/13 05:00', dis20: 0, dis40: 0},
         {voyage: 'CH272631E', lane: 'YRD', terminal: 'CNNGBT04', eta: '08/13 08:00', dis20: 0, dis40: 0},
-        {voyage: 'ERVW2632W', lane: 'MFX', terminal: 'CNNGBT04', eta: '08/14 17:00', dis20: 0, dis40: 0},
-        {voyage: 'SPNT2622S', lane: 'CP8', terminal: 'CNNGBT02', eta: '08/15 01:00', dis20: 0, dis40: 0},
+        {voyage: 'CANY2633S', lane: 'CH1', terminal: 'CNNGBT02', eta: '08/13 20:00', dis20: 0, dis40: 0},
+        {voyage: 'NM682631S', lane: 'SHT', terminal: 'CNNGBT02', eta: '08/14 00:00', dis20: 0, dis40: 0},
+        {voyage: 'ZGHZ2630W', lane: 'KCI', terminal: 'CNNGBT05', eta: '08/14 05:00', dis20: 0, dis40: 0},
+        {voyage: 'H9682630E', lane: 'YRD', terminal: 'CNNGBT04', eta: '08/14 08:00', dis20: 0, dis40: 0},
+        {voyage: 'HMBM2628W', lane: 'KCI', terminal: 'CNNGBT05', eta: '08/15 04:00', dis20: 0, dis40: 0},
+        {voyage: 'OCDN2616S', lane: 'SHT', terminal: 'CNNGBT05', eta: '08/15 14:00', dis20: 0, dis40: 0},
+        {voyage: 'RACE2628E', lane: 'SGX', terminal: 'CNNGBT04', eta: '08/15 18:00', dis20: 0, dis40: 0},
       ],
-      'WK2': [
+      'WK1': [
+        {voyage: 'YMWL2616E', lane: 'LHT', terminal: 'CNNGBT02', eta: '08/16 04:30', dis20: 0, dis40: 0},
+        {voyage: 'LYJE2629W', lane: 'MFX', terminal: 'CNNGBT04', eta: '08/16 06:00', dis20: 0, dis40: 0},
+        {voyage: 'W2732632N', lane: 'TWT', terminal: 'CNNGBT02', eta: '08/17 00:00', dis20: 0, dis40: 0},
+        {voyage: 'APCR2621S', lane: 'CP8', terminal: 'CNNGBT02', eta: '08/17 03:00', dis20: 0, dis40: 0},
         {voyage: 'NM602611S', lane: 'SHT', terminal: 'CNNGBT02', eta: '08/17 13:00', dis20: 0, dis40: 0},
         {voyage: 'ZG162631W', lane: 'RES', terminal: 'CNNGBT06', eta: '08/17 22:00', dis20: 0, dis40: 0},
-        {voyage: 'FH862629S', lane: 'CH1', terminal: 'CNNGBT02', eta: '08/18 05:00', dis20: 0, dis40: 0},
         {voyage: 'MEBB2631W', lane: 'KCI', terminal: 'CNNGBT05', eta: '08/18 08:00', dis20: 0, dis40: 0},
         {voyage: 'YODO2617E', lane: 'LHT', terminal: 'CNNGBT02', eta: '08/18 14:00', dis20: 0, dis40: 0},
-        {voyage: 'XM182632S', lane: 'SHT', terminal: 'CNNGBT04', eta: '08/18 17:00', dis20: 0, dis40: 0},
-        {voyage: 'PETH2629W', lane: 'AM1', terminal: 'CNNGBT06', eta: '08/19 14:00', dis20: 0, dis40: 0},
-        {voyage: 'CUXM2625E', lane: 'HDT', terminal: 'CNNGBT02', eta: '08/19 15:00', dis20: 0, dis40: 0},
-        {voyage: 'CAOK2634S', lane: 'CH1', terminal: 'CNNGBT02', eta: '08/19 20:00', dis20: 0, dis40: 0},
-        {voyage: 'EVHA2633W', lane: 'REX', terminal: 'CNNGBT04', eta: '08/19 22:00', dis20: 0, dis40: 0},
-        {voyage: 'JUBM2631S', lane: 'CCT', terminal: 'CNNGBT05', eta: '08/20 05:00', dis20: 0, dis40: 0},
-        {voyage: 'RACE2632W', lane: 'KCI', terminal: 'CNNGBT05', eta: '08/20 06:30', dis20: 0, dis40: 0},
-        {voyage: 'CUNS2632S', lane: 'CCT', terminal: 'CNNGBT05', eta: '08/21 00:30', dis20: 0, dis40: 0},
+        {voyage: 'SPNT2622S', lane: 'CP8', terminal: 'CNNGBT02', eta: '08/19 04:00', dis20: 0, dis40: 0},
+        {voyage: 'JUBM2631S', lane: 'CCT', terminal: 'CNNGBT05', eta: '08/20 02:00', dis20: 0, dis40: 0},
+        {voyage: 'ZG182632W', lane: 'RES', terminal: 'CNNGBT06', eta: '08/20 05:00', dis20: 0, dis40: 0},
+        {voyage: 'H9682633E', lane: 'YRD', terminal: 'CNNGBT04', eta: '08/20 08:00', dis20: 0, dis40: 0},
+        {voyage: 'XM182632S', lane: 'SHT', terminal: 'CNNGBT05', eta: '08/21 17:00', dis20: 0, dis40: 0},
         {voyage: 'KTSM0522E', lane: 'LHT', terminal: 'CNNGBT04', eta: '08/22 00:00', dis20: 0, dis40: 0},
-        {voyage: 'APCR2623S', lane: 'CP8', terminal: 'CNNGBT02', eta: '08/22 01:00', dis20: 0, dis40: 0},
       ],
-      'WK3': [
-        {voyage: 'CUSK2634W', lane: 'AM1', terminal: 'CNNGBT06', eta: '08/23 00:00', dis20: 0, dis40: 0},
+      'WK2': [
+        {voyage: 'RACE2632W', lane: 'KCI', terminal: 'CNNGBT05', eta: '08/23 07:00', dis20: 0, dis40: 0},
+        {voyage: 'CH272633E', lane: 'YRD', terminal: 'CNNGBT04', eta: '08/23 08:00', dis20: 0, dis40: 0},
         {voyage: 'NM662612S', lane: 'SHT', terminal: 'CNNGBT02', eta: '08/24 12:00', dis20: 0, dis40: 0},
+        {voyage: 'CUXM2624E', lane: 'HDT', terminal: 'CNNGBT02', eta: '08/24 13:00', dis20: 0, dis40: 0},
         {voyage: 'HYBM2624E', lane: 'LHT', terminal: 'CNNGBT05', eta: '08/24 17:00', dis20: 0, dis40: 0},
+        {voyage: 'ERVW2632W', lane: 'MFX', terminal: 'CNNGBT04', eta: '08/25 02:30', dis20: 0, dis40: 0},
         {voyage: 'ZGU82634W', lane: 'RES', terminal: 'CNNGBT06', eta: '08/25 12:00', dis20: 0, dis40: 0},
+        {voyage: 'FH862629S', lane: 'CH1', terminal: 'CNNGBT02', eta: '08/25 15:00', dis20: 0, dis40: 0},
         {voyage: 'AROA2624E', lane: 'MFX', terminal: 'CNNGBT04', eta: '08/25 15:30', dis20: 0, dis40: 0},
         {voyage: 'XM222633S', lane: 'SHT', terminal: 'CNNGBT05', eta: '08/25 16:00', dis20: 0, dis40: 0},
-        {voyage: 'CUXM2626E', lane: 'HDT', terminal: 'CNNGBT02', eta: '08/26 14:00', dis20: 0, dis40: 0},
-        {voyage: 'SPNT2624S', lane: 'CP8', terminal: 'CNNGBT02', eta: '08/29 01:00', dis20: 0, dis40: 0},
+        {voyage: 'RHMB2610E', lane: 'LHT', terminal: 'CNNGBT04', eta: '08/27 06:00', dis20: 0, dis40: 0},
+        {voyage: 'CUNS2632S', lane: 'CCT', terminal: 'CNNGBT05', eta: '08/27 15:00', dis20: 0, dis40: 0},
+        {voyage: 'CUSK2634W', lane: 'AM1', terminal: 'CNNGBT06', eta: '08/28 00:00', dis20: 0, dis40: 0},
+        {voyage: 'EVVR2634W', lane: 'MFX', terminal: 'CNNGBT04', eta: '08/28 01:00', dis20: 0, dis40: 0},
+      ],
+      'WK3': [
+        {voyage: 'SPNT2624S', lane: 'CP8', terminal: 'CNNGBT02', eta: '08/30 01:00', dis20: 0, dis40: 0},
+        {voyage: 'XPBL2632W', lane: 'CGX', terminal: 'CNNGBT04', eta: '08/30 04:00', dis20: 0, dis40: 0},
+        {voyage: 'APCR2623S', lane: 'CP8', terminal: 'CNNGBT02', eta: '08/31 04:00', dis20: 0, dis40: 0},
+        {voyage: 'MDTT2615E', lane: 'LHT', terminal: 'CNNGBT01', eta: '08/31 05:00', dis20: 0, dis40: 0},
+        {voyage: 'NM682612S', lane: 'SHT', terminal: 'CNNGBT02', eta: '08/31 12:00', dis20: 0, dis40: 0},
+        {voyage: 'XM262634S', lane: 'SHT', terminal: 'CNNGBT05', eta: '09/01 02:00', dis20: 0, dis40: 0},
+        {voyage: 'KNBM2633S', lane: 'CCT', terminal: 'CNNGBT05', eta: '09/03 05:00', dis20: 0, dis40: 0},
+        {voyage: 'CUXM2625E', lane: 'HDT', terminal: 'CNNGBT02', eta: '09/03 20:00', dis20: 0, dis40: 0},
+        {voyage: 'PETH2629W', lane: 'AM1', terminal: 'CNNGBT06', eta: '09/04 14:00', dis20: 0, dis40: 0},
+        {voyage: 'FH862636S', lane: 'CH1', terminal: 'CNNGBT02', eta: '09/04 20:00', dis20: 0, dis40: 0},
+        {voyage: 'UABM2630E', lane: 'LHT', terminal: 'CNNGBT05', eta: '09/05 00:00', dis20: 0, dis40: 0},
       ],
     },
     cargoSplitData: {
       'WK0': [
-        {vessel: 'MSCL2624W', f20: 0, f40: 0, p20: 0, p40: 20, vvd: 'MSCL2624W', match: 'Y'},
-        {vessel: 'XM222629S', f20: 3, f40: 2, p20: 0, p40: 0, vvd: 'XM222629S', match: 'Y'},
-        {vessel: 'H9682629E', f20: 16, f40: 1, p20: 0, p40: 0, vvd: 'H9682629E', match: 'Y'},
         {vessel: 'CUNS2629S', f20: 40, f40: 77, p20: 0, p40: 80, vvd: 'CUNS2629S', match: 'Y'},
-        {vessel: 'CUXM2623E', f20: 0, f40: 2, p20: 2, p40: 130, vvd: 'CUXM2623E', match: 'Y'},
+        {vessel: 'CSQC2630W', f20: 0, f40: 0, p20: 0, p40: 199, vvd: 'CSQC2630W', match: 'Y'},
+        {vessel: 'FH862628S', f20: 35, f40: 43, p20: 0, p40: 10, vvd: 'FH862628S', match: 'Y'},
+        {vessel: 'MST22619S', f20: 0, f40: 5, p20: 0, p40: 0, vvd: 'MST22619S', match: 'Y'},
         {vessel: 'NYHA2631N', f20: 0, f40: 0, p20: 0, p40: 50, vvd: 'NYHA2631N', match: 'Y'},
-        {vessel: 'ZGU32628W', f20: 0, f40: 0, p20: 0, p40: 28, vvd: 'ZGU32628W', match: 'Y'},
-        {vessel: 'APCR2621S', f20: 0, f40: 7, p20: 0, p40: 0, vvd: 'APCR2621S', match: 'Y'},
+        {vessel: 'NM662630S', f20: 5, f40: 3, p20: 0, p40: 0, vvd: 'NM662630S', match: 'Y'},
+        {vessel: 'KNBM2630S', f20: 44, f40: 138, p20: 0, p40: 0, vvd: 'KNBM2630S', match: 'Y'},
+        {vessel: 'NM682631S', f20: 4, f40: 3, p20: 0, p40: 0, vvd: 'NM682631S', match: 'Y'},
+        {vessel: 'H9682630E', f20: 4, f40: 0, p20: 0, p40: 0, vvd: 'H9682630E', match: 'Y'},
+        {vessel: 'OCDN2616S', f20: 7, f40: 5, p20: 0, p40: 0, vvd: 'OCDN2616S', match: 'Y'},
+        {vessel: 'RACE2628E', f20: 1, f40: 10, p20: 0, p40: 0, vvd: 'RACE2628E', match: 'Y'},
       ],
       'WK1': [
-        {vessel: 'MST22619S', f20: 0, f40: 5, p20: 0, p40: 0, vvd: 'MST22619S', match: 'Y'},
-        {vessel: 'FH862628S', f20: 35, f40: 43, p20: 0, p40: 10, vvd: 'FH862628S', match: 'Y'},
-        {vessel: 'NM662630S', f20: 5, f40: 3, p20: 0, p40: 0, vvd: 'NM662630S', match: 'Y'},
-        {vessel: 'NM682631S', f20: 4, f40: 2, p20: 0, p40: 0, vvd: 'NM682631S', match: 'Y'},
-        {vessel: 'H9682630E', f20: 4, f40: 0, p20: 0, p40: 0, vvd: 'H9682630E', match: 'Y'},
         {vessel: 'YMWL2616E', f20: 0, f40: 0, p20: 0, p40: 145, vvd: 'YMWL2616E', match: 'Y'},
-        {vessel: 'OCDN2616S', f20: 5, f40: 4, p20: 0, p40: 0, vvd: 'OCDN2616S', match: 'Y'},
-        {vessel: 'CUXM2624E', f20: 0, f40: 0, p20: 0, p40: 0, vvd: 'CUXM2624E', match: 'Y'},
-        {vessel: 'KNBM2630S', f20: 46, f40: 126, p20: 0, p40: 0, vvd: 'KNBM2630S', match: 'Y'},
-        {vessel: 'ERVW2632W', f20: 0, f40: 1, p20: 0, p40: 0, vvd: 'ERVW2632W', match: 'Y'},
-        {vessel: 'SPNT2622S', f20: 0, f40: 3, p20: 0, p40: 0, vvd: 'SPNT2622S', match: 'Y'},
+        {vessel: 'W2732632N', f20: 0, f40: 0, p20: 0, p40: 45, vvd: 'W2732632N', match: 'Y'},
+        {vessel: 'APCR2621S', f20: 0, f40: 7, p20: 0, p40: 0, vvd: 'APCR2621S', match: 'Y'},
+        {vessel: 'NM602611S', f20: 5, f40: 4, p20: 0, p40: 0, vvd: 'NM602611S', match: 'Y'},
+        {vessel: 'ZG162631W', f20: 0, f40: 0, p20: 0, p40: 30, vvd: 'ZG162631W', match: 'Y'},
+        {vessel: 'YODO2617E', f20: 0, f40: 0, p20: 32, p40: 34, vvd: 'YODO2617E', match: 'Y'},
+        {vessel: 'SPNT2622S', f20: 0, f40: 4, p20: 0, p40: 0, vvd: 'SPNT2622S', match: 'Y'},
+        {vessel: 'XM182632S', f20: 7, f40: 11, p20: 0, p40: 0, vvd: 'XM182632S', match: 'Y'},
+        {vessel: 'KTSM0522E', f20: 12, f40: 0, p20: 0, p40: 0, vvd: 'KTSM0522E', match: 'Y'},
       ],
-      'WK2': [],
+      'WK2': [
+        {vessel: 'RACE2632W', f20: 0, f40: 0, p20: 0, p40: 1, vvd: 'RACE2632W', match: 'Y'},
+        {vessel: 'CUXM2624E', f20: 0, f40: 0, p20: 0, p40: 0, vvd: 'CUXM2624E', match: 'Y'},
+        {vessel: 'HYBM2624E', f20: 0, f40: 0, p20: 0, p40: 2, vvd: 'HYBM2624E', match: 'Y'},
+        {vessel: 'ERVW2632W', f20: 0, f40: 1, p20: 1, p40: 20, vvd: 'ERVW2632W', match: 'Y'},
+        {vessel: 'ZGU82634W', f20: 0, f40: 0, p20: 0, p40: 33, vvd: 'ZGU82634W', match: 'Y'},
+        {vessel: 'FH862629S', f20: 4, f40: 4, p20: 0, p40: 0, vvd: 'FH862629S', match: 'Y'},
+        {vessel: 'AROA2624E', f20: 0, f40: 7, p20: 0, p40: 0, vvd: 'AROA2624E', match: 'Y'},
+        {vessel: 'XM222633S', f20: 0, f40: 2, p20: 0, p40: 0, vvd: 'XM222633S', match: 'Y'},
+        {vessel: 'RHMB2610E', f20: 0, f40: 0, p20: 4, p40: 54, vvd: 'RHMB2610E', match: 'Y'},
+        {vessel: 'CUNS2632S', f20: 69, f40: 99, p20: 0, p40: 0, vvd: 'CUNS2632S', match: 'Y'},
+        {vessel: 'CUSK2634W', f20: 0, f40: 0, p20: 54, p40: 145, vvd: 'CUSK2634W', match: 'Y'},
+      ],
     },
     nawBookingByWeek: {
       'WK0': {
-        '20GP': 329,
-        '40HC': 1397,
+        '20GP': 433,
+        '40HC': 1533,
         vessels: [
-          {vessel: 'SPNT2620S', '20GP': 11, '40HC': 94},
-          {vessel: 'CUNS2629S', '20GP': 88, '40HC': 217},
-          {vessel: 'CUXM2623E', '20GP': 66, '40HC': 140},
-          {vessel: 'ZGU32628W', '20GP': 6, '40HC': 37},
-          {vessel: 'CUHC2631W', '20GP': 22, '40HC': 282},
-          {vessel: 'JRBM2629W', '20GP': 32, '40HC': 258},
-          {vessel: 'CSQC2630W', '20GP': 104, '40HC': 369},
+          {vessel: 'JRBM2629W', '20GP': 32, '40HC': 238},
+          {vessel: 'CUNS2629S', '20GP': 80, '40HC': 222},
+          {vessel: 'CSQC2630W', '20GP': 161, '40HC': 518},
+          {vessel: 'FH862628S', '20GP': 14, '40HC': 36},
+          {vessel: 'KNBM2630S', '20GP': 101, '40HC': 153},
+          {vessel: 'ZGHZ2630W', '20GP': 10, '40HC': 158},
+          {vessel: 'HMBM2628W', '20GP': 35, '40HC': 208},
         ]
       },
       'WK1': {
-        '20GP': 165,
-        '40HC': 394,
+        '20GP': 120,
+        '40HC': 197,
         vessels: [
-          {vessel: 'FH862628S', '20GP': 10, '40HC': 28},
-          {vessel: 'HMBM2628W', '20GP': 40, '40HC': 163},
-          {vessel: 'CUXM2624E', '20GP': 40, '40HC': 52},
-          {vessel: 'ZGHZ2630W', '20GP': 0, '40HC': 12},
-          {vessel: 'KNBM2630S', '20GP': 75, '40HC': 139},
+          {vessel: 'APCR2621S', '20GP': 13, '40HC': 91},
+          {vessel: 'ZG162631W', '20GP': 72, '40HC': 48},
+          {vessel: 'MEBB2631W', '20GP': 0, '40HC': 43},
+          {vessel: 'SPNT2622S', '20GP': 0, '40HC': 1},
+          {vessel: 'JUBM2631S', '20GP': 29, '40HC': 10},
+          {vessel: 'ZG182632W', '20GP': 6, '40HC': 4},
         ]
       },
       'WK2': {
-        '20GP': 12,
-        '40HC': 2,
+        '20GP': 58,
+        '40HC': 107,
         vessels: [
-          {vessel: 'JUBM2631S', '20GP': 12, '40HC': 2},
+          {vessel: 'RACE2632W', '20GP': 0, '40HC': 5},
+          {vessel: 'CUXM2624E', '20GP': 58, '40HC': 102},
         ]
       },
     },
     allocationTarget: {
       'WK0': {
-        cal_week: 33,
+        cal_week: 32,
         target: 265,
         bsa: 265,
         by_lane: {
@@ -818,7 +854,7 @@ const portData = {
         }
       },
       'WK1': {
-        cal_week: 34,
+        cal_week: 33,
         target: 30,
         bsa: 30,
         by_lane: {
@@ -827,7 +863,7 @@ const portData = {
         }
       },
       'WK2': {
-        cal_week: 35,
+        cal_week: 34,
         target: 585,
         bsa: 585,
         by_lane: {
@@ -838,7 +874,7 @@ const portData = {
       },
     },
     pickupVolumeByWeek: {
-      'WK0': {'20GP': 6, '40HC': 29},
+      'WK0': {'20GP': 24, '40HC': 47},
       'WK1': {'20GP': 0, '40HC': 0},
       'WK2': {'20GP': 0, '40HC': 0},
     },
@@ -860,10 +896,10 @@ const portData = {
   CNSHK: {
     forecastData: {
       'Start Empty': {
-        '0': [607,335,0,0,0,0,271,0],
-        '1': [184,0,0,0,0,0,0,0],
-        '2': [-632,0,0,0,0,0,0,0],
-        '3': [-1682,0,0,0,0,0,0,0],
+        '0': [1897,516,0,0,0,0,1380,0],
+        '1': [1581,0,0,0,0,0,0,0],
+        '2': [658,0,0,0,0,0,0,0],
+        '3': [-392,0,0,0,0,0,0,0],
       },
       'Inbound Generation': {
         '0': [0,0,0,0,0,0,0,0],
@@ -872,10 +908,10 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Reposition In': {
-        '0': [627,109,0,0,0,0,518,0],
-        '1': [234,9,0,0,0,0,225,0],
+        '0': [784,38,0,0,0,0,746,0],
+        '1': [127,44,0,0,0,0,83,0],
         '2': [0,0,0,0,0,0,0,0],
-        '3': [0,0,0,0,0,0,0,0],
+        '3': [135,40,0,0,0,0,95,0],
       },
       'OW & On-hire': {
         '0': [0,0,0,0,0,0,0,0],
@@ -890,10 +926,10 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Outbound Pick-up': {
-        '0': [1050,350,0,0,0,0,700,0],
-        '1': [1050,350,0,0,0,0,700,0],
-        '2': [1050,350,0,0,0,0,700,0],
-        '3': [1000,300,0,0,0,0,700,0],
+        '0': [1100,350,0,0,0,0,750,0],
+        '1': [1050,300,0,0,0,0,750,0],
+        '2': [1050,300,0,0,0,0,750,0],
+        '3': [1050,300,0,0,0,0,750,0],
       },
       'Reposition out': {
         '0': [0,0,0,0,0,0,0,0],
@@ -914,133 +950,131 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Balance(Forecast)': {
-        '0': [184,0,0,0,0,0,0,0],
-        '1': [-632,0,0,0,0,0,0,0],
-        '2': [-1682,0,0,0,0,0,0,0],
-        '3': [-2682,0,0,0,0,0,0,0],
+        '0': [1581,0,0,0,0,0,0,0],
+        '1': [658,0,0,0,0,0,0,0],
+        '2': [-392,0,0,0,0,0,0,0],
+        '3': [-1307,0,0,0,0,0,0,0],
       },
     },
     bookingByVessel: {},
     vesselsByWeek: {
       'WK0': [
-        {voyage: 'HPEC2630S', lane: 'NSX', terminal: 'CNSHKT07', eta: '08/03 12:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHA2629E', lane: 'ST1', terminal: 'CNSHKT07', eta: '08/03 16:00', dis20: 0, dis40: 0},
-        {voyage: 'CUYP2632W', lane: 'REX', terminal: 'CNSHKT07', eta: '08/04 08:00', dis20: 0, dis40: 0},
-        {voyage: 'PDPC2633S', lane: 'BDX', terminal: 'CNSHKT07', eta: '08/04 15:30', dis20: 0, dis40: 0},
-        {voyage: 'KWGB2632N', lane: 'TH3', terminal: 'CNSHKT02', eta: '08/06 09:30', dis20: 0, dis40: 0},
-        {voyage: 'BZCF2627W', lane: 'REX', terminal: 'CNSHKT07', eta: '08/06 16:30', dis20: 0, dis40: 0},
-        {voyage: 'FZ352630W', lane: 'PRD', terminal: 'CNSHKT07', eta: '08/07 07:00', dis20: 0, dis40: 0},
-        {voyage: 'FZ352631W', lane: 'PRD', terminal: 'CNSHKT07', eta: '08/08 11:00', dis20: 0, dis40: 0},
-        {voyage: 'MMRN2631S', lane: 'CST', terminal: 'CNSHKT07', eta: '08/08 16:00', dis20: 0, dis40: 0},
-        {voyage: 'MODS2631S', lane: 'NSX', terminal: 'CNSHKT07', eta: '08/08 18:00', dis20: 0, dis40: 0},
+        {voyage: 'PDPC2633S', lane: 'BDX', terminal: 'CNSHKT07', eta: '08/09 05:18', dis20: 0, dis40: 0},
+        {voyage: 'MODS2631S', lane: 'NSX', terminal: 'CNSHKT07', eta: '08/09 15:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHP2628E', lane: 'ST3', terminal: 'CNSHKT07', eta: '08/10 18:00', dis20: 0, dis40: 0},
+        {voyage: 'LDWG2627N', lane: 'JCT', terminal: 'CNSHKT01', eta: '08/11 22:00', dis20: 0, dis40: 0},
+        {voyage: 'CBNF2632W', lane: 'PRD', terminal: 'CNSHKT01', eta: '08/12 01:00', dis20: 0, dis40: 0},
+        {voyage: 'JRBM2629W', lane: 'KCI', terminal: 'CNSHKT02', eta: '08/13 21:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHA2630E', lane: 'ST1', terminal: 'CNSHKT07', eta: '08/14 03:30', dis20: 0, dis40: 0},
       ],
       'WK1': [
-        {voyage: 'LDWG2627N', lane: 'JCT', terminal: 'CNSHKT01', eta: '08/09 07:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHA2630E', lane: 'ST1', terminal: 'CNSHKT07', eta: '08/10 04:00', dis20: 0, dis40: 0},
-        {voyage: 'JRBM2629W', lane: 'KCI', terminal: 'CNSHKT02', eta: '08/10 13:00', dis20: 0, dis40: 0},
-        {voyage: 'PDPC2634S', lane: 'BDX', terminal: 'CNSHKT07', eta: '08/10 17:30', dis20: 0, dis40: 0},
-        {voyage: 'CUHP2628E', lane: 'ST3', terminal: 'CNSHKT07', eta: '08/11 22:00', dis20: 0, dis40: 0},
-        {voyage: 'HPEC2632S', lane: 'NSX', terminal: 'CNSHKT07', eta: '08/12 00:00', dis20: 0, dis40: 0},
-        {voyage: 'PEHE2631N', lane: 'IQH', terminal: 'CNSHKT02', eta: '08/13 02:00', dis20: 0, dis40: 0},
-        {voyage: 'DJVS2628N', lane: 'IQH', terminal: 'CNSHKT02', eta: '08/13 05:00', dis20: 0, dis40: 0},
-        {voyage: 'KWGB2633N', lane: 'TH3', terminal: 'CNSHKT02', eta: '08/13 11:30', dis20: 0, dis40: 0},
-        {voyage: 'HMBM2628W', lane: 'KCI', terminal: 'CNSHKT02', eta: '08/14 19:00', dis20: 0, dis40: 0},
+        {voyage: 'EVLM2633W', lane: 'LHT', terminal: 'CNSHKT01', eta: '08/16 00:00', dis20: 0, dis40: 0},
+        {voyage: 'PEHE2631N', lane: 'IQH', terminal: 'CNSHKT02', eta: '08/16 16:00', dis20: 0, dis40: 0},
+        {voyage: 'ZGHZ2630W', lane: 'KCI', terminal: 'CNSHKT02', eta: '08/17 11:00', dis20: 0, dis40: 0},
+        {voyage: 'PDPC2634S', lane: 'BDX', terminal: 'CNSHKT07', eta: '08/17 20:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352633W', lane: 'PRD', terminal: 'CNSHKT07', eta: '08/17 23:00', dis20: 0, dis40: 0},
+        {voyage: 'DJVS2628N', lane: 'IQH', terminal: 'CNSHKT02', eta: '08/18 19:00', dis20: 0, dis40: 0},
+        {voyage: 'HMBM2628W', lane: 'KCI', terminal: 'CNSHKT02', eta: '08/19 00:00', dis20: 0, dis40: 0},
+        {voyage: 'SNHK2606E', lane: 'LHT', terminal: 'CNSHKT02', eta: '08/19 00:00', dis20: 0, dis40: 0},
+        {voyage: 'KWGB2634N', lane: 'TH3', terminal: 'CNSHKT02', eta: '08/20 03:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHP2629E', lane: 'ST3', terminal: 'CNSHKT07', eta: '08/20 08:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHA2631E', lane: 'ST1', terminal: 'CNSHKT07', eta: '08/20 22:30', dis20: 0, dis40: 0},
+        {voyage: 'MEBB2631W', lane: 'KCI', terminal: 'CNSHKT02', eta: '08/21 06:00', dis20: 0, dis40: 0},
+        {voyage: 'FUYU2632W', lane: 'SGX', terminal: 'CNSHKT07', eta: '08/21 11:00', dis20: 0, dis40: 0},
+        {voyage: 'PDPC2635S', lane: 'BDX', terminal: 'CNSHKT07', eta: '08/21 18:00', dis20: 0, dis40: 0},
+        {voyage: 'MMRN2633S', lane: 'SL1', terminal: 'CNSHKT07', eta: '08/22 02:00', dis20: 0, dis40: 0},
+        {voyage: 'MODS2634S', lane: 'NSX', terminal: 'CNSHKT07', eta: '08/22 16:00', dis20: 0, dis40: 0},
+        {voyage: 'HPEC2633S', lane: 'NSX', terminal: 'CNSHKT07', eta: '08/22 17:00', dis20: 0, dis40: 0},
       ],
       'WK2': [
-        {voyage: 'ZGHZ2630W', lane: 'KCI', terminal: 'CNSHKT02', eta: '08/16 00:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHA2631E', lane: 'ST1', terminal: 'CNSHKT07', eta: '08/16 02:00', dis20: 0, dis40: 0},
-        {voyage: 'PDPC2635S', lane: 'BDX', terminal: 'CNSHKT07', eta: '08/17 00:30', dis20: 0, dis40: 0},
-        {voyage: 'CUHP2629E', lane: 'ST3', terminal: 'CNSHKT07', eta: '08/18 16:00', dis20: 0, dis40: 0},
-        {voyage: 'SNHK2606E', lane: 'LHT', terminal: 'CNSHKT02', eta: '08/19 00:00', dis20: 0, dis40: 0},
-        {voyage: 'FUYU2632W', lane: 'SGX', terminal: 'CNSHKT07', eta: '08/19 01:30', dis20: 0, dis40: 0},
-        {voyage: 'KWGB2634N', lane: 'TH3', terminal: 'CNSHKT02', eta: '08/20 12:30', dis20: 0, dis40: 0},
-        {voyage: 'MEBB2631W', lane: 'KCI', terminal: 'CNSHKT02', eta: '08/21 06:00', dis20: 0, dis40: 0},
-        {voyage: 'MMRN2633S', lane: 'CST', terminal: 'CNSHKT07', eta: '08/22 01:00', dis20: 0, dis40: 0},
-        {voyage: 'EVHA2633W', lane: 'REX', terminal: 'CNSHKT07', eta: '08/22 10:00', dis20: 0, dis40: 0},
-        {voyage: 'MODS2633S', lane: 'NSX', terminal: 'CNSHKT07', eta: '08/22 18:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHA2632E', lane: 'ST1', terminal: 'CNSHKT07', eta: '08/22 20:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHP2630E', lane: 'ST3', terminal: 'CNSHKT07', eta: '08/23 21:30', dis20: 0, dis40: 0},
+        {voyage: 'FZ352634W', lane: 'PRD', terminal: 'CNSHKT07', eta: '08/24 11:00', dis20: 0, dis40: 0},
+        {voyage: 'RACE2632W', lane: 'KCI', terminal: 'CNSHKT02', eta: '08/26 06:00', dis20: 0, dis40: 0},
+        {voyage: 'KWGB2635N', lane: 'TH3', terminal: 'CNSHKT02', eta: '08/27 06:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHA2632E', lane: 'ST1', terminal: 'CNSHKT07', eta: '08/27 16:30', dis20: 0, dis40: 0},
+        {voyage: 'PDPC2636S', lane: 'BDX', terminal: 'CNSHKT07', eta: '08/28 01:00', dis20: 0, dis40: 0},
+        {voyage: 'HYBM2624E', lane: 'LHT', terminal: 'CNSHKT01', eta: '08/28 09:00', dis20: 0, dis40: 0},
+        {voyage: 'HPEC2635S', lane: 'NSX', terminal: 'CNSHKT07', eta: '08/29 16:00', dis20: 0, dis40: 0},
       ],
       'WK3': [
-        {voyage: 'RACE2632W', lane: 'KCI', terminal: 'CNSHKT02', eta: '08/23 05:30', dis20: 0, dis40: 0},
-        {voyage: 'PDPC2636S', lane: 'BDX', terminal: 'CNSHKT07', eta: '08/23 07:30', dis20: 0, dis40: 0},
-        {voyage: 'DJVS2631N', lane: 'IQH', terminal: 'CNSHKT02', eta: '08/23 09:30', dis20: 0, dis40: 0},
-        {voyage: 'PEHE2632N', lane: 'IQH', terminal: 'CNSHKT02', eta: '08/24 10:00', dis20: 0, dis40: 0},
-        {voyage: 'H8112634W', lane: 'SGX', terminal: 'CNSHKT07', eta: '08/24 19:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHP2630E', lane: 'ST3', terminal: 'CNSHKT07', eta: '08/25 09:00', dis20: 0, dis40: 0},
-        {voyage: 'KWGB2635N', lane: 'TH3', terminal: 'CNSHKT02', eta: '08/27 12:30', dis20: 0, dis40: 0},
-        {voyage: 'HYBM2624E', lane: 'LHT', terminal: 'CNSHKT01', eta: '08/28 09:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHA2633E', lane: 'ST1', terminal: 'CNSHKT07', eta: '08/29 14:00', dis20: 0, dis40: 0},
-        {voyage: 'PDPC2637S', lane: 'BDX', terminal: 'CNSHKT07', eta: '08/29 14:30', dis20: 0, dis40: 0},
+        {voyage: 'CUHP2631E', lane: 'ST3', terminal: 'CNSHKT07', eta: '08/30 21:30', dis20: 0, dis40: 0},
+        {voyage: 'FZ352635W', lane: 'PRD', terminal: 'CNSHKT07', eta: '08/30 23:00', dis20: 0, dis40: 0},
+        {voyage: 'PEHE2632N', lane: 'IQH', terminal: 'CNSHKT02', eta: '08/30 23:30', dis20: 0, dis40: 0},
+        {voyage: 'DJVS2633N', lane: 'IQH', terminal: 'CNSHKT02', eta: '09/01 14:00', dis20: 0, dis40: 0},
+        {voyage: 'XPBL2632W', lane: 'CGX', terminal: 'CNSHKT07', eta: '09/02 14:00', dis20: 0, dis40: 0},
+        {voyage: 'TBN11888N', lane: 'JCT', terminal: 'CNSHKT01', eta: '09/03 00:00', dis20: 0, dis40: 0},
+        {voyage: 'TBN12779N', lane: 'SHT', terminal: 'CNSHKT01', eta: '09/03 00:00', dis20: 0, dis40: 0},
+        {voyage: 'KWGB2636N', lane: 'TH3', terminal: 'CNSHKT02', eta: '09/03 09:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHA2633E', lane: 'ST1', terminal: 'CNSHKT07', eta: '09/03 10:30', dis20: 0, dis40: 0},
+        {voyage: 'MODS2636S', lane: 'NSX', terminal: 'CNSHKT07', eta: '09/05 16:00', dis20: 0, dis40: 0},
       ],
     },
     cargoSplitData: {
       'WK0': [
-        {vessel: 'HPEC2630S', f20: 1, f40: 3, p20: 0, p40: 50, vvd: 'HPEC2630S', match: 'Y'},
-        {vessel: 'CUYP2632W', f20: 0, f40: 2, p20: 4, p40: 193, vvd: 'CUYP2632W', match: 'Y'},
-        {vessel: 'PDPC2633S', f20: 10, f40: 10, p20: 1, p40: 0, vvd: 'PDPC2633S', match: 'Y'},
-        {vessel: 'KWGB2632N', f20: 6, f40: 13, p20: 0, p40: 0, vvd: 'KWGB2632N', match: 'Y'},
-        {vessel: 'MMRN2631S', f20: 1, f40: 0, p20: 0, p40: 42, vvd: 'MMRN2631S', match: 'Y'},
         {vessel: 'MODS2631S', f20: 0, f40: 0, p20: 12, p40: 26, vvd: 'MODS2631S', match: 'Y'},
+        {vessel: 'CUHP2628E', f20: 32, f40: 93, p20: 8, p40: 12, vvd: 'CUHP2628E', match: 'Y'},
+        {vessel: 'LDWG2627N', f20: 10, f40: 5, p20: 1, p40: 20, vvd: 'LDWG2627N', match: 'Y'},
+        {vessel: 'CBNF2632W', f20: 1, f40: 0, p20: 0, p40: 0, vvd: 'CBNF2632W', match: 'Y'},
+        {vessel: 'CUHA2630E', f20: 12, f40: 86, p20: 24, p40: 14, vvd: 'CUHA2630E', match: 'Y'},
       ],
       'WK1': [
-        {vessel: 'LDWG2627N', f20: 10, f40: 5, p20: 1, p40: 20, vvd: 'LDWG2627N', match: 'Y'},
-        {vessel: 'CUHA2630E', f20: 8, f40: 82, p20: 0, p40: 0, vvd: 'CUHA2630E', match: 'Y'},
-        {vessel: 'PDPC2634S', f20: 3, f40: 2, p20: 0, p40: 0, vvd: 'PDPC2634S', match: 'Y'},
-        {vessel: 'CUHP2628E', f20: 32, f40: 93, p20: 0, p40: 0, vvd: 'CUHP2628E', match: 'Y'},
-        {vessel: 'HPEC2632S', f20: 32, f40: 93, p20: 0, p40: 0, vvd: 'HPEC2632S', match: 'Y'},
-        {vessel: 'PEHE2631N', f20: 1, f40: 0, p20: 0, p40: 0, vvd: 'PEHE2631N', match: 'Y'},
-        {vessel: 'KWGB2633N', f20: 0, f40: 4, p20: 0, p40: 0, vvd: 'KWGB2633N', match: 'Y'},
+        {vessel: 'PEHE2631N', f20: 3, f40: 0, p20: 0, p40: 0, vvd: 'PEHE2631N', match: 'Y'},
+        {vessel: 'PDPC2634S', f20: 6, f40: 7, p20: 1, p40: 7, vvd: 'PDPC2634S', match: 'Y'},
+        {vessel: 'DJVS2628N', f20: 1, f40: 4, p20: 0, p40: 0, vvd: 'DJVS2628N', match: 'Y'},
+        {vessel: 'SNHK2606E', f20: 4, f40: 0, p20: 0, p40: 0, vvd: 'SNHK2606E', match: 'Y'},
+        {vessel: 'CUHP2629E', f20: 25, f40: 106, p20: 0, p40: 0, vvd: 'CUHP2629E', match: 'Y'},
+        {vessel: 'CUHA2631E', f20: 10, f40: 31, p20: 0, p40: 0, vvd: 'CUHA2631E', match: 'Y'},
+        {vessel: 'MMRN2633S', f20: 1, f40: 3, p20: 0, p40: 0, vvd: 'MMRN2633S', match: 'Y'},
+        {vessel: 'MODS2634S', f20: 0, f40: 6, p20: 0, p40: 0, vvd: 'MODS2634S', match: 'Y'},
+        {vessel: 'HPEC2633S', f20: 0, f40: 6, p20: 15, p40: 41, vvd: 'HPEC2633S', match: 'Y'},
       ],
       'WK2': [
-        {vessel: 'CUHA2631E', f20: 0, f40: 16, p20: 0, p40: 0, vvd: 'CUHA2631E', match: 'Y'},
-        {vessel: 'CUHP2629E', f20: 4, f40: 75, p20: 0, p40: 0, vvd: 'CUHP2629E', match: 'Y'},
-        {vessel: 'SNHK2606E', f20: 4, f40: 0, p20: 0, p40: 0, vvd: 'SNHK2606E', match: 'Y'},
-        {vessel: 'EVHA2633W', f20: 4, f40: 0, p20: 0, p40: 0, vvd: 'EVHA2633W', match: 'Y'},
-        {vessel: 'MODS2633S', f20: 4, f40: 0, p20: 0, p40: 0, vvd: 'MODS2633S', match: 'Y'},
+        {vessel: 'CUHP2630E', f20: 20, f40: 61, p20: 0, p40: 0, vvd: 'CUHP2630E', match: 'Y'},
+        {vessel: 'RACE2632W', f20: 24, f40: 1, p20: 0, p40: 0, vvd: 'RACE2632W', match: 'Y'},
       ],
     },
     nawBookingByWeek: {
       'WK0': {
-        '20GP': 651,
-        '40HC': 1497,
+        '20GP': 409,
+        '40HC': 969,
         vessels: [
-          {vessel: 'HPEC2630S', '20GP': 77, '40HC': 179},
-          {vessel: 'CUHA2629E', '20GP': 107, '40HC': 196},
-          {vessel: 'CUYP2632W', '20GP': 168, '40HC': 396},
-          {vessel: 'PDPC2633S', '20GP': 10, '40HC': 37},
-          {vessel: 'KWGB2632N', '20GP': 7, '40HC': 14},
-          {vessel: 'BZCF2627W', '20GP': 78, '40HC': 279},
-          {vessel: 'MMRN2631S', '20GP': 113, '40HC': 246},
-          {vessel: 'MODS2631S', '20GP': 91, '40HC': 150},
+          {vessel: 'PDPC2633S', '20GP': 9, '40HC': 36},
+          {vessel: 'MODS2631S', '20GP': 168, '40HC': 269},
+          {vessel: 'CUHP2628E', '20GP': 93, '40HC': 189},
+          {vessel: 'LDWG2627N', '20GP': 2, '40HC': 40},
+          {vessel: 'JRBM2629W', '20GP': 41, '40HC': 188},
+          {vessel: 'CUHA2630E', '20GP': 96, '40HC': 247},
         ]
       },
       'WK1': {
-        '20GP': 150,
-        '40HC': 536,
+        '20GP': 230,
+        '40HC': 851,
         vessels: [
-          {vessel: 'LDWG2627N', '20GP': 0, '40HC': 28},
-          {vessel: 'CUHA2630E', '20GP': 47, '40HC': 167},
-          {vessel: 'JRBM2629W', '20GP': 46, '40HC': 172},
-          {vessel: 'CUHP2628E', '20GP': 57, '40HC': 125},
-          {vessel: 'HPEC2632S', '20GP': 0, '40HC': 3},
-          {vessel: 'HMBM2628W', '20GP': 0, '40HC': 41},
+          {vessel: 'PEHE2631N', '20GP': 1, '40HC': 13},
+          {vessel: 'ZGHZ2630W', '20GP': 46, '40HC': 188},
+          {vessel: 'PDPC2634S', '20GP': 11, '40HC': 30},
+          {vessel: 'DJVS2628N', '20GP': 4, '40HC': 13},
+          {vessel: 'HMBM2628W', '20GP': 37, '40HC': 178},
+          {vessel: 'CUHP2629E', '20GP': 58, '40HC': 190},
+          {vessel: 'CUHA2631E', '20GP': 41, '40HC': 127},
+          {vessel: 'MEBB2631W', '20GP': 0, '40HC': 26},
+          {vessel: 'FUYU2632W', '20GP': 31, '40HC': 81},
+          {vessel: 'MODS2634S', '20GP': 1, '40HC': 2},
+          {vessel: 'HPEC2633S', '20GP': 0, '40HC': 3},
         ]
       },
       'WK2': {
-        '20GP': 17,
-        '40HC': 137,
+        '20GP': 1,
+        '40HC': 4,
         vessels: [
-          {vessel: 'CUHA2631E', '20GP': 0, '40HC': 8},
-          {vessel: 'CUHP2629E', '20GP': 16, '40HC': 109},
-          {vessel: 'MEBB2631W', '20GP': 0, '40HC': 19},
-          {vessel: 'MMRN2633S', '20GP': 1, '40HC': 0},
-          {vessel: 'EVHA2633W', '20GP': 0, '40HC': 1},
+          {vessel: 'CUHP2630E', '20GP': 1, '40HC': 2},
+          {vessel: 'RACE2632W', '20GP': 0, '40HC': 2},
         ]
       },
     },
     allocationTarget: {
       'WK0': {
-        cal_week: 33,
+        cal_week: 32,
         target: 210,
         bsa: 210,
         by_lane: {
@@ -1048,7 +1082,7 @@ const portData = {
         }
       },
       'WK2': {
-        cal_week: 35,
+        cal_week: 34,
         target: 700,
         bsa: 700,
         by_lane: {
@@ -1057,7 +1091,7 @@ const portData = {
       },
     },
     pickupVolumeByWeek: {
-      'WK0': {'20GP': 34, '40HC': 75},
+      'WK0': {'20GP': 87, '40HC': 204},
       'WK1': {'20GP': 0, '40HC': 0},
       'WK2': {'20GP': 0, '40HC': 0},
     },
@@ -1071,22 +1105,22 @@ const portData = {
   CNNAS: {
     forecastData: {
       'Start Empty': {
-        '0': [872,168,0,0,0,0,704,0],
-        '1': [672,0,0,0,0,0,0,0],
-        '2': [1173,0,0,0,0,0,0,0],
-        '3': [168,0,0,0,0,0,0,0],
+        '0': [809,191,0,0,0,0,618,0],
+        '1': [1696,0,0,0,0,0,0,0],
+        '2': [1811,0,0,0,0,0,0,0],
+        '3': [507,0,0,0,0,0,0,0],
       },
       'Inbound Generation': {
-        '0': [205,15,0,0,0,0,190,0],
+        '0': [195,15,0,0,0,0,180,0],
         '1': [195,15,0,0,0,0,180,0],
         '2': [195,15,0,0,0,0,180,0],
         '3': [195,15,0,0,0,0,180,0],
       },
       'Reposition In': {
-        '0': [766,116,0,0,0,0,649,0],
-        '1': [1506,477,0,0,0,0,1028,0],
-        '2': [0,0,0,0,0,0,0,0],
-        '3': [63,1,0,0,0,0,62,0],
+        '0': [1992,456,0,0,0,0,1535,0],
+        '1': [1220,230,0,0,0,0,990,0],
+        '2': [1,1,0,0,0,0,0,0],
+        '3': [62,0,0,0,0,0,62,0],
       },
       'OW & On-hire': {
         '0': [0,0,0,0,0,0,0,0],
@@ -1101,13 +1135,13 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Outbound Pick-up': {
-        '0': [1160,0,0,0,0,0,900,0],
-        '1': [1200,300,0,0,0,0,900,0],
-        '2': [1200,300,0,0,0,0,900,0],
-        '3': [1200,300,0,0,0,0,900,0],
+        '0': [1300,300,0,0,0,0,1000,0],
+        '1': [1300,300,0,0,0,0,1000,0],
+        '2': [1500,300,0,0,0,0,1200,0],
+        '3': [1300,300,0,0,0,0,1000,0],
       },
       'Reposition out': {
-        '0': [11,0,0,0,0,0,11,0],
+        '0': [0,0,0,0,0,0,0,0],
         '1': [0,0,0,0,0,0,0,0],
         '2': [0,0,0,0,0,0,0,0],
         '3': [0,0,0,0,0,0,0,0],
@@ -1125,10 +1159,10 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Balance(Forecast)': {
-        '0': [672,0,0,0,0,0,0,0],
-        '1': [1173,0,0,0,0,0,0,0],
-        '2': [168,0,0,0,0,0,0,0],
-        '3': [-774,0,0,0,0,0,0,0],
+        '0': [1696,0,0,0,0,0,0,0],
+        '1': [1811,0,0,0,0,0,0,0],
+        '2': [507,0,0,0,0,0,0,0],
+        '3': [-536,0,0,0,0,0,0,0],
       },
     },
     bookingByVessel: {
@@ -1144,67 +1178,31 @@ const portData = {
         ft20: 172,
         ft40: 28
       },
-      ZGNC2628W: {
-        alloc: 955,
-        current: 824,
-        ft20: 32,
-        ft40: 396
-      },
     },
     vesselsByWeek: {
       'WK0': [
-        {voyage: 'TBN12820S', lane: 'BDX', terminal: 'CNNAST04', eta: '08/02 00:00', dis20: 0, dis40: 0},
-        {voyage: 'TBN12832S', lane: 'BDX', terminal: 'CNNAST04', eta: '08/02 00:00', dis20: 0, dis40: 0},
-        {voyage: 'HPEC2630S', lane: 'NSX', terminal: 'CNNAST04', eta: '08/02 03:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHA2629E', lane: 'ST1', terminal: 'CNNAST04', eta: '08/02 04:40', dis20: 0, dis40: 0},
-        {voyage: 'GSNE2631W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/02 15:00', dis20: 0, dis40: 0},
-        {voyage: 'ZGHA2630W', lane: 'RES', terminal: 'CNNAST05', eta: '08/02 17:00', dis20: 0, dis40: 0},
-        {voyage: 'FUYU2630W', lane: 'SGX', terminal: 'CNNAST04', eta: '08/03 05:30', dis20: 0, dis40: 0},
-        {voyage: 'EMFT2631N', lane: 'SHT', terminal: 'CNNAST01', eta: '08/03 15:30', dis20: 0, dis40: 0},
-        {voyage: 'ZGNC2628W', lane: 'AM1', terminal: 'CNNAST04', eta: '08/03 18:00', dis20: 0, dis40: 0},
-        {voyage: 'PDPC2633S', lane: 'BDX', terminal: 'CNNAST04', eta: '08/03 21:30', dis20: 0, dis40: 0},
-        {voyage: 'GSNF2630W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/05 01:00', dis20: 0, dis40: 0},
-        {voyage: 'WFNE2631S', lane: 'TWT', terminal: 'CNNAST04', eta: '08/06 10:00', dis20: 0, dis40: 0},
-        {voyage: 'NHZY2602E', lane: 'CGS', terminal: 'CNNAST04', eta: '08/06 19:00', dis20: 0, dis40: 0},
-        {voyage: 'CUYP2632W', lane: 'REX', terminal: 'CNNAST04', eta: '08/07 04:00', dis20: 0, dis40: 0},
-        {voyage: 'MODS2631S', lane: 'NSX', terminal: 'CNNAST04', eta: '08/07 05:00', dis20: 0, dis40: 0},
-        {voyage: 'CSTR2631S', lane: 'JCT', terminal: 'CNNAST01', eta: '08/07 05:30', dis20: 0, dis40: 0},
-        {voyage: 'MMRN2631S', lane: 'CST', terminal: 'CNNAST04', eta: '08/07 16:30', dis20: 0, dis40: 0},
-        {voyage: 'BZCF2627W', lane: 'REX', terminal: 'CNNAST04', eta: '08/07 21:30', dis20: 0, dis40: 0},
-        {voyage: 'GSNF2631W', lane: 'PRD', terminal: 'CNNAST05', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'MTNE2631W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'SWNE2631W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'TBNE2631W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'TBNF2631N', lane: 'TWT', terminal: 'CNNAST04', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'THTP2631W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'TONE2631W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'TONF2631W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'WCNE2631W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'WZNE2631W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'XPNF2631E', lane: 'PRD', terminal: 'CNNAST04', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'ZHNE2631W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/08 01:00', dis20: 0, dis40: 0},
-        {voyage: 'ZGU32628W', lane: 'RES', terminal: 'CNNAST05', eta: '08/08 04:00', dis20: 0, dis40: 0},
-        {voyage: 'HELA2631E', lane: 'LHT', terminal: 'CNNAST01', eta: '08/08 08:00', dis20: 0, dis40: 0},
-        {voyage: 'YAFZ2632W', lane: 'PRD', terminal: 'CNNAST01', eta: '08/08 08:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHA2630E', lane: 'ST1', terminal: 'CNNAST04', eta: '08/08 13:00', dis20: 0, dis40: 0},
-        {voyage: 'LYJE2629W', lane: 'MFX', terminal: 'CNNAST04', eta: '08/08 18:00', dis20: 0, dis40: 0},
-      ],
-      'WK1': [
-        {voyage: 'DFMH2627W', lane: 'CGS', terminal: 'CNNAST04', eta: '08/09 10:00', dis20: 0, dis40: 0},
+        {voyage: 'MMRN2631S', lane: 'CST', terminal: 'CNNAST04', eta: '08/09 06:54', dis20: 0, dis40: 0},
         {voyage: 'TBN12678N', lane: 'SEA', terminal: 'CNNAST04', eta: '08/09 10:00', dis20: 0, dis40: 0},
-        {voyage: 'PDPC2634S', lane: 'BDX', terminal: 'CNNAST04', eta: '08/09 23:30', dis20: 0, dis40: 0},
-        {voyage: 'EMFT2632N', lane: 'SHT', terminal: 'CNNAST01', eta: '08/10 16:00', dis20: 0, dis40: 0},
-        {voyage: 'HPEC2632S', lane: 'NSX', terminal: 'CNNAST04', eta: '08/11 00:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHP2628E', lane: 'ST3', terminal: 'CNNAST04', eta: '08/11 03:00', dis20: 0, dis40: 0},
-        {voyage: 'ZGCD2619E', lane: 'AM1', terminal: 'CNNAST04', eta: '08/12 22:00', dis20: 0, dis40: 0},
-        {voyage: 'HYLT2617S', lane: 'SVP', terminal: 'CNNAST04', eta: '08/13 05:00', dis20: 0, dis40: 0},
-        {voyage: 'CSQC2630W', lane: 'SGX', terminal: 'CNNAST04', eta: '08/14 02:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHC2631W', lane: 'AM1', terminal: 'CNNAST04', eta: '08/14 08:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHA2631E', lane: 'ST1', terminal: 'CNNAST04', eta: '08/14 11:00', dis20: 0, dis40: 0},
+        {voyage: 'ZGU32628W', lane: 'RES', terminal: 'CNNAST05', eta: '08/09 14:15', dis20: 0, dis40: 0},
+        {voyage: 'NHZY2602E', lane: 'CGS', terminal: 'CNNAST04', eta: '08/09 19:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHP2628E', lane: 'ST3', terminal: 'CNNAST04', eta: '08/09 20:30', dis20: 0, dis40: 0},
+        {voyage: 'CBNF2632W', lane: 'PRD', terminal: 'CNNAST01', eta: '08/10 01:00', dis20: 0, dis40: 0},
+        {voyage: 'EMFT2632N', lane: 'SHT', terminal: 'CNNAST01', eta: '08/10 14:00', dis20: 0, dis40: 0},
+        {voyage: 'BZCF2627W', lane: 'REX', terminal: 'CNNAST04', eta: '08/10 21:00', dis20: 0, dis40: 0},
+        {voyage: 'GSNF2631E', lane: 'PRD', terminal: 'CNNAST04', eta: '08/11 01:00', dis20: 0, dis40: 0},
+        {voyage: 'TBNE2632E', lane: 'PRD', terminal: 'CNNAST04', eta: '08/11 10:00', dis20: 0, dis40: 0},
+        {voyage: 'MTNF2632S', lane: 'TWT', terminal: 'CNNAST04', eta: '08/11 12:00', dis20: 0, dis40: 0},
+        {voyage: 'HELA2631E', lane: 'LHT', terminal: 'CNNAST01', eta: '08/12 06:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHA2630E', lane: 'ST1', terminal: 'CNNAST04', eta: '08/12 12:30', dis20: 0, dis40: 0},
+        {voyage: 'GSNE2632E', lane: 'PRD', terminal: 'CNNAST04', eta: '08/13 10:00', dis20: 0, dis40: 0},
+        {voyage: 'GSNF2632E', lane: 'PRD', terminal: 'CNNAST04', eta: '08/14 10:00', dis20: 0, dis40: 0},
+        {voyage: 'PDPC2634S', lane: 'BDX', terminal: 'CNNAST04', eta: '08/14 14:00', dis20: 0, dis40: 0},
+        {voyage: 'CSQC2630W', lane: 'SGX', terminal: 'CNNAST04', eta: '08/14 18:30', dis20: 0, dis40: 0},
         {voyage: 'GSNF2632W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/15 01:00', dis20: 0, dis40: 0},
         {voyage: 'MTNE2632W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/15 01:00', dis20: 0, dis40: 0},
         {voyage: 'SWNE2632W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/15 01:00', dis20: 0, dis40: 0},
         {voyage: 'TBNE2632W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/15 01:00', dis20: 0, dis40: 0},
+        {voyage: 'TBNF2632N', lane: 'TWT', terminal: 'CNNAST04', eta: '08/15 01:00', dis20: 0, dis40: 0},
         {voyage: 'THTP2632W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/15 01:00', dis20: 0, dis40: 0},
         {voyage: 'TONE2632W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/15 01:00', dis20: 0, dis40: 0},
         {voyage: 'TONF2632W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/15 01:00', dis20: 0, dis40: 0},
@@ -1212,25 +1210,25 @@ const portData = {
         {voyage: 'WZNE2632W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/15 01:00', dis20: 0, dis40: 0},
         {voyage: 'XPNF2632E', lane: 'PRD', terminal: 'CNNAST04', eta: '08/15 01:00', dis20: 0, dis40: 0},
         {voyage: 'ZHNE2632W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/15 01:00', dis20: 0, dis40: 0},
+        {voyage: 'ZGCD2619E', lane: 'AM1', terminal: 'CNNAST04', eta: '08/15 07:00', dis20: 0, dis40: 0},
         {voyage: 'YAFZ2633W', lane: 'PRD', terminal: 'CNNAST01', eta: '08/15 08:00', dis20: 0, dis40: 0},
         {voyage: 'YAFZ2636W', lane: 'PRD', terminal: 'CNNAST01', eta: '08/15 08:00', dis20: 0, dis40: 0},
-        {voyage: 'HAXG2632S', lane: 'JCT', terminal: 'CNNAST01', eta: '08/15 14:00', dis20: 0, dis40: 0},
+        {voyage: 'HYLT2617S', lane: 'SVP', terminal: 'CNNAST04', eta: '08/15 15:30', dis20: 0, dis40: 0},
       ],
-      'WK2': [
-        {voyage: 'PDPC2635S', lane: 'BDX', terminal: 'CNNAST04', eta: '08/16 08:30', dis20: 0, dis40: 0},
+      'WK1': [
         {voyage: 'TBN12632W', lane: 'LHT', terminal: 'CNNAST04', eta: '08/16 18:00', dis20: 0, dis40: 0},
         {voyage: 'EMFT2633N', lane: 'SHT', terminal: 'CNNAST01', eta: '08/17 16:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHP2629E', lane: 'ST3', terminal: 'CNNAST04', eta: '08/17 21:00', dis20: 0, dis40: 0},
-        {voyage: 'ERVW2632W', lane: 'MFX', terminal: 'CNNAST04', eta: '08/17 21:00', dis20: 0, dis40: 0},
-        {voyage: 'FUYU2632W', lane: 'SGX', terminal: 'CNNAST04', eta: '08/20 01:30', dis20: 0, dis40: 0},
-        {voyage: 'HYLT2618S', lane: 'SVP', terminal: 'CNNAST04', eta: '08/20 05:00', dis20: 0, dis40: 0},
+        {voyage: 'LYJE2629W', lane: 'MFX', terminal: 'CNNAST04', eta: '08/18 18:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHA2631E', lane: 'ST1', terminal: 'CNNAST04', eta: '08/19 07:30', dis20: 0, dis40: 0},
+        {voyage: 'CUHP2629E', lane: 'ST3', terminal: 'CNNAST04', eta: '08/19 13:00', dis20: 0, dis40: 0},
+        {voyage: 'HAXG2632S', lane: 'JCT', terminal: 'CNNAST01', eta: '08/19 14:00', dis20: 0, dis40: 0},
         {voyage: 'WFNE2633S', lane: 'TWT', terminal: 'CNNAST04', eta: '08/20 12:00', dis20: 0, dis40: 0},
-        {voyage: 'MMRN2633S', lane: 'CST', terminal: 'CNNAST04', eta: '08/21 02:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHA2632E', lane: 'ST1', terminal: 'CNNAST04', eta: '08/21 05:00', dis20: 0, dis40: 0},
+        {voyage: 'HPEC2633S', lane: 'NSX', terminal: 'CNNAST04', eta: '08/20 15:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHC2631W', lane: 'AM1', terminal: 'CNNAST04', eta: '08/20 18:00', dis20: 0, dis40: 0},
+        {voyage: 'PDPC2635S', lane: 'BDX', terminal: 'CNNAST04', eta: '08/21 02:00', dis20: 0, dis40: 0},
+        {voyage: 'MMRN2633S', lane: 'SL1', terminal: 'CNNAST04', eta: '08/21 03:00', dis20: 0, dis40: 0},
         {voyage: 'YAFZ2634W', lane: 'PRD', terminal: 'CNNAST01', eta: '08/21 08:00', dis20: 0, dis40: 0},
-        {voyage: 'ZG182632W', lane: 'RES', terminal: 'CNNAST05', eta: '08/21 08:00', dis20: 0, dis40: 0},
-        {voyage: 'LDWG2631S', lane: 'JCT', terminal: 'CNNAST01', eta: '08/21 11:00', dis20: 0, dis40: 0},
-        {voyage: 'MODS2633S', lane: 'NSX', terminal: 'CNNAST04', eta: '08/21 20:00', dis20: 0, dis40: 0},
+        {voyage: 'MODS2634S', lane: 'NSX', terminal: 'CNNAST04', eta: '08/21 16:00', dis20: 0, dis40: 0},
         {voyage: 'GSNF2633W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/22 01:00', dis20: 0, dis40: 0},
         {voyage: 'MTNE2633W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/22 01:00', dis20: 0, dis40: 0},
         {voyage: 'SWNE2633W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/22 01:00', dis20: 0, dis40: 0},
@@ -1241,21 +1239,22 @@ const portData = {
         {voyage: 'WZNE2633W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/22 01:00', dis20: 0, dis40: 0},
         {voyage: 'XPNF2633E', lane: 'PRD', terminal: 'CNNAST04', eta: '08/22 01:00', dis20: 0, dis40: 0},
         {voyage: 'ZHNE2633W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/22 01:00', dis20: 0, dis40: 0},
-        {voyage: 'PDPC2636S', lane: 'BDX', terminal: 'CNNAST04', eta: '08/22 15:30', dis20: 0, dis40: 0},
-        {voyage: 'PETH2629W', lane: 'AM1', terminal: 'CNNAST04', eta: '08/22 21:00', dis20: 0, dis40: 0},
+        {voyage: 'FUYU2632W', lane: 'SGX', terminal: 'CNNAST04', eta: '08/22 11:00', dis20: 0, dis40: 0},
+        {voyage: 'CUYP2634W', lane: 'REX', terminal: 'CNNAST04', eta: '08/22 12:00', dis20: 0, dis40: 0},
       ],
-      'WK3': [
-        {voyage: 'EVHA2633W', lane: 'REX', terminal: 'CNNAST04', eta: '08/23 08:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHP2630E', lane: 'ST3', terminal: 'CNNAST04', eta: '08/24 15:00', dis20: 0, dis40: 0},
+      'WK2': [
+        {voyage: 'ZG182632W', lane: 'RES', terminal: 'CNNAST05', eta: '08/23 00:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHP2630E', lane: 'ST3', terminal: 'CNNAST04', eta: '08/23 03:30', dis20: 0, dis40: 0},
+        {voyage: 'LDWG2631S', lane: 'JCT', terminal: 'CNNAST01', eta: '08/24 09:00', dis20: 0, dis40: 0},
         {voyage: 'EMFT2634N', lane: 'SHT', terminal: 'CNNAST01', eta: '08/24 16:00', dis20: 0, dis40: 0},
-        {voyage: 'H8112634W', lane: 'SGX', terminal: 'CNNAST04', eta: '08/25 18:00', dis20: 0, dis40: 0},
+        {voyage: 'HYLT2618S', lane: 'SVP', terminal: 'CNNAST04', eta: '08/24 22:30', dis20: 0, dis40: 0},
+        {voyage: 'DFMH2627W', lane: 'CGS', terminal: 'CNNAST04', eta: '08/25 10:00', dis20: 0, dis40: 0},
         {voyage: 'KTSM0522E', lane: 'LHT', terminal: 'CNNAST04', eta: '08/26 00:00', dis20: 0, dis40: 0},
         {voyage: 'KTSM2630E', lane: 'LHT', terminal: 'CNNAST04', eta: '08/26 00:00', dis20: 0, dis40: 0},
-        {voyage: 'CUSK2634W', lane: 'AM1', terminal: 'CNNAST04', eta: '08/26 07:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHA2633E', lane: 'ST1', terminal: 'CNNAST04', eta: '08/27 23:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHA2632E', lane: 'ST1', terminal: 'CNNAST04', eta: '08/26 01:30', dis20: 0, dis40: 0},
+        {voyage: 'PDPC2636S', lane: 'BDX', terminal: 'CNNAST04', eta: '08/27 09:00', dis20: 0, dis40: 0},
         {voyage: 'YAFZ2635W', lane: 'PRD', terminal: 'CNNAST01', eta: '08/28 08:00', dis20: 0, dis40: 0},
-        {voyage: 'HPEC2634S', lane: 'NSX', terminal: 'CNNAST04', eta: '08/28 16:00', dis20: 0, dis40: 0},
-        {voyage: 'PDPC2637S', lane: 'BDX', terminal: 'CNNAST04', eta: '08/28 22:30', dis20: 0, dis40: 0},
+        {voyage: 'HPEC2635S', lane: 'NSX', terminal: 'CNNAST04', eta: '08/28 16:30', dis20: 0, dis40: 0},
         {voyage: 'ZGU82634W', lane: 'RES', terminal: 'CNNAST05', eta: '08/28 23:00', dis20: 0, dis40: 0},
         {voyage: 'GSNF2634W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/29 01:00', dis20: 0, dis40: 0},
         {voyage: 'HSNF2634W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/29 01:00', dis20: 0, dis40: 0},
@@ -1270,87 +1269,112 @@ const portData = {
         {voyage: 'XPNF2634E', lane: 'PRD', terminal: 'CNNAST04', eta: '08/29 01:00', dis20: 0, dis40: 0},
         {voyage: 'ZHNE2634W', lane: 'PRD', terminal: 'CNNAST04', eta: '08/29 01:00', dis20: 0, dis40: 0},
         {voyage: 'HYBM2624E', lane: 'LHT', terminal: 'CNNAST04', eta: '08/29 14:00', dis20: 0, dis40: 0},
-        {voyage: 'SHLG2635S', lane: 'JCT', terminal: 'CNNAST01', eta: '08/29 15:00', dis20: 0, dis40: 0},
+      ],
+      'WK3': [
+        {voyage: 'CUHP2631E', lane: 'ST3', terminal: 'CNNAST04', eta: '08/30 03:30', dis20: 0, dis40: 0},
+        {voyage: 'CUSK2634W', lane: 'AM1', terminal: 'CNNAST04', eta: '08/30 21:00', dis20: 0, dis40: 0},
+        {voyage: 'EVVR2634W', lane: 'MFX', terminal: 'CNNAST04', eta: '08/31 01:00', dis20: 0, dis40: 0},
+        {voyage: 'SHLG2635S', lane: 'JCT', terminal: 'CNNAST01', eta: '08/31 02:00', dis20: 0, dis40: 0},
+        {voyage: 'STEC2635W', lane: 'MFX', terminal: 'CNNAST04', eta: '08/31 06:00', dis20: 0, dis40: 0},
+        {voyage: 'EMFT2635N', lane: 'SHT', terminal: 'CNNAST01', eta: '08/31 16:00', dis20: 0, dis40: 0},
+        {voyage: 'HYLT2619S', lane: 'SVP', terminal: 'CNNAST04', eta: '08/31 22:30', dis20: 0, dis40: 0},
+        {voyage: 'CUHA2633E', lane: 'ST1', terminal: 'CNNAST04', eta: '09/01 19:30', dis20: 0, dis40: 0},
+        {voyage: 'ERVW2632W', lane: 'MFX', terminal: 'CNNAST04', eta: '09/02 12:30', dis20: 0, dis40: 0},
+        {voyage: 'XPBL2632W', lane: 'CGX', terminal: 'CNNAST04', eta: '09/04 09:00', dis20: 0, dis40: 0},
+        {voyage: 'MODS2636S', lane: 'NSX', terminal: 'CNNAST04', eta: '09/04 16:00', dis20: 0, dis40: 0},
+        {voyage: 'GSNF2635W', lane: 'PRD', terminal: 'CNNAST04', eta: '09/05 01:00', dis20: 0, dis40: 0},
+        {voyage: 'MTNE2635W', lane: 'PRD', terminal: 'CNNAST04', eta: '09/05 01:00', dis20: 0, dis40: 0},
+        {voyage: 'SWNE2635W', lane: 'PRD', terminal: 'CNNAST04', eta: '09/05 01:00', dis20: 0, dis40: 0},
+        {voyage: 'TBNE2635W', lane: 'PRD', terminal: 'CNNAST04', eta: '09/05 01:00', dis20: 0, dis40: 0},
+        {voyage: 'TONE2635W', lane: 'PRD', terminal: 'CNNAST04', eta: '09/05 01:00', dis20: 0, dis40: 0},
+        {voyage: 'TONF2635W', lane: 'PRD', terminal: 'CNNAST04', eta: '09/05 01:00', dis20: 0, dis40: 0},
+        {voyage: 'WCNE2635W', lane: 'PRD', terminal: 'CNNAST04', eta: '09/05 01:00', dis20: 0, dis40: 0},
+        {voyage: 'WZNE2635W', lane: 'PRD', terminal: 'CNNAST04', eta: '09/05 01:00', dis20: 0, dis40: 0},
+        {voyage: 'XPNF2635E', lane: 'PRD', terminal: 'CNNAST04', eta: '09/05 01:00', dis20: 0, dis40: 0},
+        {voyage: 'ZHNE2635W', lane: 'PRD', terminal: 'CNNAST04', eta: '09/05 01:00', dis20: 0, dis40: 0},
+        {voyage: 'PDPC2637S', lane: 'BDX', terminal: 'CNNAST04', eta: '09/05 05:30', dis20: 0, dis40: 0},
       ],
     },
     cargoSplitData: {
       'WK0': [
-        {vessel: 'HPEC2630S', f20: 6, f40: 101, p20: 0, p40: 0, vvd: 'HPEC2630S', match: 'Y'},
-        {vessel: 'CUHA2629E', f20: 49, f40: 37, p20: 76, p40: 30, vvd: 'CUHA2629E', match: 'Y'},
-        {vessel: 'EMFT2631N', f20: 79, f40: 27, p20: 0, p40: 0, vvd: 'EMFT2631N', match: 'Y'},
-        {vessel: 'ZGNC2628W', f20: 1, f40: 28, p20: 0, p40: 167, vvd: 'ZGNC2628W', match: 'Y'},
-        {vessel: 'PDPC2633S', f20: 23, f40: 23, p20: 0, p40: 0, vvd: 'PDPC2633S', match: 'Y'},
+        {vessel: 'MMRN2631S', f20: 27, f40: 106, p20: 0, p40: 64, vvd: 'MMRN2631S', match: 'Y'},
         {vessel: 'NHZY2602E', f20: 13, f40: 0, p20: 0, p40: 21, vvd: 'NHZY2602E', match: 'Y'},
-        {vessel: 'MODS2631S', f20: 27, f40: 71, p20: 0, p40: 80, vvd: 'MODS2631S', match: 'Y'},
-        {vessel: 'CSTR2631S', f20: 3, f40: 27, p20: 15, p40: 1, vvd: 'CSTR2631S', match: 'Y'},
-        {vessel: 'MMRN2631S', f20: 35, f40: 120, p20: 1, p40: 41, vvd: 'MMRN2631S', match: 'Y'},
-        {vessel: 'BZCF2627W', f20: 17, f40: 34, p20: 0, p40: 0, vvd: 'BZCF2627W', match: 'Y'},
-        {vessel: 'CUHA2630E', f20: 43, f40: 39, p20: 0, p40: 0, vvd: 'CUHA2630E', match: 'Y'},
+        {vessel: 'CUHP2628E', f20: 29, f40: 36, p20: 108, p40: 10, vvd: 'CUHP2628E', match: 'Y'},
+        {vessel: 'EMFT2632N', f20: 15, f40: 7, p20: 0, p40: 0, vvd: 'EMFT2632N', match: 'Y'},
+        {vessel: 'BZCF2627W', f20: 17, f40: 34, p20: 0, p40: 147, vvd: 'BZCF2627W', match: 'Y'},
+        {vessel: 'GSNF2631E', f20: 0, f40: 12, p20: 0, p40: 0, vvd: 'GSNF2631E', match: 'Y'},
+        {vessel: 'TBNE2632E', f20: 0, f40: 0, p20: 1, p40: 4, vvd: 'TBNE2632E', match: 'Y'},
+        {vessel: 'MTNF2632S', f20: 0, f40: 5, p20: 0, p40: 0, vvd: 'MTNF2632S', match: 'Y'},
+        {vessel: 'HELA2631E', f20: 1, f40: 10, p20: 0, p40: 0, vvd: 'HELA2631E', match: 'Y'},
+        {vessel: 'CUHA2630E', f20: 46, f40: 43, p20: 30, p40: 11, vvd: 'CUHA2630E', match: 'Y'},
+        {vessel: 'GSNE2632E', f20: 0, f40: 0, p20: 2, p40: 1, vvd: 'GSNE2632E', match: 'Y'},
+        {vessel: 'GSNF2632E', f20: 2, f40: 9, p20: 0, p40: 0, vvd: 'GSNF2632E', match: 'Y'},
+        {vessel: 'PDPC2634S', f20: 7, f40: 29, p20: 0, p40: 0, vvd: 'PDPC2634S', match: 'Y'},
       ],
       'WK1': [
-        {vessel: 'PDPC2634S', f20: 3, f40: 2, p20: 0, p40: 0, vvd: 'PDPC2634S', match: 'Y'},
-        {vessel: 'EMFT2632N', f20: 13, f40: 0, p20: 0, p40: 0, vvd: 'EMFT2632N', match: 'Y'},
-        {vessel: 'HPEC2632S', f20: 13, f40: 0, p20: 0, p40: 0, vvd: 'HPEC2632S', match: 'Y'},
-        {vessel: 'CUHP2628E', f20: 24, f40: 35, p20: 0, p40: 0, vvd: 'CUHP2628E', match: 'Y'},
-        {vessel: 'ZGCD2619E', f20: 0, f40: 0, p20: 111, p40: 87, vvd: 'ZGCD2619E', match: 'Y'},
-        {vessel: 'CUHA2631E', f20: 3, f40: 4, p20: 0, p40: 0, vvd: 'CUHA2631E', match: 'Y'},
-        {vessel: 'YAFZ2633W', f20: 0, f40: 16, p20: 0, p40: 0, vvd: 'YAFZ2633W', match: 'Y'},
-        {vessel: 'HAXG2632S', f20: 2, f40: 15, p20: 4, p40: 0, vvd: 'HAXG2632S', match: 'Y'},
+        {vessel: 'EMFT2633N', f20: 24, f40: 25, p20: 0, p40: 0, vvd: 'EMFT2633N', match: 'Y'},
+        {vessel: 'CUHA2631E', f20: 31, f40: 26, p20: 0, p40: 0, vvd: 'CUHA2631E', match: 'Y'},
+        {vessel: 'CUHP2629E', f20: 16, f40: 61, p20: 0, p40: 0, vvd: 'CUHP2629E', match: 'Y'},
+        {vessel: 'HAXG2632S', f20: 2, f40: 15, p20: 10, p40: 0, vvd: 'HAXG2632S', match: 'Y'},
+        {vessel: 'HPEC2633S', f20: 9, f40: 180, p20: 0, p40: 0, vvd: 'HPEC2633S', match: 'Y'},
+        {vessel: 'PDPC2635S', f20: 7, f40: 11, p20: 0, p40: 0, vvd: 'PDPC2635S', match: 'Y'},
+        {vessel: 'MMRN2633S', f20: 9, f40: 108, p20: 0, p40: 0, vvd: 'MMRN2633S', match: 'Y'},
+        {vessel: 'MODS2634S', f20: 4, f40: 83, p20: 0, p40: 0, vvd: 'MODS2634S', match: 'Y'},
       ],
       'WK2': [
-        {vessel: 'CUHP2629E', f20: 3, f40: 15, p20: 0, p40: 0, vvd: 'CUHP2629E', match: 'Y'},
-        {vessel: 'ERVW2632W', f20: 2, f40: 0, p20: 0, p40: 0, vvd: 'ERVW2632W', match: 'Y'},
-        {vessel: 'MMRN2633S', f20: 0, f40: 69, p20: 0, p40: 0, vvd: 'MMRN2633S', match: 'Y'},
-        {vessel: 'CUHA2632E', f20: 0, f40: 2, p20: 0, p40: 0, vvd: 'CUHA2632E', match: 'Y'},
-        {vessel: 'LDWG2631S', f20: 1, f40: 4, p20: 0, p40: 0, vvd: 'LDWG2631S', match: 'Y'},
-        {vessel: 'MODS2633S', f20: 1, f40: 4, p20: 0, p40: 0, vvd: 'MODS2633S', match: 'Y'},
+        {vessel: 'CUHP2630E', f20: 0, f40: 2, p20: 0, p40: 0, vvd: 'CUHP2630E', match: 'Y'},
+        {vessel: 'LDWG2631S', f20: 9, f40: 9, p20: 0, p40: 0, vvd: 'LDWG2631S', match: 'Y'},
+        {vessel: 'KTSM0522E', f20: 27, f40: 2, p20: 0, p40: 0, vvd: 'KTSM0522E', match: 'Y'},
+        {vessel: 'KTSM2630E', f20: 0, f40: 11, p20: 0, p40: 0, vvd: 'KTSM2630E', match: 'Y'},
+        {vessel: 'HPEC2635S', f20: 0, f40: 43, p20: 0, p40: 0, vvd: 'HPEC2635S', match: 'Y'},
+        {vessel: 'HYBM2624E', f20: 0, f40: 0, p20: 1, p40: 0, vvd: 'HYBM2624E', match: 'Y'},
       ],
     },
     nawBookingByWeek: {
       'WK0': {
-        '20GP': 668,
-        '40HC': 3136,
+        '20GP': 624,
+        '40HC': 1983,
         vessels: [
-          {vessel: 'HPEC2630S', '20GP': 37, '40HC': 199},
-          {vessel: 'CUHA2629E', '20GP': 78, '40HC': 62},
-          {vessel: 'ZGHA2630W', '20GP': 2, '40HC': 46},
-          {vessel: 'FUYU2630W', '20GP': 49, '40HC': 229},
-          {vessel: 'ZGNC2628W', '20GP': 44, '40HC': 684},
-          {vessel: 'PDPC2633S', '20GP': 25, '40HC': 43},
-          {vessel: 'CUYP2632W', '20GP': 125, '40HC': 490},
-          {vessel: 'MODS2631S', '20GP': 50, '40HC': 233},
-          {vessel: 'CSTR2631S', '20GP': 0, '40HC': 41},
-          {vessel: 'MMRN2631S', '20GP': 62, '40HC': 313},
-          {vessel: 'BZCF2627W', '20GP': 153, '40HC': 683},
-          {vessel: 'ZGU32628W', '20GP': 20, '40HC': 74},
-          {vessel: 'CUHA2630E', '20GP': 23, '40HC': 39},
+          {vessel: 'MMRN2631S', '20GP': 108, '40HC': 555},
+          {vessel: 'ZGU32628W', '20GP': 29, '40HC': 80},
+          {vessel: 'CUHP2628E', '20GP': 87, '40HC': 102},
+          {vessel: 'BZCF2627W', '20GP': 183, '40HC': 592},
+          {vessel: 'CUHA2630E', '20GP': 39, '40HC': 63},
+          {vessel: 'PDPC2634S', '20GP': 35, '40HC': 46},
+          {vessel: 'CSQC2630W', '20GP': 120, '40HC': 479},
+          {vessel: 'ZGCD2619E', '20GP': 4, '40HC': 13},
+          {vessel: 'HYLT2617S', '20GP': 19, '40HC': 53},
         ]
       },
       'WK1': {
-        '20GP': 154,
-        '40HC': 528,
+        '20GP': 256,
+        '40HC': 880,
         vessels: [
-          {vessel: 'DFMH2627W', '20GP': 54, '40HC': 308},
-          {vessel: 'CUHP2628E', '20GP': 75, '40HC': 99},
-          {vessel: 'ZGCD2619E', '20GP': 4, '40HC': 13},
-          {vessel: 'HYLT2617S', '20GP': 0, '40HC': 1},
-          {vessel: 'CSQC2630W', '20GP': 12, '40HC': 58},
-          {vessel: 'CUHC2631W', '20GP': 6, '40HC': 46},
-          {vessel: 'CUHA2631E', '20GP': 3, '40HC': 3},
+          {vessel: 'CUHA2631E', '20GP': 9, '40HC': 18},
+          {vessel: 'CUHP2629E', '20GP': 95, '40HC': 135},
+          {vessel: 'HAXG2632S', '20GP': 30, '40HC': 11},
+          {vessel: 'HPEC2633S', '20GP': 45, '40HC': 149},
+          {vessel: 'CUHC2631W', '20GP': 27, '40HC': 345},
+          {vessel: 'MMRN2633S', '20GP': 48, '40HC': 202},
+          {vessel: 'FUYU2632W', '20GP': 0, '40HC': 1},
+          {vessel: 'CUYP2634W', '20GP': 2, '40HC': 19},
         ]
       },
       'WK2': {
-        '20GP': 3,
-        '40HC': 14,
+        '20GP': 78,
+        '40HC': 327,
         vessels: [
-          {vessel: 'CUHP2629E', '20GP': 2, '40HC': 14},
-          {vessel: 'CUHA2632E', '20GP': 1, '40HC': 0},
+          {vessel: 'CUHP2630E', '20GP': 4, '40HC': 10},
+          {vessel: 'LDWG2631S', '20GP': 18, '40HC': 6},
+          {vessel: 'HYLT2618S', '20GP': 0, '40HC': 1},
+          {vessel: 'DFMH2627W', '20GP': 54, '40HC': 308},
+          {vessel: 'CUHA2632E', '20GP': 2, '40HC': 2},
         ]
       },
     },
     allocationTarget: {
       'WK0': {
-        cal_week: 33,
+        cal_week: 32,
         target: 0,
         bsa: 0,
         by_lane: {
@@ -1358,7 +1382,7 @@ const portData = {
         }
       },
       'WK1': {
-        cal_week: 34,
+        cal_week: 33,
         target: 1280,
         bsa: 1280,
         by_lane: {
@@ -1367,7 +1391,7 @@ const portData = {
       },
     },
     pickupVolumeByWeek: {
-      'WK0': {'20GP': 28, '40HC': 108},
+      'WK0': {'20GP': 0, '40HC': 0},
       'WK1': {'20GP': 0, '40HC': 0},
       'WK2': {'20GP': 0, '40HC': 0},
     },
@@ -1381,22 +1405,22 @@ const portData = {
   CNTAO: {
     forecastData: {
       'Start Empty': {
-        '0': [1762,817,0,0,0,0,945,0],
-        '1': [1570,0,0,0,0,0,0,0],
-        '2': [1317,0,0,0,0,0,0,0],
-        '3': [-1073,0,0,0,0,0,0,0],
+        '0': [2816,983,0,0,0,0,1833,0],
+        '1': [2625,0,0,0,0,0,0,0],
+        '2': [1198,0,0,0,0,0,0,0],
+        '3': [755,0,0,0,0,0,0,0],
       },
       'Inbound Generation': {
-        '0': [333,243,0,0,0,0,90,0],
-        '1': [120,20,0,0,0,0,100,0],
-        '2': [70,20,0,0,0,0,50,0],
-        '3': [30,10,0,0,0,0,20,0],
+        '0': [120,20,0,0,0,0,100,0],
+        '1': [70,20,0,0,0,0,50,0],
+        '2': [30,10,0,0,0,0,20,0],
+        '3': [100,50,0,0,0,0,50,0],
       },
       'Reposition In': {
-        '0': [480,50,0,0,0,0,430,0],
-        '1': [150,106,0,0,0,0,44,0],
-        '2': [0,0,0,0,0,0,0,0],
-        '3': [862,38,0,0,0,0,824,0],
+        '0': [150,106,0,0,0,0,44,0],
+        '1': [254,0,0,0,0,0,253,0],
+        '2': [862,38,0,0,0,0,824,0],
+        '3': [0,0,0,0,0,0,0,0],
       },
       'OW & On-hire': {
         '0': [0,0,0,0,0,0,0,0],
@@ -1411,10 +1435,10 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Outbound Pick-up': {
-        '0': [1005,360,0,0,0,0,645,0],
-        '1': [523,186,0,0,0,0,337,0],
-        '2': [2460,860,0,0,0,0,1600,0],
-        '3': [230,90,0,0,0,0,140,0],
+        '0': [461,172,0,0,0,0,289,0],
+        '1': [1751,752,0,0,0,0,999,0],
+        '2': [1335,450,0,0,0,0,885,0],
+        '3': [631,262,0,0,0,0,369,0],
       },
       'Reposition out': {
         '0': [0,0,0,0,0,0,0,0],
@@ -1435,92 +1459,85 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Balance(Forecast)': {
-        '0': [1570,0,0,0,0,0,0,0],
-        '1': [1317,0,0,0,0,0,0,0],
-        '2': [-1073,0,0,0,0,0,0,0],
-        '3': [-411,0,0,0,0,0,0,0],
+        '0': [2625,0,0,0,0,0,0,0],
+        '1': [1198,0,0,0,0,0,0,0],
+        '2': [755,0,0,0,0,0,0,0],
+        '3': [224,0,0,0,0,0,0,0],
       },
     },
     bookingByVessel: {},
     vesselsByWeek: {
       'WK0': [
-        {voyage: 'SEPC2630S', lane: 'SHT', terminal: 'CNTAOT03', eta: '08/02 00:00', dis20: 0, dis40: 0},
-        {voyage: 'DJVS2628S', lane: 'IQH', terminal: 'CNTAOT03', eta: '08/02 00:30', dis20: 0, dis40: 0},
-        {voyage: 'HAJE2631S', lane: 'SHT', terminal: 'CNTAOT03', eta: '08/03 00:00', dis20: 0, dis40: 0},
-        {voyage: 'PEHE2631S', lane: 'IQH', terminal: 'CNTAOT03', eta: '08/03 02:00', dis20: 0, dis40: 0},
-        {voyage: 'CSQC2630W', lane: 'SGX', terminal: 'CNTAOT02', eta: '08/04 11:00', dis20: 0, dis40: 0},
-        {voyage: 'TBN12676N', lane: 'FDR', terminal: 'CNTAOT02', eta: '08/06 08:00', dis20: 0, dis40: 0},
-        {voyage: 'TBN12677N', lane: 'SHT', terminal: 'CNTAOT02', eta: '08/07 08:00', dis20: 0, dis40: 0},
-        {voyage: 'CUHC2631W', lane: 'AM1', terminal: 'CNTAOT02', eta: '08/07 21:00', dis20: 0, dis40: 0},
-      ],
-      'WK1': [
         {voyage: 'EVSG2628E', lane: 'LHT', terminal: 'CNTAOT03', eta: '08/09 20:30', dis20: 0, dis40: 0},
-        {voyage: 'XFJH2628S', lane: 'NP2', terminal: 'CNTAOT01', eta: '08/11 10:30', dis20: 0, dis40: 0},
         {voyage: 'TBN12678N', lane: 'SEA', terminal: 'CNTAOT02', eta: '08/14 12:00', dis20: 0, dis40: 0},
         {voyage: 'SPND2633W', lane: 'MFX', terminal: 'CNTAOT01', eta: '08/14 19:00', dis20: 0, dis40: 0},
         {voyage: 'LAPC2630E', lane: 'LHT', terminal: 'CNTAOT01', eta: '08/14 21:30', dis20: 0, dis40: 0},
-        {voyage: 'PETH2629W', lane: 'AM1', terminal: 'CNTAOT02', eta: '08/15 00:00', dis20: 0, dis40: 0},
+        {voyage: 'FXD92621N', lane: 'NP2', terminal: 'CNTAOT01', eta: '08/15 04:00', dis20: 0, dis40: 0},
       ],
-      'WK2': [
-        {voyage: 'DJVS2631S', lane: 'IQH', terminal: 'CNTAOT03', eta: '08/16 00:30', dis20: 0, dis40: 0},
-        {voyage: 'PEHE2632S', lane: 'IQH', terminal: 'CNTAOT03', eta: '08/17 01:00', dis20: 0, dis40: 0},
-        {voyage: 'ZYHS2631S', lane: 'NP2', terminal: 'CNTAOT01', eta: '08/18 09:00', dis20: 0, dis40: 0},
-        {voyage: 'CUSK2634W', lane: 'AM1', terminal: 'CNTAOT02', eta: '08/18 10:00', dis20: 0, dis40: 0},
+      'WK1': [
+        {voyage: 'XFJH2628S', lane: 'NP2', terminal: 'CNTAOT01', eta: '08/16 06:30', dis20: 0, dis40: 0},
+        {voyage: 'ZYHS2631S', lane: 'NP2', terminal: 'CNTAOT01', eta: '08/19 02:30', dis20: 0, dis40: 0},
+        {voyage: 'CUSK2634W', lane: 'AM1', terminal: 'CNTAOT02', eta: '08/20 23:00', dis20: 0, dis40: 0},
         {voyage: 'GFPR2630E', lane: 'LHT', terminal: 'CNTAOT02', eta: '08/21 04:00', dis20: 0, dis40: 0},
       ],
+      'WK2': [
+        {voyage: 'PEHE2632S', lane: 'IQH', terminal: 'CNTAOT03', eta: '08/23 14:30', dis20: 0, dis40: 0},
+        {voyage: 'DJVS2633S', lane: 'IQH', terminal: 'CNTAOT03', eta: '08/25 05:00', dis20: 0, dis40: 0},
+        {voyage: 'STEC2635W', lane: 'MFX', terminal: 'CNTAOT01', eta: '08/26 16:00', dis20: 0, dis40: 0},
+        {voyage: 'XPBL2632W', lane: 'CGX', terminal: 'CNTAOT01', eta: '08/27 02:00', dis20: 0, dis40: 0},
+      ],
       'WK3': [
-        {voyage: 'EVVR2634W', lane: 'MFX', terminal: 'CNTAOT01', eta: '08/24 19:00', dis20: 0, dis40: 0},
-        {voyage: 'XPBL2632W', lane: 'SGX', terminal: 'CNTAOT01', eta: '08/25 08:00', dis20: 0, dis40: 0},
-        {voyage: 'XFJH2630S', lane: 'NP2', terminal: 'CNTAOT01', eta: '08/26 02:30', dis20: 0, dis40: 0},
-        {voyage: 'XSAS2635W', lane: 'MFX', terminal: 'CNTAOT01', eta: '08/26 10:00', dis20: 0, dis40: 0},
+        {voyage: 'PETH2629W', lane: 'AM1', terminal: 'CNTAOT02', eta: '08/31 00:00', dis20: 0, dis40: 0},
+        {voyage: 'XFJH2630S', lane: 'NP2', terminal: 'CNTAOT01', eta: '09/02 06:30', dis20: 0, dis40: 0},
+        {voyage: 'CSQC2634W', lane: 'SGX', terminal: 'CNTAOT01', eta: '09/03 08:30', dis20: 0, dis40: 0},
+        {voyage: 'ZYHS2636S', lane: 'NP2', terminal: 'CNTAOT01', eta: '09/04 01:00', dis20: 0, dis40: 0},
+        {voyage: 'PTST2638W', lane: 'MFX', terminal: 'CNTAOT01', eta: '09/04 21:00', dis20: 0, dis40: 0},
       ],
     },
     cargoSplitData: {
       'WK0': [
-        {vessel: 'DJVS2628S', f20: 1, f40: 6, p20: 0, p40: 0, vvd: 'DJVS2628S', match: 'Y'},
-        {vessel: 'CSQC2630W', f20: 0, f40: 0, p20: 25, p40: 174, vvd: 'CSQC2630W', match: 'Y'},
-      ],
-      'WK1': [
-        {vessel: 'SPND2633W', f20: 0, f40: 0, p20: 0, p40: 22, vvd: 'SPND2633W', match: 'Y'},
         {vessel: 'LAPC2630E', f20: 0, f40: 50, p20: 50, p40: 0, vvd: 'LAPC2630E', match: 'Y'},
       ],
-      'WK2': [
+      'WK1': [
+        {vessel: 'XFJH2628S', f20: 0, f40: 0, p20: 0, p40: 152, vvd: 'XFJH2628S', match: 'Y'},
+        {vessel: 'ZYHS2631S', f20: 0, f40: 199, p20: 0, p40: 0, vvd: 'ZYHS2631S', match: 'Y'},
         {vessel: 'CUSK2634W', f20: 18, f40: 8, p20: 0, p40: 0, vvd: 'CUSK2634W', match: 'Y'},
+      ],
+      'WK2': [
+        {vessel: 'XPBL2632W', f20: 0, f40: 0, p20: 7, p40: 192, vvd: 'XPBL2632W', match: 'Y'},
       ],
     },
     nawBookingByWeek: {
       'WK0': {
-        '20GP': 399,
-        '40HC': 939,
+        '20GP': 29,
+        '40HC': 62,
         vessels: [
-          {vessel: 'DJVS2628S', '20GP': 12, '40HC': 24},
-          {vessel: 'PEHE2631S', '20GP': 16, '40HC': 14},
-          {vessel: 'CSQC2630W', '20GP': 293, '40HC': 662},
-          {vessel: 'CUHC2631W', '20GP': 78, '40HC': 239},
+          {vessel: 'SPND2633W', '20GP': 29, '40HC': 62},
         ]
       },
       'WK1': {
-        '20GP': 75,
-        '40HC': 113,
+        '20GP': 404,
+        '40HC': 535,
         vessels: [
-          {vessel: 'XFJH2628S', '20GP': 16, '40HC': 33},
-          {vessel: 'SPND2633W', '20GP': 32, '40HC': 30},
-          {vessel: 'PETH2629W', '20GP': 27, '40HC': 50},
+          {vessel: 'XFJH2628S', '20GP': 80, '40HC': 79},
+          {vessel: 'ZYHS2631S', '20GP': 43, '40HC': 32},
+          {vessel: 'CUSK2634W', '20GP': 281, '40HC': 424},
         ]
       },
       'WK2': {
-        '20GP': 3,
-        '40HC': 13,
+        '20GP': 72,
+        '40HC': 289,
         vessels: [
-          {vessel: 'DJVS2631S', '20GP': 2, '40HC': 4},
-          {vessel: 'PEHE2632S', '20GP': 0, '40HC': 5},
-          {vessel: 'CUSK2634W', '20GP': 1, '40HC': 4},
+          {vessel: 'PEHE2632S', '20GP': 10, '40HC': 21},
+          {vessel: 'DJVS2633S', '20GP': 2, '40HC': 0},
+          {vessel: 'STEC2635W', '20GP': 4, '40HC': 6},
+          {vessel: 'XPBL2632W', '20GP': 56, '40HC': 262},
         ]
       },
     },
     allocationTarget: null,
     pickupVolumeByWeek: {
-      'WK0': {'20GP': 24, '40HC': 32},
+      'WK0': {'20GP': 0, '40HC': 7},
       'WK1': {'20GP': 0, '40HC': 0},
       'WK2': {'20GP': 0, '40HC': 0},
     },
@@ -1529,20 +1546,20 @@ const portData = {
   CNSWA: {
     forecastData: {
       'Start Empty': {
-        '0': [344,94,0,0,0,0,250,0],
-        '1': [230,0,0,0,0,0,0,0],
-        '2': [198,0,0,0,0,0,0,0],
-        '3': [75,0,0,0,0,0,0,0],
+        '0': [406,141,0,0,0,0,265,0],
+        '1': [295,0,0,0,0,0,0,0],
+        '2': [178,0,0,0,0,0,0,0],
+        '3': [63,0,0,0,0,0,0,0],
       },
       'Inbound Generation': {
         '0': [1,0,0,0,0,0,1,0],
-        '1': [1,0,0,0,0,0,1,0],
+        '1': [0,0,0,0,0,0,0,0],
         '2': [0,0,0,0,0,0,0,0],
         '3': [0,0,0,0,0,0,0,0],
       },
       'Reposition In': {
         '0': [0,0,0,0,0,0,0,0],
-        '1': [92,16,0,0,0,0,76,0],
+        '1': [0,0,0,0,0,0,0,0],
         '2': [0,0,0,0,0,0,0,0],
         '3': [0,0,0,0,0,0,0,0],
       },
@@ -1559,10 +1576,10 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Outbound Pick-up': {
-        '0': [115,35,0,0,0,0,80,0],
-        '1': [125,35,0,0,0,0,90,0],
-        '2': [123,38,0,0,0,0,85,0],
-        '3': [115,30,0,0,0,0,85,0],
+        '0': [112,30,0,0,0,0,82,0],
+        '1': [117,32,0,0,0,0,85,0],
+        '2': [115,30,0,0,0,0,85,0],
+        '3': [120,35,0,0,0,0,85,0],
       },
       'Reposition out': {
         '0': [0,0,0,0,0,0,0,0],
@@ -1583,36 +1600,42 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Balance(Forecast)': {
-        '0': [230,0,0,0,0,0,0,0],
-        '1': [198,0,0,0,0,0,0,0],
-        '2': [75,0,0,0,0,0,0,0],
-        '3': [-40,0,0,0,0,0,0,0],
+        '0': [295,0,0,0,0,0,0,0],
+        '1': [178,0,0,0,0,0,0,0],
+        '2': [63,0,0,0,0,0,0,0],
+        '3': [-57,0,0,0,0,0,0,0],
       },
     },
     bookingByVessel: {},
     vesselsByWeek: {
       'WK0': [
-        {voyage: 'FZ352630E', lane: 'PRD', terminal: 'CNSWAT01', eta: '08/03 23:00', dis20: 0, dis40: 0},
-        {voyage: 'FZ352630W', lane: 'PRD', terminal: 'CNSWAT01', eta: '08/05 19:00', dis20: 0, dis40: 0},
-        {voyage: 'FZ352631W', lane: 'PRD', terminal: 'CNSWAT01', eta: '08/06 23:00', dis20: 0, dis40: 0},
-        {voyage: 'THTP2631W', lane: 'PRD', terminal: 'CNSWAT02', eta: '08/08 04:00', dis20: 0, dis40: 0},
-      ],
-      'WK1': [
-        {voyage: 'CUHP2628E', lane: 'ST3', terminal: 'CNSWAT02', eta: '08/10 01:00', dis20: 0, dis40: 0},
         {voyage: 'FZ352631E', lane: 'PRD', terminal: 'CNSWAT01', eta: '08/10 11:00', dis20: 0, dis40: 0},
         {voyage: 'THTP2632W', lane: 'PRD', terminal: 'CNSWAT02', eta: '08/15 04:00', dis20: 0, dis40: 0},
       ],
+      'WK1': [
+        {voyage: 'FZ352633W', lane: 'PRD', terminal: 'CNSWAT01', eta: '08/16 11:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHP2629E', lane: 'ST3', terminal: 'CNSWAT02', eta: '08/18 17:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352633E', lane: 'PRD', terminal: 'CNSWAT01', eta: '08/19 23:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHP2630E', lane: 'ST3', terminal: 'CNSWAT02', eta: '08/22 07:30', dis20: 0, dis40: 0},
+        {voyage: 'FZ352634W', lane: 'PRD', terminal: 'CNSWAT01', eta: '08/22 23:00', dis20: 0, dis40: 0},
+      ],
       'WK2': [
-        {voyage: 'CUHP2629E', lane: 'ST3', terminal: 'CNSWAT02', eta: '08/17 01:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352634E', lane: 'PRD', terminal: 'CNSWAT01', eta: '08/26 11:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHP2631E', lane: 'ST3', terminal: 'CNSWAT02', eta: '08/29 00:30', dis20: 0, dis40: 0},
+        {voyage: 'THTP2634W', lane: 'PRD', terminal: 'CNSWAT02', eta: '08/29 04:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352635W', lane: 'PRD', terminal: 'CNSWAT01', eta: '08/29 11:00', dis20: 0, dis40: 0},
       ],
       'WK3': [
-        {voyage: 'CUHP2630E', lane: 'ST3', terminal: 'CNSWAT02', eta: '08/23 19:00', dis20: 0, dis40: 0},
-        {voyage: 'THTP2634W', lane: 'PRD', terminal: 'CNSWAT02', eta: '08/29 04:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352635E', lane: 'PRD', terminal: 'CNSWAT01', eta: '09/01 23:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352636W', lane: 'PRD', terminal: 'CNSWAT01', eta: '09/04 23:00', dis20: 0, dis40: 0},
+        {voyage: 'CUHP2632E', lane: 'ST3', terminal: 'CNSWAT02', eta: '09/05 00:30', dis20: 0, dis40: 0},
       ],
     },
     cargoSplitData: {
       'WK0': [],
-      'WK1': [],
+      'WK1': [
+        {vessel: 'CUHP2629E', f20: 3, f40: 5, p20: 0, p40: 0, vvd: 'CUHP2629E', match: 'Y'},
+      ],
       'WK2': [],
     },
     nawBookingByWeek: {
@@ -1623,23 +1646,22 @@ const portData = {
         ]
       },
       'WK1': {
-        '20GP': 27,
-        '40HC': 80,
+        '20GP': 44,
+        '40HC': 111,
         vessels: [
-          {vessel: 'CUHP2628E', '20GP': 27, '40HC': 80},
+          {vessel: 'CUHP2629E', '20GP': 44, '40HC': 111},
         ]
       },
       'WK2': {
-        '20GP': 1,
+        '20GP': 0,
         '40HC': 0,
         vessels: [
-          {vessel: 'CUHP2629E', '20GP': 1, '40HC': 0},
         ]
       },
     },
     allocationTarget: {
       'WK0': {
-        cal_week: 33,
+        cal_week: 32,
         target: 320,
         bsa: 320,
         by_lane: {
@@ -1647,7 +1669,7 @@ const portData = {
         }
       },
       'WK2': {
-        cal_week: 35,
+        cal_week: 34,
         target: 870,
         bsa: 870,
         by_lane: {
@@ -1670,10 +1692,10 @@ const portData = {
   CNXMN: {
     forecastData: {
       'Start Empty': {
-        '0': [392,122,0,0,0,0,270,0],
-        '1': [335,0,0,0,0,0,0,0],
-        '2': [235,0,0,0,0,0,0,0],
-        '3': [235,0,0,0,0,0,0,0],
+        '0': [256,37,0,0,0,0,219,0],
+        '1': [156,0,0,0,0,0,0,0],
+        '2': [248,0,0,0,0,0,0,0],
+        '3': [248,0,0,0,0,0,0,0],
       },
       'Inbound Generation': {
         '0': [0,0,0,0,0,0,0,0],
@@ -1682,8 +1704,8 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Reposition In': {
-        '0': [43,34,0,0,0,0,9,0],
-        '1': [0,0,0,0,0,0,0,0],
+        '0': [0,0,0,0,0,0,0,0],
+        '1': [92,91,0,0,0,0,1,0],
         '2': [0,0,0,0,0,0,0,0],
         '3': [0,0,0,0,0,0,0,0],
       },
@@ -1701,7 +1723,7 @@ const portData = {
       },
       'Outbound Pick-up': {
         '0': [100,50,0,0,0,0,50,0],
-        '1': [100,50,0,0,0,0,50,0],
+        '1': [0,0,0,0,0,0,0,0],
         '2': [0,0,0,0,0,0,0,0],
         '3': [0,0,0,0,0,0,0,0],
       },
@@ -1724,88 +1746,93 @@ const portData = {
         '3': [0,0,0,0,0,0,0,0],
       },
       'Balance(Forecast)': {
-        '0': [335,0,0,0,0,0,0,0],
-        '1': [235,0,0,0,0,0,0,0],
-        '2': [235,0,0,0,0,0,0,0],
-        '3': [235,0,0,0,0,0,0,0],
+        '0': [156,0,0,0,0,0,0,0],
+        '1': [248,0,0,0,0,0,0,0],
+        '2': [248,0,0,0,0,0,0,0],
+        '3': [248,0,0,0,0,0,0,0],
       },
     },
     bookingByVessel: {},
     vesselsByWeek: {
       'WK0': [
-        {voyage: 'FXD92620N', lane: 'SVP', terminal: 'CNXMNT01', eta: '08/03 02:00', dis20: 0, dis40: 0},
-        {voyage: 'FZ352629E', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/03 19:00', dis20: 0, dis40: 0},
-        {voyage: 'FZYN2631N', lane: 'TWT', terminal: 'CNXMNT03', eta: '08/04 08:00', dis20: 0, dis40: 0},
-        {voyage: 'FXD92621S', lane: 'NP2', terminal: 'CNXMNT01', eta: '08/04 13:00', dis20: 0, dis40: 0},
-        {voyage: 'FZ352630W', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/04 19:00', dis20: 0, dis40: 0},
-        {voyage: 'YAFZ2632W', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/05 08:00', dis20: 0, dis40: 0},
-        {voyage: 'FZ352630E', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/05 23:00', dis20: 0, dis40: 0},
-        {voyage: 'FZ352631W', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/05 23:00', dis20: 0, dis40: 0},
-        {voyage: 'XPNF2631E', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/08 04:00', dis20: 0, dis40: 0},
-      ],
-      'WK1': [
-        {voyage: 'H8112631W', lane: 'SGX', terminal: 'CNXMNT03', eta: '08/09 17:00', dis20: 0, dis40: 0},
-        {voyage: 'HYLT2617S', lane: 'SVP', terminal: 'CNXMNT01', eta: '08/10 17:00', dis20: 0, dis40: 0},
         {voyage: 'YAFZ2633W', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/12 08:00', dis20: 0, dis40: 0},
         {voyage: 'FZ352631E', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/12 11:00', dis20: 0, dis40: 0},
+        {voyage: 'H8112631W', lane: 'SGX', terminal: 'CNXMNT03', eta: '08/13 07:00', dis20: 0, dis40: 0},
         {voyage: 'XPNF2632E', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/15 04:00', dis20: 0, dis40: 0},
-        {voyage: 'XFJH2628S', lane: 'NP2', terminal: 'CNXMNT01', eta: '08/15 23:30', dis20: 0, dis40: 0},
+        {voyage: 'FZ352633W', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/15 11:00', dis20: 0, dis40: 0},
+      ],
+      'WK1': [
+        {voyage: 'SKTA2627N', lane: 'KHX', terminal: 'CNXMNT01', eta: '08/16 14:30', dis20: 0, dis40: 0},
+        {voyage: 'HYLT2617S', lane: 'SVP', terminal: 'CNXMNT01', eta: '08/17 09:30', dis20: 0, dis40: 0},
+        {voyage: 'MDTT2615E', lane: 'LHT', terminal: 'CNXMNT02', eta: '08/17 10:30', dis20: 0, dis40: 0},
+        {voyage: 'SKMN2627N', lane: 'KHX', terminal: 'CNXMNT01', eta: '08/18 05:30', dis20: 0, dis40: 0},
+        {voyage: 'YAFZ2634W', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/19 08:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352633E', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/21 23:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352634W', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/21 23:00', dis20: 0, dis40: 0},
+        {voyage: 'XPNF2633E', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/22 04:00', dis20: 0, dis40: 0},
+        {voyage: 'XFJH2628S', lane: 'NP2', terminal: 'CNXMNT01', eta: '08/22 04:30', dis20: 0, dis40: 0},
       ],
       'WK2': [
-        {voyage: 'MDTT2615E', lane: 'LHT', terminal: 'CNXMNT02', eta: '08/17 10:30', dis20: 0, dis40: 0},
-        {voyage: 'SKTA2627N', lane: 'KHX', terminal: 'CNXMNT01', eta: '08/18 06:00', dis20: 0, dis40: 0},
-        {voyage: 'HYLT2618S', lane: 'SVP', terminal: 'CNXMNT01', eta: '08/19 03:00', dis20: 0, dis40: 0},
-        {voyage: 'YAFZ2634W', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/19 08:00', dis20: 0, dis40: 0},
-        {voyage: 'SKMN2627N', lane: 'KHX', terminal: 'CNXMNT01', eta: '08/20 06:30', dis20: 0, dis40: 0},
-        {voyage: 'XPNF2633E', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/22 04:00', dis20: 0, dis40: 0},
+        {voyage: 'HYLT2618S', lane: 'SVP', terminal: 'CNXMNT01', eta: '08/23 20:30', dis20: 0, dis40: 0},
+        {voyage: 'MSLN2616E', lane: 'LHT', terminal: 'CNXMNT02', eta: '08/24 10:30', dis20: 0, dis40: 0},
+        {voyage: 'ZYHS2631S', lane: 'NP2', terminal: 'CNXMNT01', eta: '08/24 19:30', dis20: 0, dis40: 0},
+        {voyage: 'YAFZ2635W', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/26 08:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352634E', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/28 11:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352635W', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/28 11:00', dis20: 0, dis40: 0},
+        {voyage: 'XPNF2634E', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/29 04:00', dis20: 0, dis40: 0},
       ],
       'WK3': [
-        {voyage: 'ZYHS2631S', lane: 'NP2', terminal: 'CNXMNT01', eta: '08/24 02:00', dis20: 0, dis40: 0},
-        {voyage: 'MSLN2616E', lane: 'LHT', terminal: 'CNXMNT02', eta: '08/24 10:30', dis20: 0, dis40: 0},
-        {voyage: 'YAFZ2635W', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/26 08:00', dis20: 0, dis40: 0},
-        {voyage: 'XPNF2634E', lane: 'PRD', terminal: 'CNXMNT01', eta: '08/29 04:00', dis20: 0, dis40: 0},
+        {voyage: 'SKTA2630N', lane: 'KHX', terminal: 'CNXMNT01', eta: '08/30 13:30', dis20: 0, dis40: 0},
+        {voyage: 'HYLT2619S', lane: 'SVP', terminal: 'CNXMNT01', eta: '08/30 20:30', dis20: 0, dis40: 0},
+        {voyage: 'YAFZ2636W', lane: 'PRD', terminal: 'CNXMNT01', eta: '09/02 08:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352635E', lane: 'PRD', terminal: 'CNXMNT01', eta: '09/03 23:00', dis20: 0, dis40: 0},
+        {voyage: 'FZ352636W', lane: 'PRD', terminal: 'CNXMNT01', eta: '09/03 23:00', dis20: 0, dis40: 0},
+        {voyage: 'SKMN2628N', lane: 'KHX', terminal: 'CNXMNT01', eta: '09/05 02:30', dis20: 0, dis40: 0},
+        {voyage: 'XPNF2635E', lane: 'PRD', terminal: 'CNXMNT01', eta: '09/05 04:00', dis20: 0, dis40: 0},
       ],
     },
     cargoSplitData: {
-      'WK0': [
-        {vessel: 'FXD92620N', f20: 0, f40: 0, p20: 4, p40: 9, vvd: 'FXD92620N', match: 'Y'},
-        {vessel: 'FZYN2631N', f20: 0, f40: 0, p20: 30, p40: 0, vvd: 'FZYN2631N', match: 'Y'},
-      ],
+      'WK0': [],
       'WK1': [
-        {vessel: 'HYLT2617S', f20: 10, f40: 5, p20: 0, p40: 0, vvd: 'HYLT2617S', match: 'Y'},
+        {vessel: 'SKTA2627N', f20: 0, f40: 2, p20: 0, p40: 0, vvd: 'SKTA2627N', match: 'Y'},
+        {vessel: 'HYLT2617S', f20: 24, f40: 15, p20: 0, p40: 1, vvd: 'HYLT2617S', match: 'Y'},
+        {vessel: 'XFJH2628S', f20: 0, f40: 0, p20: 91, p40: 0, vvd: 'XFJH2628S', match: 'Y'},
       ],
       'WK2': [
-        {vessel: 'XPNF2633E', f20: 0, f40: 1, p20: 0, p40: 0, vvd: 'XPNF2633E', match: 'Y'},
+        {vessel: 'ZYHS2631S', f20: 0, f40: 1, p20: 0, p40: 0, vvd: 'ZYHS2631S', match: 'Y'},
       ],
     },
     nawBookingByWeek: {
       'WK0': {
-        '20GP': 8,
-        '40HC': 56,
+        '20GP': 192,
+        '40HC': 166,
         vessels: [
-          {vessel: 'FXD92621S', '20GP': 8, '40HC': 30},
-          {vessel: 'FZ352630W', '20GP': 0, '40HC': 4},
-          {vessel: 'YAFZ2632W', '20GP': 0, '40HC': 22},
+          {vessel: 'YAFZ2633W', '20GP': 0, '40HC': 17},
+          {vessel: 'H8112631W', '20GP': 192, '40HC': 149},
         ]
       },
       'WK1': {
-        '20GP': 141,
-        '40HC': 99,
+        '20GP': 82,
+        '40HC': 105,
         vessels: [
-          {vessel: 'H8112631W', '20GP': 141, '40HC': 99},
+          {vessel: 'SKTA2627N', '20GP': 2, '40HC': 9},
+          {vessel: 'HYLT2617S', '20GP': 14, '40HC': 23},
+          {vessel: 'SKMN2627N', '20GP': 0, '40HC': 10},
+          {vessel: 'YAFZ2634W', '20GP': 56, '40HC': 28},
+          {vessel: 'FZ352634W', '20GP': 10, '40HC': 0},
+          {vessel: 'XFJH2628S', '20GP': 0, '40HC': 35},
         ]
       },
       'WK2': {
         '20GP': 0,
-        '40HC': 5,
+        '40HC': 0,
         vessels: [
-          {vessel: 'SKTA2627N', '20GP': 0, '40HC': 5},
         ]
       },
     },
     allocationTarget: {
       'WK0': {
-        cal_week: 33,
+        cal_week: 32,
         target: 129,
         bsa: 129,
         by_lane: {
@@ -1813,7 +1840,7 @@ const portData = {
         }
       },
       'WK1': {
-        cal_week: 34,
+        cal_week: 33,
         target: 350,
         bsa: 350,
         by_lane: {
@@ -1822,7 +1849,7 @@ const portData = {
       },
     },
     pickupVolumeByWeek: {
-      'WK0': {'20GP': 0, '40HC': 1},
+      'WK0': {'20GP': 0, '40HC': 0},
       'WK1': {'20GP': 0, '40HC': 0},
       'WK2': {'20GP': 0, '40HC': 0},
     },
@@ -1859,19 +1886,29 @@ function getBalanceBreakdown(wk) {
   if (row[1] !== 0 || row[6] !== 0 || row[0] === 0) {
     return [row[1], row[6]];
   }
-  // CDL Reposition In override (same logic as renderForecastTable)
+  // CDL overrides for Repo In and Inbound Generation (same logic as renderForecastTable)
   const csd = data.cargoSplitData ? data.cargoSplitData['WK' + wk] : null;
   let repoInOverride = null;
+  let inboundGenOverride = null;
   if (csd && csd.length > 0) {
     const repoP20 = csd.reduce((s, v) => s + (v.p20 || 0), 0);
     const repoP40 = csd.reduce((s, v) => s + (v.p40 || 0), 0);
     if (repoP20 + repoP40 > 0) {
       repoInOverride = [repoP20 + repoP40, repoP20, 0, 0, 0, 0, repoP40, 0];
     }
+    const inbF20 = csd.reduce((s, v) => s + (v.f20 || 0), 0);
+    const inbF40 = csd.reduce((s, v) => s + (v.f40 || 0), 0);
+    if (inbF20 + inbF40 > 0) {
+      inboundGenOverride = [inbF20 + inbF40, inbF20, 0, 0, 0, 0, inbF40, 0];
+    }
   }
-  const getRepoInRow = () => repoInOverride || data.forecastData['Reposition In'][String(wk)];
+  const getSupplyRow = (ind) => {
+    if (ind === 'Reposition In' && repoInOverride) return repoInOverride;
+    if (ind === 'Inbound Generation' && inboundGenOverride) return inboundGenOverride;
+    return data.forecastData[ind][String(wk)];
+  };
   const supplyTotal = indicators.filter((ind, j) => signs[j] === '+').reduce((sum, ind) => {
-    const r = (ind === 'Reposition In') ? getRepoInRow() : data.forecastData[ind][String(wk)];
+    const r = getSupplyRow(ind);
     return [sum[0] + r[0], sum[1] + r[1], sum[2] + r[2], sum[3] + r[3], sum[4] + r[4], sum[5] + r[5], sum[6] + r[6], sum[7] + r[7]];
   }, [0, 0, 0, 0, 0, 0, 0, 0]);
   const demandTotal = indicators.filter((ind, j) => signs[j] === '-').reduce((sum, ind) => {
@@ -2111,6 +2148,8 @@ function renderForecastTable(wk) {
   const csd = data.cargoSplitData ? data.cargoSplitData['WK' + wk] : null;
   let repoInOverride = null;
   let repoInHasCDL = false;
+  let inboundGenOverride = null;
+  let inboundGenHasCDL = false;
   if (csd && csd.length > 0) {
     const repoP20 = csd.reduce((s, v) => s + (v.p20 || 0), 0);
     const repoP40 = csd.reduce((s, v) => s + (v.p40 || 0), 0);
@@ -2118,8 +2157,18 @@ function renderForecastTable(wk) {
       repoInOverride = [repoP20 + repoP40, repoP20, 0, 0, 0, 0, repoP40, 0];
       repoInHasCDL = true;
     }
+    const inbF20 = csd.reduce((s, v) => s + (v.f20 || 0), 0);
+    const inbF40 = csd.reduce((s, v) => s + (v.f40 || 0), 0);
+    if (inbF20 + inbF40 > 0) {
+      inboundGenOverride = [inbF20 + inbF40, inbF20, 0, 0, 0, 0, inbF40, 0];
+      inboundGenHasCDL = true;
+    }
   }
-  const getRepoInRow = () => repoInOverride || data.forecastData['Reposition In'][String(wk)];
+  const getSupplyRow = (ind) => {
+    if (ind === 'Reposition In' && repoInOverride) return repoInOverride;
+    if (ind === 'Inbound Generation' && inboundGenOverride) return inboundGenOverride;
+    return data.forecastData[ind][String(wk)];
+  };
 
   // CDL discharge from cargoSplitData
   // F = Inbound Full (客户货柜), P = Reposition In (空箱回拨)
@@ -2165,8 +2214,9 @@ function renderForecastTable(wk) {
   const pickupTeu = pickupFt20 * 1 + pickupFt40 * 2;
 
   // Pre-compute supply/demand totals for Balance breakdown calculation
+  // Use CDL override for both Repo In and Inbound Generation when available.
   const supplyTotal = indicators.filter((ind2,j) => signs[j]==='+').reduce((sum,ind2,j) => {
-    const r = (ind2 === 'Reposition In') ? getRepoInRow() : data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
+    const r = getSupplyRow(ind2); return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
   }, [0,0,0,0,0,0,0,0]);
   const demandTotal = indicators.filter((ind2,j) => signs[j]==='-').reduce((sum,ind2,j) => {
     const r = data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
@@ -2182,7 +2232,9 @@ function renderForecastTable(wk) {
     const cls = isSupply ? 'supply' : 'demand';
     const tag = `<span class="tag ${isSupply ? 'tag-supply' : 'tag-demand'}">${signs[i]}</span>`;
     let detail = '';
-    if (ind === 'Inbound Generation' && wk === 0) {
+    if (ind === 'Inbound Generation' && inboundGenHasCDL) {
+      detail = `<span class="tag tag-cdl">CDL Actual (${csd.length} vessels)</span>`;
+    } else if (ind === 'Inbound Generation' && wk === 0) {
       if (ibHasCDL) {
         detail = `<span class="tag tag-cdl">CDL Actual (${pc().cdlVessels} vessels)</span>`;
       } else {
@@ -2203,7 +2255,9 @@ function renderForecastTable(wk) {
 
     // Display cell: show '—' when breakdown is 0 but Total is non-zero (NAW WK1/WK2 limitation)
     const cell = (val, total) => (val === 0 && total !== 0) ? '<span style="color:#999;">—</span>' : val;
-    let displayRow = (ind === 'Reposition In' && repoInOverride) ? repoInOverride : row;
+    let displayRow = row;
+    if (ind === 'Reposition In' && repoInOverride) displayRow = repoInOverride;
+    if (ind === 'Inbound Generation' && inboundGenOverride) displayRow = inboundGenOverride;
     // For Start Empty row: if breakdown is missing, use previous week's Balance breakdown
     if (ind === 'Start Empty' && row[1] === 0 && row[6] === 0 && row[0] !== 0 && wk > 0) {
       const [se20, se40] = getBalanceBreakdown(wk - 1);
@@ -2228,7 +2282,7 @@ function renderForecastTable(wk) {
         <td style="text-align:left;font-size:11px;">${ibLabel}</td></tr>`;
       // Supply Subtotal row (sum of all + rows, with Start Empty display override)
       const supplyTotal = indicators.filter((ind2,j) => signs[j]==='+').reduce((sum,ind2,j) => {
-        const r = (ind2 === 'Reposition In') ? getRepoInRow() : data.forecastData[ind2][String(wk)]; return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
+        const r = getSupplyRow(ind2); return [sum[0]+r[0],sum[1]+r[1],sum[2]+r[2],sum[3]+r[3],sum[4]+r[4],sum[5]+r[5],sum[6]+r[6],sum[7]+r[7]];
       }, [0,0,0,0,0,0,0,0]);
       const startEmptyRowSub = data.forecastData['Start Empty'][String(wk)];
       const startEmptyDisplaySub = getStartEmptyBreakdown(wk);
@@ -2944,17 +2998,23 @@ function updatePieChart(wk) {
   if (isPending()) return;
   const data = pd();
   const dStart = data.forecastData["Start Empty"][String(wk)];
-  const dIn = data.forecastData["Inbound Generation"][String(wk)];
-  // Use CDL-overridden Repo In to match the table display
+  // Use CDL-overridden Inbound Gen and Repo In to match the table display
   const csd = data.cargoSplitData ? data.cargoSplitData['WK' + wk] : null;
   let repoInOverride = null;
+  let inboundGenOverride = null;
   if (csd && csd.length > 0) {
     const repoP20 = csd.reduce((s, v) => s + (v.p20 || 0), 0);
     const repoP40 = csd.reduce((s, v) => s + (v.p40 || 0), 0);
     if (repoP20 + repoP40 > 0) {
       repoInOverride = [repoP20 + repoP40, repoP20, 0, 0, 0, 0, repoP40, 0];
     }
+    const inbF20 = csd.reduce((s, v) => s + (v.f20 || 0), 0);
+    const inbF40 = csd.reduce((s, v) => s + (v.f40 || 0), 0);
+    if (inbF20 + inbF40 > 0) {
+      inboundGenOverride = [inbF20 + inbF40, inbF20, 0, 0, 0, 0, inbF40, 0];
+    }
   }
+  const dIn = inboundGenOverride || data.forecastData["Inbound Generation"][String(wk)];
   const dRepo = repoInOverride || data.forecastData["Reposition In"][String(wk)];
   const dOut = data.forecastData["Outbound Pick-up"][String(wk)];
   const dRepoOut = data.forecastData["Reposition out"][String(wk)];
@@ -3055,17 +3115,27 @@ function renderAllPortsView() {
     const cfg = PORT_CONFIG[code];
     const wk = 0;
 
-    // CDL Reposition In override (same logic as renderForecastTable / getBalanceBreakdown)
+    // CDL overrides for Repo In and Inbound Generation (same logic as renderForecastTable / getBalanceBreakdown)
     const csd = d.cargoSplitData ? d.cargoSplitData['WK' + wk] : null;
     let repoInOverride = null;
+    let inboundGenOverride = null;
     if (csd && csd.length > 0) {
       const repoP20 = csd.reduce((s, v) => s + (v.p20 || 0), 0);
       const repoP40 = csd.reduce((s, v) => s + (v.p40 || 0), 0);
       if (repoP20 + repoP40 > 0) {
         repoInOverride = [repoP20 + repoP40, repoP20, 0, 0, 0, 0, repoP40, 0];
       }
+      const inbF20 = csd.reduce((s, v) => s + (v.f20 || 0), 0);
+      const inbF40 = csd.reduce((s, v) => s + (v.f40 || 0), 0);
+      if (inbF20 + inbF40 > 0) {
+        inboundGenOverride = [inbF20 + inbF40, inbF20, 0, 0, 0, 0, inbF40, 0];
+      }
     }
-    const getRepoInRow = () => repoInOverride || d.forecastData['Reposition In'][String(wk)];
+    const getSupplyRow = (ind) => {
+      if (ind === 'Reposition In' && repoInOverride) return repoInOverride;
+      if (ind === 'Inbound Generation' && inboundGenOverride) return inboundGenOverride;
+      return d.forecastData[ind][String(wk)];
+    };
 
     // CDL I/B Total = F + P
     const cdlF20 = csd ? csd.reduce((s,v) => s + (v.f20||0), 0) : 0;
@@ -3075,7 +3145,7 @@ function renderAllPortsView() {
     const cdlHasIBData = (cdlF20 + cdlF40 + cdlP20 + cdlP40) > 0;
 
     const supplyT = ["Start Empty","Inbound Generation","Reposition In","OW & On-hire","+ Other"].reduce((s,ind) => {
-      const r = (ind === 'Reposition In') ? getRepoInRow() : d.forecastData[ind][String(wk)];
+      const r = getSupplyRow(ind);
       return [s[0]+r[0],s[1]+r[1],s[2]+r[2],s[3]+r[3],s[4]+r[4],s[5]+r[5],s[6]+r[6],s[7]+r[7]];
     }, [0,0,0,0,0,0,0,0]);
     const demandT = ["Outbound Pick-up","Reposition out","OneWay & Off Hire","- Other"].reduce((s,ind) => {
