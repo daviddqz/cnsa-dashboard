@@ -208,7 +208,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
         <span class="meta-item">Location: SMD</span>
         <span class="meta-item">Type: Dry</span>
         <span class="meta-item">Refreshed: 2026-08-12</span>
-        <span class="meta-item">Data: NAW + CDL + SKD + Live Booking</span>
+        <span class="meta-item">Data: NAW + CDL + SKD</span>
       </div>
     </div>
   </div>
@@ -340,7 +340,7 @@ body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI
   </div>
 
   <div class="footer" id="footerText">
-    Empty Forecast Dashboard v12 | Multi-Port | Auto-generated 2026-08-12 | Data from ops.culines.com NAW System &amp; Live Dashboard
+    Empty Forecast Dashboard v13 | Multi-Port | Auto-generated 2026-08-12 | Data from ops.culines.com NAW System
   </div>
 </div>
 
@@ -422,14 +422,7 @@ const portData = {
         '3': [-2058,0,0,0,0,0,0,0],
       },
     },
-    bookingByVessel: {
-      DFMH2627W: {
-        alloc: 339,
-        current: 463,
-        ft20: 78,
-        ft40: 170
-      },
-    },
+    bookingByVessel: {},
     vesselsByWeek: {
       'WK0': [
         {voyage: 'EVLM2633W', lane: 'LHT', terminal: 'CNSHAT03', eta: '08/10 00:00', dis20: 0, dis40: 0},
@@ -1172,20 +1165,7 @@ const portData = {
         '3': [-536,0,0,0,0,0,0,0],
       },
     },
-    bookingByVessel: {
-      DFMH2627W: {
-        alloc: 320,
-        current: 295,
-        ft20: 69,
-        ft40: 113
-      },
-      BZCF2627W: {
-        alloc: 840,
-        current: 228,
-        ft20: 172,
-        ft40: 28
-      },
-    },
+    bookingByVessel: {},
     vesselsByWeek: {
       'WK0': [
         {voyage: 'MMRN2631S', lane: 'CST', terminal: 'CNNAST04', eta: '08/09 06:54', dis20: 0, dis40: 0},
@@ -1966,7 +1946,7 @@ function switchToAllPorts() {
   document.getElementById('allPortsView').style.display = '';
   document.getElementById('singlePortView').style.display = 'none';
   document.getElementById('dashTitle').textContent = 'All Ports Overview - Empty Forecast Dashboard';
-  document.getElementById('dashMeta').innerHTML = '<span class="meta-item">7 Ports</span><span class="meta-item">Type: Dry</span><span class="meta-item">Refreshed: 2026-08-12</span><span class="meta-item">Data: NAW + CDL + SKD + Live Booking</span>';
+  document.getElementById('dashMeta').innerHTML = '<span class="meta-item">7 Ports</span><span class="meta-item">Type: Dry</span><span class="meta-item">Refreshed: 2026-08-12</span><span class="meta-item">Data: NAW + CDL + SKD</span>';
   if (trendChart) { trendChart.destroy(); trendChart = null; }
   if (pieChart) { pieChart.destroy(); pieChart = null; }
   renderAllPortsView();
@@ -2001,7 +1981,7 @@ function updateHeaderMeta() {
   const cfg = pc();
   const d = pd();
   document.getElementById('dashTitle').textContent = `${currentPort} (${cfg.name}) Empty Forecast & Vessel Schedule Dashboard`;
-  document.getElementById('dashMeta').innerHTML = `<span class="meta-item">Port: ${currentPort}</span><span class="meta-item">Type: Dry</span><span class="meta-item">Status: ${cfg.live ? 'LIVE' : 'Pending'}</span><span class="meta-item">Refreshed: 2026-08-12</span><span class="meta-item">Data: NAW + CDL + SKD + Live Booking</span>`;
+  document.getElementById('dashMeta').innerHTML = `<span class="meta-item">Port: ${currentPort}</span><span class="meta-item">Type: Dry</span><span class="meta-item">Status: ${cfg.live ? 'LIVE' : 'Pending'}</span><span class="meta-item">Refreshed: 2026-08-12</span><span class="meta-item">Data: NAW + CDL + SKD</span>`;
   const statusChip = document.getElementById('headerStatus');
   if (statusChip) {
     statusChip.textContent = cfg.live ? 'LIVE' : 'PENDING';
@@ -2197,23 +2177,19 @@ function renderForecastTable(wk) {
   const ibDisplay40 = (ibTotal20 + ibTotal40 > 0) ? ibTotal40 : ibFallback40;
   const ibDisplayTotal = ibDisplay20 + ibDisplay40;
   const ibHasCDL = (ibTotal20 + ibTotal40 > 0);
-  const bookingVessels = vessels.filter(v => data.bookingByVessel[v.voyage]);
-  const obAlloc = bookingVessels.reduce((s,v) => s + (data.bookingByVessel[v.voyage].alloc||0), 0);
-  const obCurrent = bookingVessels.reduce((s,v) => s + (data.bookingByVessel[v.voyage].current||0), 0);
-  const obFt20 = bookingVessels.reduce((s,v) => s + (data.bookingByVessel[v.voyage].ft20||0), 0);
-  const obFt40 = bookingVessels.reduce((s,v) => s + (data.bookingByVessel[v.voyage].ft40||0), 0);
+  // O/B booking is NAW-based only (Live dashboard no longer used, per user decision 2026-08-12)
   const nawBooking = data.nawBookingByWeek ? data.nawBookingByWeek['WK' + wk] : null;
   const nawFt20 = nawBooking ? (nawBooking['20GP'] || 0) : 0;
   const nawFt40 = nawBooking ? (nawBooking['40HC'] || 0) : 0;
   const nawTeu = nawFt20 * 1 + nawFt40 * 2;
-  // O/B Total: from Live Dashboard bookingByVessel + NAW Work with Booking
-  // If no booking data available, fallback to Outbound Pick-up forecast
+  // O/B Total: from NAW Work with Booking (nawBookingByWeek)
+  // If no NAW booking data available (e.g. WK3), fallback to Outbound Pick-up forecast
   const obOutRow = data.forecastData['Outbound Pick-up'][String(wk)];
-  const obHasBooking = (bookingVessels.length > 0 || nawBooking);
+  const obHasBooking = !!nawBooking && (nawFt20 > 0 || nawFt40 > 0);
   const obHasFallback = !obHasBooking && obOutRow[0] > 0;
-  const totalObFt20 = obHasBooking ? (obFt20 + nawFt20) : (obHasFallback ? obOutRow[1] : 0);
-  const totalObFt40 = obHasBooking ? (obFt40 + nawFt40) : (obHasFallback ? obOutRow[6] : 0);
-  const combinedTotal = obHasBooking ? (obCurrent + nawTeu) : (obHasFallback ? obOutRow[0] : 0);
+  const totalObFt20 = obHasBooking ? nawFt20 : (obHasFallback ? obOutRow[1] : 0);
+  const totalObFt40 = obHasBooking ? nawFt40 : (obHasFallback ? obOutRow[6] : 0);
+  const combinedTotal = obHasBooking ? nawTeu : (obHasFallback ? obOutRow[0] : 0);
   const obHasData = obHasBooking || obHasFallback;
   const pickupVol = data.pickupVolumeByWeek ? data.pickupVolumeByWeek['WK' + wk] : null;
   const pickupFt20 = pickupVol ? (pickupVol['20GP'] || 0) : 0;
@@ -2338,10 +2314,10 @@ function renderForecastTable(wk) {
       const allocTgtVal = allocTgt ? allocTgt.target : 0;
       rowNum++;
       const obDetailHtml = obHasBooking
-        ? `<span class="tag tag-booking">Booking ${currentPort}</span> Alloc: ${obAlloc.toLocaleString()} | Booked: ${obCurrent.toLocaleString()}${nawBooking ? ' <span style="color:#e65100;">+ NAW: ' + nawFt20 + '(20GP)/' + nawFt40 + '(40HC)</span>' : ''}${allocTgt ? ' <span style="color:#888;">(AllocTgt ref: ' + allocTgtVal.toLocaleString() + ')</span>' : ''}`
+        ? `<span class="tag tag-booking">NAW Booking</span> Booked: ${nawTeu.toLocaleString()} TEU (20GP:${nawFt20} / 40HC:${nawFt40})${allocTgt ? ' <span style="color:#888;">(AllocTgt ref: ' + allocTgtVal.toLocaleString() + ')</span>' : ''}`
         : (obHasFallback
           ? `<span class="tag tag-forecast">Forecast Fallback</span> ${allocTgt ? ' <span style="color:#888;">(AllocTgt ref: ' + allocTgtVal.toLocaleString() + ')</span>' : ''}`
-          : `<span class="tag tag-pending" style="color:#999;">No Live Booking Data</span>`);
+          : `<span class="tag tag-pending" style="color:#999;">No Booking Data</span>`);
       html += `<tr class="ibob"><td>${rowNum}</td><td><span class="tag tag-ibo">O/B Total</span></td><td></td>
         <td><strong>${obHasData ? combinedTotal.toLocaleString() : '<span style="color:#999;">—</span>'}</strong></td>
         <td>${obHasData ? (totalObFt20||'') : '<span style="color:#999;">—</span>'}</td><td>${obHasData ? (totalObFt40||'') : '<span style="color:#999;">—</span>'}</td>
@@ -2375,7 +2351,6 @@ function renderBookingTable(wk) {
 
   const data = pd();
   const vessels = data.vesselsByWeek['WK' + wk] || [];
-  const bookingVessels = vessels.filter(v => data.bookingByVessel[v.voyage]);
   const allocTgtKey = 'WK' + wk;
   const allocTgt = (data.allocationTarget && data.allocationTarget[allocTgtKey]) ? data.allocationTarget[allocTgtKey] : null;
   const allocTgtTotal = allocTgt ? (allocTgt.target || 0) : 0;
@@ -2525,280 +2500,179 @@ function renderBookingTable(wk) {
     return `<span title="${title}">${bsa.toLocaleString()}${mark}</span>`;
   }
 
-  bookingVessels.forEach(v => {
-    const bk = data.bookingByVessel[v.voyage];
-    const gap = bk.current - bk.alloc;
-    const pct = bk.alloc > 0 ? (bk.current / bk.alloc * 100).toFixed(1) : 'N/A';
-    const allocEntry = resolveAllocEntry(v.voyage, v.lane, allocTgtKey);
-    const vesselBsa = allocEntry.bsa;
-    totalAlloc += bk.alloc; totalCurrent += bk.current;
-    totalFt20 += bk.ft20; totalFt40 += bk.ft40;
-    html += `<tr>
-      <td><strong>${v.voyage}</strong></td><td>${v.eta}</td><td>${v.lane}</td>
-      <td>${bk.alloc.toLocaleString()}</td><td>${formatBsa(vesselBsa, allocEntry.source)}</td><td>${bk.current.toLocaleString()}</td>
-      <td>${bk.ft20.toLocaleString()}</td><td>${bk.ft40.toLocaleString()}</td>
-      <td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${gap >= 0 ? '+' : ''}${gap.toLocaleString()}</td>
-      <td>${pct}%</td><td>${v.terminal}</td>
+// NAW booking details (NAW is authoritative; Live dashboard removed)
+const nawWkKey = 'WK' + wk;
+const naw = data.nawBookingByWeek && data.nawBookingByWeek[nawWkKey];
+if (naw && (naw['20GP'] > 0 || naw['40HC'] > 0)) {
+  const naw20 = naw['20GP'] || 0;
+  const naw40 = naw['40HC'] || 0;
+  const nawTeu = naw20 * 1 + naw40 * 2;
+  const nawVessels = naw.vessels || [];
+
+  if (nawVessels.length > 0) {
+    // Render per-vessel NAW booking rows
+    let nawTotalAlloc = 0, nawTotalBsa = 0, nawTotalBooked = 0, nawTotal20 = 0, nawTotal40 = 0;
+    const currentWkKey = 'WK' + wk;
+    nawVessels.forEach(nv => {
+      const vvd = nv.vessel;
+      const vInfo = vesselLookup[vvd];
+      const eta = vInfo ? vInfo.eta : '-';
+      const svc = vInfo ? vInfo.lane : '-';
+      const term = vInfo ? vInfo.terminal : '-';
+      // BSA lookup: exact match first, then prefix-based fallback
+      let allocEntry = (allocVesselLookup[vvd] && allocVesselLookup[vvd][currentWkKey]) || null;
+      if (!allocEntry) {
+        const prefix = vvd.substring(0, 4);
+        const svcLane = svc !== '-' ? svc : '';
+        if (allocPrefixLookup[prefix]) {
+          const laneEntries = allocPrefixLookup[prefix][svcLane];
+          if (laneEntries && laneEntries[currentWkKey]) {
+            allocEntry = laneEntries[currentWkKey];
+          } else {
+            let bestBsa = 0, bestTarget = 0;
+            Object.values(allocPrefixLookup[prefix]).forEach(laneMap => {
+              const wkEntry = laneMap[currentWkKey];
+              if (wkEntry && wkEntry.bsa > bestBsa) { bestBsa = wkEntry.bsa; bestTarget = wkEntry.target; }
+            });
+            if (bestBsa > 0) allocEntry = { target: bestTarget, bsa: bestBsa };
+          }
+        }
+      }
+      if (!allocEntry) allocEntry = { target: 0, bsa: 0 };
+      const allocVal = allocEntry.target || 0;
+      const bsa = allocEntry.bsa || 0;
+      const booked = (nv['20GP'] || 0) * 1 + (nv['40HC'] || 0) * 2;
+      const gap = allocVal > 0 ? booked - allocVal : 0;
+      const pct = allocVal > 0 ? (booked / allocVal * 100).toFixed(1) : '-';
+      nawTotalAlloc += allocVal;
+      nawTotalBsa += bsa;
+      nawTotalBooked += booked;
+      nawTotal20 += nv['20GP'] || 0;
+      nawTotal40 += nv['40HC'] || 0;
+      html += `<tr style="background:#fff8e1;">
+        <td><strong>${vvd}</strong></td><td>${eta}</td><td>${svc}</td>
+        <td>${allocVal > 0 ? allocVal.toLocaleString() : '-'}</td>
+        <td>${bsa > 0 ? bsa.toLocaleString() : '-'}</td>
+        <td>${booked.toLocaleString()}</td>
+        <td>${(nv['20GP'] || 0).toLocaleString()}</td><td>${(nv['40HC'] || 0).toLocaleString()}</td>
+        <td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${allocVal > 0 ? (gap >= 0 ? '+' : '') + gap.toLocaleString() : '-'}</td>
+        <td>${pct}${pct !== '-' ? '%' : ''}</td><td>${term}</td>
+      </tr>`;
+    });
+    // NAW TOTAL row
+    const totalGap = nawTotalAlloc > 0 ? nawTotalBooked - nawTotalAlloc : 0;
+    const totalPct = nawTotalAlloc > 0 ? (nawTotalBooked / nawTotalAlloc * 100).toFixed(1) : '-';
+    html += `<tr style="font-weight:700;background:#fce4d6;">
+      <td><strong>NAW TOTAL</strong></td><td>-</td><td>${nawVessels.length} vessels</td>
+      <td>${nawTotalAlloc > 0 ? nawTotalAlloc.toLocaleString() : '-'}</td>
+      <td>${nawTotalBsa > 0 ? nawTotalBsa.toLocaleString() : '-'}</td>
+      <td>${nawTotalBooked.toLocaleString()}</td>
+      <td>${nawTotal20.toLocaleString()}</td><td>${nawTotal40.toLocaleString()}</td>
+      <td style="color:${totalGap >= 0 ? '#c62828' : '#2e7d32'}">${nawTotalAlloc > 0 ? (totalGap >= 0 ? '+' : '') + totalGap.toLocaleString() : '-'}</td>
+      <td>${totalPct}${totalPct !== '-' ? '%' : ''}</td><td>-</td>
+    </tr>`;
+  } else {
+    // No vessel details, show single summary row
+    html = `<tr style="background:#fff3e0;">
+      <td colspan="5" style="text-align:left;padding:8px 16px;color:#999;">NAW booking summary for WK${wk} (no vessel-level details)</td>
+      <td style="font-weight:700;">${nawTeu.toLocaleString()}</td>
+      <td>${naw20.toLocaleString()}</td><td>${naw40.toLocaleString()}</td>
+      <td>-</td><td>-</td><td>-</td>
+    </tr>`;
+  }
+} else {
+  html = `<tr><td colspan="11" style="color:#999;padding:20px;">No ${currentPort} booking data for this week</td></tr>`;
+}
+
+
+// BSA vessel rows: same format as booking, showing VVD / ETA / Lane / BSA
+if (bsaVessels.length > 0) {
+  let bsaTotal = 0, bsaTotalBooked = 0, bsaTotal20 = 0, bsaTotal40 = 0;
+  let bsaHtml = '';
+  // Build NAW booking lookup for this week (exact + prefix fallback)
+  const nawWkKey = 'WK' + wk;
+  const naw = data.nawBookingByWeek && data.nawBookingByWeek[nawWkKey];
+  const nawExact = {}, nawPrefix = {};
+  if (naw && naw.vessels) {
+    naw.vessels.forEach(nv => {
+      nawExact[nv.vessel] = nv;
+      const prefix = nv.vessel.substring(0, 4);
+      if (!nawPrefix[prefix]) nawPrefix[prefix] = [];
+      nawPrefix[prefix].push(nv);
+    });
+  }
+  bsaVessels.forEach(av => {
+    bsaTotal += av.bsa;
+    // Booked from NAW booking data (exact, then prefix) - NAW is authoritative
+    let booked = null;
+    let bookedSource = '';
+    let nawV = nawExact[av.voyage];
+    if (!nawV) {
+      const prefix = av.voyage.substring(0, 4);
+      const candidates = nawPrefix[prefix];
+      if (candidates && candidates.length === 1) nawV = candidates[0];
+    }
+    if (nawV) {
+      booked = { current: (nawV['20GP'] || 0) * 1 + (nawV['40HC'] || 0) * 2, ft20: nawV['20GP'] || 0, ft40: nawV['40HC'] || 0 };
+      bookedSource = 'naw';
+    }
+    if (booked) {
+      bsaTotalBooked += booked.current;
+      bsaTotal20 += booked.ft20;
+      bsaTotal40 += booked.ft40;
+    }
+    const gap = booked ? booked.current - av.bsa : null;
+    const pct = booked && av.bsa > 0 ? (booked.current / av.bsa * 100).toFixed(1) : null;
+    const bookedStr = booked
+      ? `<td>${booked.current.toLocaleString()}</td><td>${booked.ft20.toLocaleString()}</td><td>${booked.ft40.toLocaleString()}</td>`
+      : '<td>-</td><td>-</td><td>-</td>';
+    const gapStr = booked
+      ? `<td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${gap >= 0 ? '+' : ''}${gap.toLocaleString()}</td>`
+      : '<td>-</td>';
+    const pctStr = booked
+      ? `<td>${pct}%</td>`
+      : '<td>-</td>';
+    const sourceTag = bookedSource === 'naw' ? ' <span style="color:#e65100;font-size:10px;">(NAW)</span>' : '';
+    bsaHtml += `<tr style="background:#e8eaf6;">
+      <td><strong>${av.voyage}</strong></td><td>${av.eta}</td><td>${av.lane}</td>
+      <td>-</td><td style="font-weight:700;color:#1565c0;">${av.bsa.toLocaleString()}</td>
+      ${bookedStr}
+      ${gapStr}${pctStr}<td>${av.terminal}${sourceTag}</td>
     </tr>`;
   });
-
-  if (bookingVessels.length > 0) {
-    const totalGap = totalCurrent - totalAlloc;
-    html += `<tr style="font-weight:700;background:#fce4d6;">
-      <td><strong>TOTAL</strong></td><td>-</td><td>${bookingVessels.length} vessels</td>
-      <td>${totalAlloc.toLocaleString()}</td><td>-</td><td>${totalCurrent.toLocaleString()}</td>
-      <td>${totalFt20.toLocaleString()}</td><td>${totalFt40.toLocaleString()}</td>
-      <td style="color:${totalGap >= 0 ? '#c62828' : '#2e7d32'}">${totalGap >= 0 ? '+' : ''}${totalGap.toLocaleString()}</td>
-      <td>${totalAlloc > 0 ? (totalCurrent/totalAlloc*100).toFixed(1) : 'N/A'}%</td><td>-</td>
+  const totalGap = bsaTotalBooked - bsaTotal;
+  const totalPct = bsaTotal > 0 ? (bsaTotalBooked / bsaTotal * 100).toFixed(1) : 'N/A';
+  html += `<tr style="background:#e3f2fd;border-top:3px solid #1565c0;">
+    <td colspan="11" style="padding:8px 16px;font-weight:700;color:#1565c0;text-align:left;">
+      BSA Vessel Details (${allocTgtKey} · ${allocTgt && allocTgt.cal_week ? 'CW' + allocTgt.cal_week : 'current'} · Total BSA: ${bsaTotal.toLocaleString()} TEU)
+    </td>
+  </tr>`;
+  html += bsaHtml;
+  html += `<tr style="font-weight:700;background:#e3f2fd;">
+    <td><strong>TOTAL BSA</strong></td><td>-</td><td>${bsaVessels.length} vessels</td>
+    <td>-</td><td style="color:#1565c0;">${bsaTotal.toLocaleString()}</td>
+    <td>${bsaTotalBooked > 0 ? bsaTotalBooked.toLocaleString() : '-'}</td>
+    <td>${bsaTotal20 > 0 ? bsaTotal20.toLocaleString() : '-'}</td>
+    <td>${bsaTotal40 > 0 ? bsaTotal40.toLocaleString() : '-'}</td>
+    <td style="color:${totalGap >= 0 ? '#c62828' : '#2e7d32'}">${bsaTotalBooked > 0 ? (totalGap >= 0 ? '+' : '') + totalGap.toLocaleString() : '-'}</td>
+    <td>${bsaTotalBooked > 0 ? totalPct + '%' : '-'}</td><td>-</td>
+  </tr>`;
+} else if (allocTgtTotal > 0) {
+  // Fallback: show lane summary if no vessel-level data
+  const laneEntries = Object.entries(allocTgtByLane).filter(([lane, val]) => val > 0);
+  if (laneEntries.length > 0) {
+    html += `<tr style="background:#e3f2fd;">
+      <td colspan="11" style="padding:0;">
+        <div style="padding:10px 16px;">
+          <div style="font-weight:700;margin-bottom:6px;color:#1565c0;">Allocation Target by Lane (${allocTgtKey} · ${allocTgt && allocTgt.cal_week ? 'CW' + allocTgt.cal_week : 'current'} · total ${allocTgtTotal.toLocaleString()} TEU)</div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">` +
+          laneEntries.map(([lane, val]) => `<span class="tag tag-booking" style="background:#bbdefb;color:#0d47a1;">${lane}: ${val.toLocaleString()}</span>`).join('') +
+          `</div>
+        </div>
+      </td>
     </tr>`;
-
-    // Add NAW booking vessel rows and grand total if NAW data exists for this week
-    const nawWkKey = 'WK' + wk;
-    const naw = data.nawBookingByWeek && data.nawBookingByWeek[nawWkKey];
-    if (naw && (naw['20GP'] > 0 || naw['40HC'] > 0)) {
-      const naw20 = naw['20GP'] || 0;
-      const naw40 = naw['40HC'] || 0;
-      const nawTeu = naw20 * 1 + naw40 * 2;
-      const nawVessels = naw.vessels || [];
-      const grandTeu = totalCurrent + nawTeu;
-      const grandFt20 = totalFt20 + naw20;
-      const grandFt40 = totalFt40 + naw40;
-
-      // Group header for NAW booking details
-      html += `<tr style="background:#fff3e0;border-top:2px solid #ff9800;">
-        <td colspan="11" style="padding:8px 16px;font-weight:700;color:#e65100;text-align:left;">
-          NAW Booking Details (${nawVessels.length} vessels · ${nawTeu.toLocaleString()} TEU)
-        </td>
-      </tr>`;
-
-      let nawTotalBooked = 0, nawTotal20 = 0, nawTotal40 = 0, nawTotalAlloc = 0, nawTotalBsa = 0;
-      const currentWkKey = 'WK' + wk;
-      nawVessels.forEach(nv => {
-        const vvd = nv.vessel;
-        const vInfo = vesselLookup[vvd];
-        const eta = vInfo ? vInfo.eta : '-';
-        const svc = vInfo ? vInfo.lane : '-';
-        const term = vInfo ? vInfo.terminal : '-';
-        // Unified allocation/BSA resolver with cross-week prefix fallback
-        const allocEntry = resolveAllocEntry(vvd, svc, currentWkKey);
-        const allocVal = allocEntry.target || 0;
-        const bsa = allocEntry.bsa || 0;
-        const booked = (nv['20GP'] || 0) * 1 + (nv['40HC'] || 0) * 2;
-        const gap = allocVal > 0 ? booked - allocVal : 0;
-        const pct = allocVal > 0 ? (booked / allocVal * 100).toFixed(1) : '-';
-        nawTotalBooked += booked;
-        nawTotal20 += nv['20GP'] || 0;
-        nawTotal40 += nv['40HC'] || 0;
-        nawTotalAlloc += allocVal;
-        nawTotalBsa += bsa;
-        html += `<tr style="background:#fff8e1;">
-          <td><strong>${vvd}</strong></td><td>${eta}</td><td>${svc}</td>
-          <td>${allocVal > 0 ? allocVal.toLocaleString() : '-'}</td>
-          <td>${formatBsa(bsa, allocEntry.source)}</td>
-          <td>${booked.toLocaleString()}</td>
-          <td>${(nv['20GP'] || 0).toLocaleString()}</td><td>${(nv['40HC'] || 0).toLocaleString()}</td>
-          <td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${allocVal > 0 ? (gap >= 0 ? '+' : '') + gap.toLocaleString() : '-'}</td>
-          <td>${pct}${pct !== '-' ? '%' : ''}</td><td>${term}</td>
-        </tr>`;
-      });
-
-      // NAW subtotal row
-      const nawTotalGap = nawTotalAlloc > 0 ? nawTotalBooked - nawTotalAlloc : 0;
-      const nawTotalPct = nawTotalAlloc > 0 ? (nawTotalBooked / nawTotalAlloc * 100).toFixed(1) : '-';
-      html += `<tr style="font-weight:700;background:#ffe0b2;">
-        <td><strong>NAW Subtotal</strong></td><td>-</td><td>${nawVessels.length} vessels</td>
-        <td>${nawTotalAlloc > 0 ? nawTotalAlloc.toLocaleString() : '-'}</td>
-        <td>${nawTotalBsa > 0 ? nawTotalBsa.toLocaleString() : '-'}</td>
-        <td>${nawTotalBooked.toLocaleString()}</td>
-        <td>${nawTotal20.toLocaleString()}</td><td>${nawTotal40.toLocaleString()}</td>
-        <td style="color:${nawTotalGap >= 0 ? '#c62828' : '#2e7d32'}">${nawTotalAlloc > 0 ? (nawTotalGap >= 0 ? '+' : '') + nawTotalGap.toLocaleString() : '-'}</td>
-        <td>${nawTotalPct}${nawTotalPct !== '-' ? '%' : ''}</td><td>-</td>
-      </tr>`;
-
-      html += `<tr style="font-weight:700;background:#e8f5e9;">
-        <td><strong>TOTAL incl. NAW</strong></td><td>-</td><td>-</td>
-        <td>${totalAlloc.toLocaleString()}</td><td>${allocTgtBsa > 0 ? allocTgtBsa.toLocaleString() : '-'}</td><td>${grandTeu.toLocaleString()}</td>
-        <td>${grandFt20.toLocaleString()}</td><td>${grandFt40.toLocaleString()}</td>
-        <td style="color:${grandTeu - totalAlloc >= 0 ? '#c62828' : '#2e7d32'}">${grandTeu - totalAlloc >= 0 ? '+' : ''}${(grandTeu - totalAlloc).toLocaleString()}</td>
-        <td>${totalAlloc > 0 ? (grandTeu/totalAlloc*100).toFixed(1) : 'N/A'}%</td><td>-</td>
-      </tr>`;
-    }
-
-    // BSA vessel rows: same format as booking, showing VVD / ETA / Lane / BSA
-    if (bsaVessels.length > 0) {
-      let bsaTotal = 0, bsaTotalBooked = 0, bsaTotal20 = 0, bsaTotal40 = 0;
-      let bsaHtml = '';
-      // Build NAW booking lookup for this week (exact + prefix fallback)
-      const nawWkKey = 'WK' + wk;
-      const naw = data.nawBookingByWeek && data.nawBookingByWeek[nawWkKey];
-      const nawExact = {}, nawPrefix = {};
-      if (naw && naw.vessels) {
-        naw.vessels.forEach(nv => {
-          nawExact[nv.vessel] = nv;
-          const prefix = nv.vessel.substring(0, 4);
-          if (!nawPrefix[prefix]) nawPrefix[prefix] = [];
-          nawPrefix[prefix].push(nv);
-        });
-      }
-      bsaVessels.forEach(av => {
-        bsaTotal += av.bsa;
-        let booked = data.bookingByVessel[av.voyage];
-        let bookedSource = '';
-        if (!booked) {
-          // Fallback to NAW booking data (exact, then prefix)
-          let nawV = nawExact[av.voyage];
-          if (!nawV) {
-            const prefix = av.voyage.substring(0, 4);
-            const candidates = nawPrefix[prefix];
-            if (candidates && candidates.length === 1) nawV = candidates[0];
-          }
-          if (nawV) {
-            booked = { current: (nawV['20GP'] || 0) * 1 + (nawV['40HC'] || 0) * 2, ft20: nawV['20GP'] || 0, ft40: nawV['40HC'] || 0 };
-            bookedSource = 'naw';
-          }
-        }
-        if (booked) {
-          bsaTotalBooked += booked.current;
-          bsaTotal20 += booked.ft20;
-          bsaTotal40 += booked.ft40;
-        }
-        const gap = booked ? booked.current - av.bsa : null;
-        const pct = booked && av.bsa > 0 ? (booked.current / av.bsa * 100).toFixed(1) : null;
-        const bookedStr = booked
-          ? `<td>${booked.current.toLocaleString()}</td><td>${booked.ft20.toLocaleString()}</td><td>${booked.ft40.toLocaleString()}</td>`
-          : '<td>-</td><td>-</td><td>-</td>';
-        const gapStr = booked
-          ? `<td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${gap >= 0 ? '+' : ''}${gap.toLocaleString()}</td>`
-          : '<td>-</td>';
-        const pctStr = booked
-          ? `<td>${pct}%</td>`
-          : '<td>-</td>';
-        const sourceTag = bookedSource === 'naw' ? ' <span style="color:#e65100;font-size:10px;">(NAW)</span>' : '';
-        bsaHtml += `<tr style="background:#e8eaf6;">
-          <td><strong>${av.voyage}</strong></td><td>${av.eta}</td><td>${av.lane}</td>
-          <td>-</td><td style="font-weight:700;color:#1565c0;">${av.bsa.toLocaleString()}</td>
-          ${bookedStr}
-          ${gapStr}${pctStr}<td>${av.terminal}${sourceTag}</td>
-        </tr>`;
-      });
-      const totalGap = bsaTotalBooked - bsaTotal;
-      const totalPct = bsaTotal > 0 ? (bsaTotalBooked / bsaTotal * 100).toFixed(1) : 'N/A';
-      html += `<tr style="background:#e3f2fd;border-top:3px solid #1565c0;">
-        <td colspan="11" style="padding:8px 16px;font-weight:700;color:#1565c0;text-align:left;">
-          BSA Vessel Details (${allocTgtKey} · ${allocTgt && allocTgt.cal_week ? 'CW' + allocTgt.cal_week : 'current'} · Total BSA: ${bsaTotal.toLocaleString()} TEU)
-        </td>
-      </tr>`;
-      html += bsaHtml;
-      html += `<tr style="font-weight:700;background:#e3f2fd;">
-        <td><strong>TOTAL BSA</strong></td><td>-</td><td>${bsaVessels.length} vessels</td>
-        <td>-</td><td style="color:#1565c0;">${bsaTotal.toLocaleString()}</td>
-        <td>${bsaTotalBooked > 0 ? bsaTotalBooked.toLocaleString() : '-'}</td>
-        <td>${bsaTotal20 > 0 ? bsaTotal20.toLocaleString() : '-'}</td>
-        <td>${bsaTotal40 > 0 ? bsaTotal40.toLocaleString() : '-'}</td>
-        <td style="color:${totalGap >= 0 ? '#c62828' : '#2e7d32'}">${bsaTotalBooked > 0 ? (totalGap >= 0 ? '+' : '') + totalGap.toLocaleString() : '-'}</td>
-        <td>${bsaTotalBooked > 0 ? totalPct + '%' : '-'}</td><td>-</td>
-      </tr>`;
-    } else if (allocTgtTotal > 0) {
-      // Fallback: show lane summary if no vessel-level data
-      const laneEntries = Object.entries(allocTgtByLane).filter(([lane, val]) => val > 0);
-      if (laneEntries.length > 0) {
-        html += `<tr style="background:#e3f2fd;">
-          <td colspan="11" style="padding:0;">
-            <div style="padding:10px 16px;">
-              <div style="font-weight:700;margin-bottom:6px;color:#1565c0;">Allocation Target by Lane (${allocTgtKey} · ${allocTgt && allocTgt.cal_week ? 'CW' + allocTgt.cal_week : 'current'} · total ${allocTgtTotal.toLocaleString()} TEU)</div>
-              <div style="display:flex;flex-wrap:wrap;gap:10px;">` +
-              laneEntries.map(([lane, val]) => `<span class="tag tag-booking" style="background:#bbdefb;color:#0d47a1;">${lane}: ${val.toLocaleString()}</span>`).join('') +
-              `</div>
-            </div>
-          </td>
-        </tr>`;
-      }
-    }
-  } else {
-    // No Live booking data, but check if NAW booking exists for this week
-    const nawWkKey = 'WK' + wk;
-    const naw = data.nawBookingByWeek && data.nawBookingByWeek[nawWkKey];
-    if (naw && (naw['20GP'] > 0 || naw['40HC'] > 0)) {
-      const naw20 = naw['20GP'] || 0;
-      const naw40 = naw['40HC'] || 0;
-      const nawTeu = naw20 * 1 + naw40 * 2;
-      const nawVessels = naw.vessels || [];
-
-      if (nawVessels.length > 0) {
-        // Render per-vessel NAW booking rows
-        let nawTotalAlloc = 0, nawTotalBsa = 0, nawTotalBooked = 0, nawTotal20 = 0, nawTotal40 = 0;
-        const currentWkKey = 'WK' + wk;
-        nawVessels.forEach(nv => {
-          const vvd = nv.vessel;
-          const vInfo = vesselLookup[vvd];
-          const eta = vInfo ? vInfo.eta : '-';
-          const svc = vInfo ? vInfo.lane : '-';
-          const term = vInfo ? vInfo.terminal : '-';
-          // BSA lookup: exact match first, then prefix-based fallback
-          let allocEntry = (allocVesselLookup[vvd] && allocVesselLookup[vvd][currentWkKey]) || null;
-          if (!allocEntry) {
-            const prefix = vvd.substring(0, 4);
-            const svcLane = svc !== '-' ? svc : '';
-            if (allocPrefixLookup[prefix]) {
-              const laneEntries = allocPrefixLookup[prefix][svcLane];
-              if (laneEntries && laneEntries[currentWkKey]) {
-                allocEntry = laneEntries[currentWkKey];
-              } else {
-                let bestBsa = 0, bestTarget = 0;
-                Object.values(allocPrefixLookup[prefix]).forEach(laneMap => {
-                  const wkEntry = laneMap[currentWkKey];
-                  if (wkEntry && wkEntry.bsa > bestBsa) { bestBsa = wkEntry.bsa; bestTarget = wkEntry.target; }
-                });
-                if (bestBsa > 0) allocEntry = { target: bestTarget, bsa: bestBsa };
-              }
-            }
-          }
-          if (!allocEntry) allocEntry = { target: 0, bsa: 0 };
-          const allocVal = allocEntry.target || 0;
-          const bsa = allocEntry.bsa || 0;
-          const booked = (nv['20GP'] || 0) * 1 + (nv['40HC'] || 0) * 2;
-          const gap = allocVal > 0 ? booked - allocVal : 0;
-          const pct = allocVal > 0 ? (booked / allocVal * 100).toFixed(1) : '-';
-          nawTotalAlloc += allocVal;
-          nawTotalBsa += bsa;
-          nawTotalBooked += booked;
-          nawTotal20 += nv['20GP'] || 0;
-          nawTotal40 += nv['40HC'] || 0;
-          html += `<tr style="background:#fff8e1;">
-            <td><strong>${vvd}</strong></td><td>${eta}</td><td>${svc}</td>
-            <td>${allocVal > 0 ? allocVal.toLocaleString() : '-'}</td>
-            <td>${bsa > 0 ? bsa.toLocaleString() : '-'}</td>
-            <td>${booked.toLocaleString()}</td>
-            <td>${(nv['20GP'] || 0).toLocaleString()}</td><td>${(nv['40HC'] || 0).toLocaleString()}</td>
-            <td style="color:${gap >= 0 ? '#c62828' : '#2e7d32'}">${allocVal > 0 ? (gap >= 0 ? '+' : '') + gap.toLocaleString() : '-'}</td>
-            <td>${pct}${pct !== '-' ? '%' : ''}</td><td>${term}</td>
-          </tr>`;
-        });
-        // NAW TOTAL row
-        const totalGap = nawTotalAlloc > 0 ? nawTotalBooked - nawTotalAlloc : 0;
-        const totalPct = nawTotalAlloc > 0 ? (nawTotalBooked / nawTotalAlloc * 100).toFixed(1) : '-';
-        html += `<tr style="font-weight:700;background:#fce4d6;">
-          <td><strong>NAW TOTAL</strong></td><td>-</td><td>${nawVessels.length} vessels</td>
-          <td>${nawTotalAlloc > 0 ? nawTotalAlloc.toLocaleString() : '-'}</td>
-          <td>${nawTotalBsa > 0 ? nawTotalBsa.toLocaleString() : '-'}</td>
-          <td>${nawTotalBooked.toLocaleString()}</td>
-          <td>${nawTotal20.toLocaleString()}</td><td>${nawTotal40.toLocaleString()}</td>
-          <td style="color:${totalGap >= 0 ? '#c62828' : '#2e7d32'}">${nawTotalAlloc > 0 ? (totalGap >= 0 ? '+' : '') + totalGap.toLocaleString() : '-'}</td>
-          <td>${totalPct}${totalPct !== '-' ? '%' : ''}</td><td>-</td>
-        </tr>`;
-      } else {
-        // No vessel details, show single summary row
-        html = `<tr style="background:#fff3e0;">
-          <td colspan="5" style="text-align:left;padding:8px 16px;color:#999;">No Live Booking for WK${wk} — NAW data only</td>
-          <td style="font-weight:700;">${nawTeu.toLocaleString()}</td>
-          <td>${naw20.toLocaleString()}</td><td>${naw40.toLocaleString()}</td>
-          <td>-</td><td>-</td><td>-</td>
-        </tr>`;
-      }
-    } else {
-      html = `<tr><td colspan="11" style="color:#999;padding:20px;">No ${currentPort} booking data for this week</td></tr>`;
-    }
   }
+}
   document.querySelector('#bookingTable tbody').innerHTML = html;
 }
 
@@ -2828,12 +2702,17 @@ function renderVesselSection(wk) {
   vessels.forEach(v => {
     let rowCls = '';
     if (v.dis20 > 0 || v.dis40 > 0) rowCls = 'has-discharge';
-    if (data.bookingByVessel[v.voyage]) rowCls = 'has-booking';
     let disStr = (v.dis20 > 0 || v.dis40 > 0) ? `${v.dis20||0} / ${v.dis40||0}` : '<span style="color:#ccc;">—</span>';
+    // Booking from NAW (authoritative; Live dashboard no longer used)
     let bookStr = '<span style="color:#ccc;">—</span>';
-    if (data.bookingByVessel[v.voyage]) {
-      const bk = data.bookingByVessel[v.voyage];
-      bookStr = `<span class="tag tag-booking">${bk.alloc} / ${bk.current}</span> <span style="font-size:10px;color:#888;">(${bk.ft20}/${bk.ft40})</span>`;
+    const nawWk = data.nawBookingByWeek ? data.nawBookingByWeek['WK' + wk] : null;
+    if (nawWk && nawWk.vessels) {
+      const nv = nawWk.vessels.find(x => x.vessel === v.voyage);
+      if (nv && ((nv['20GP'] || 0) > 0 || (nv['40HC'] || 0) > 0)) {
+        rowCls = 'has-booking';
+        const teu = (nv['20GP'] || 0) * 1 + (nv['40HC'] || 0) * 2;
+        bookStr = `<span class="tag tag-booking">${teu} TEU</span> <span style="font-size:10px;color:#888;">(20GP:${nv['20GP']||0}/40HC:${nv['40HC']||0})</span>`;
+      }
     }
     html += `<tr class="${rowCls}">
       <td><strong>${v.voyage}</strong></td>
